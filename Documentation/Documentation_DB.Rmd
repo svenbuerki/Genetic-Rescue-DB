@@ -1,0 +1,389 @@
+---
+title: "Genetic Rescue of Threatened Plants"
+author: ""
+date: '`r Sys.Date()`'
+output:
+  bookdown::html_document2:
+    toc: yes
+    toc_float: yes
+    self_contained: yes
+  bookdown::pdf_document2:
+    toc: TRUE
+subtitle: Database Documentation
+link-citations: yes
+fontsize: 12pt
+urlcolor: blue
+editor_options:
+  markdown:
+    wrap: sentence
+---
+
+```{r packages, echo=FALSE, warning=FALSE, include=FALSE}
+library(knitr)
+library(rmarkdown)
+library(bookdown)
+library(knitcitations)
+library(formatR)
+library(devtools)
+library(kfigr)
+library(dplyr)
+library(kableExtra)
+library(tufte)
+library(RSQLite)
+library(DBI)
+require(leaflet)
+library(treemap)
+#Generate BibTex citation file for all R packages used to produce report
+knitr::write_bib(.packages(), file = 'packages.bib')
+```
+
+# Introduction
+
+This document provides documentation on the database framework and workflow applied to support genetic rescue programs for threatened plant species.
+
+# Aim
+
+The overarching ***aim*** of this framework is to develop a **transferable approach for the genetic rescue of threatened plant species**, using a relational database to track individual plants from field collection through biobanking, breeding trials, and restoration.
+
+# Problem
+
+Threatened species are often caught in an **extinction vortex**, where small population sizes and genetic erosion reduce their adaptability to environmental and anthropogenic threats. This process accelerates population declines, leading to local extirpations and, ultimately, species extinction.
+
+# Solution
+
+> Implement **informed breeding** strategies to restore **functionally viable** and **genetically diverse** soil seed banks, thereby enhancing population resilience and long-term sustainability.
+
+We are implementing our solution within a **relational database** to support its deployment and scalability across threatened plant taxa. This document provides documentation on the **technological approach** and **database structure**.
+
+# Approach
+
+### Genetic Rescue Process
+
+The following steps outline the **research and development activities required to conduct a successful genetic rescue**. These steps have been co-designed with federal conservation partners.
+
+1. **Determine population genetic diversity** and **define seed zones** for translocation.
+   *Assess genetic variation across populations to identify suitable sources and guide translocation planning.*
+2. **Conduct fieldwork** and **develop seed biobanking protocols**.
+   *Collect representative samples and establish standardized methods for seed handling, storage, and documentation.*
+3. **Characterize seed behavior** and **germination requirements**.
+   *Evaluate dormancy types, environmental cues, and physiological traits influencing germination success.*
+4. **Conduct seed bulking** for propagation.
+   *Increase the quantity of genetically diverse seeds under controlled conditions for research and restoration use.*
+5. **Implement informed breeding** to restore genetic diversity and seed dormancy.
+   *Use controlled crosses and genetic data to enhance adaptive traits and maintain population variability.*
+6. **Carry out seed reintroductions** to restore and sustain populations.
+   *Reestablish self-sustaining populations in suitable habitats using genetically and ecologically informed strategies.*
+
+
+## Propagation vs. Breeding
+
+### Propagation
+
+| Aspect              | Description                                                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Goal**            | To *increase the number* of individuals — often from existing genetic material — for restoration, research, or conservation. |
+| **Genetic focus**   | **Maintain** or **represent** existing genetic diversity; no intentional genetic modification or selection.                  |
+| **Typical methods** | Germinating seeds, vegetative cuttings, tissue culture, or nursery cultivation.                                              |
+| **Outcome**         | More plants (or seeds) for translocation, reintroduction, or experimentation.                                                |
+| **Example**         | Growing hundreds of individuals from collected wild seeds to reestablish a population in the field.                          |
+
+### Breeding
+
+| Aspect              | Description                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Goal**            | To **modify or enhance** genetic traits (e.g., fecundity, dormancy, disease resistance) through controlled mating or selection. |
+| **Genetic focus**   | **Change** or **optimize** genetic composition intentionally.                                                                   |
+| **Typical methods** | Controlled cross-pollination, hybridization, or selection of desired phenotypes/genotypes.                                      |
+| **Outcome**         | New or improved genotypes for restoration, agriculture, or resilience.                                                          |
+| **Example**         | Crossing individuals from different populations to restore seed dormancy or increase adaptive potential.                        |
+
+# Documentation {#documentation}
+
+This section provides documentation on the data life cycle and workflow applied in this framework, as well as details on the data structure (i.e., names and descriptions of SQL tables).
+
+## Data Life Cycle
+
+This section provides a brief overview of the data life cycle underlying the project. To achieve our aim, we have developed a data flow subdivided into seven modules (Figure \@ref(fig:approach)) that, when integrated, will support informed breeding programs generating seeds for ecological restoration of threatened plants. The data flow is designed to reverse the species extinction vortex by increasing:
+
+- Population adaptability;
+- Individual survival and reproduction;
+- Population growth.
+
+```{r approach, echo=FALSE, fig.cap="Data life cycle applied in this framework.", fig.show="asis", out.width = '100%'}
+knitr::include_graphics("Figures/Diagram_data_GeneticRescue.png")
+```
+
+### Data Structure {#datastr}
+
+The database is organised into **seven modules**. The `TableModules` table maps each SQL table to its module; the `Terms` table provides field-level definitions and ontology references for documented tables.
+
+```{r db-setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(RSQLite)
+library(DBI)
+library(dplyr)
+library(kableExtra)
+
+con <- dbConnect(SQLite(), "../Genetic_Rescue_SQL.db")
+
+modules <- dbGetQuery(con, "
+  SELECT tableModule, tableID, tableName, definition
+  FROM TableModules
+  ORDER BY tableModule, tableID
+")
+
+terms <- dbGetQuery(con, "
+  SELECT tableName, term, dataType, URL, definitionDB
+  FROM Terms
+  ORDER BY tableID, termID
+")
+```
+
+```{r module-overview, echo=FALSE}
+module_summary <- modules %>%
+  group_by(tableModule) %>%
+  summarise(Tables = paste0("`", tableName, "`", collapse = ", "), .groups = "drop") %>%
+  rename(Module = tableModule)
+
+kable(module_summary, format = "html", escape = FALSE,
+      caption = "Database modules and their tables") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = TRUE)
+```
+
+Definitions of each module are provided, along with information on their associated SQL tables (Figure \@ref(fig:approach)).
+
+```{r db-structure, echo=FALSE, results='asis'}
+module_order <- c("Admin", "Environment", "Demography", "Biobanking", "Genetics", "Breeding", "Restoration")
+
+for (mod in module_order) {
+  mod_tables <- modules %>% filter(tableModule == mod)
+  if (nrow(mod_tables) == 0) next
+  cat(paste0("\n\n#### Module: ", mod, "\n\n"))
+  for (i in seq_len(nrow(mod_tables))) {
+    tname <- mod_tables$tableName[i]
+    tdef  <- mod_tables$definition[i]
+    cat(paste0("##### `", tname, "`\n\n", tdef, "\n\n"))
+    t_terms <- terms %>% filter(tableName == tname) %>%
+      mutate(Standard = ifelse(!is.na(URL) & URL != "",
+                               paste0('<a href="', URL, '" target="_blank">link</a>'), "—"),
+             Field = paste0("`", term, "`"),
+             Definition = ifelse(!is.na(definitionDB), definitionDB, "—")) %>%
+      select(Field, Type = dataType, Standard, Definition)
+    if (nrow(t_terms) > 0) {
+      print(kable(t_terms, format = "html", escape = FALSE) %>%
+        kable_styling(bootstrap_options = c("striped", "condensed"), full_width = TRUE))
+    } else {
+      cat("*Term definitions not yet documented in the `Terms` table.*\n\n")
+    }
+  }
+}
+dbDisconnect(con)
+```
+
+- **Admin**: This module stores project-level metadata supporting the genetic rescue process. The tables are:
+  + `Persons`: Stores metadata on personnel involved in the genetic rescue process.
+  + `Projects`: Stores metadata on funded grants underpinning each step of the genetic rescue process.
+  + `Studies`: Stores metadata on studies (e.g., grant objectives or dissertation chapters) supporting the projects.
+  + `Experiments`: Stores metadata on experiments associated with the studies. These are scientific experiments based on hypotheses. Results of experiments will be tested in trials (see `Trials`).
+  + `Protocols`: Stores metadata on the protocols used to conduct the experiments.
+  + `Multimedia`: Stores metadata on digital media (primarily JPEG images) associated with each `locationID` (see `Locations` in **Environment**) and `occurrenceID` (see `Occurrences` in **Biobanking**), providing visual documentation for each site and plant.
+  + `Notes`: Stores remarks on the data such as missing unique IDs (sometimes referred to as barcodes) or lat/long.
+  + `Trials`: Stores metadata on breeding trials to produce seeds for restoration. These trials are based on scientific evidence (stored in `Experiments`).
+- **Environment**: This module stores data on the target organism, its geographic distribution, and threats. The key tables are:
+  + `Taxonomy`: Stores metadata on the taxonomy of the organism at the core of the genetic rescue process.
+  + `Locations`: Stores metadata on geographic locations [i.e., Element Occurrences (EOs) or sub-EOs] where individual occurrences (see `Occurrences`) take place. It includes data on landscape condition (e.g., surrounding ecosystem type) used to inform EO rankings. Digital images (see `Multimedia` in **Admin**) are collected to support site relocation and visual assessment.
+  + `EORankings`: Stores EO ranking data inferred from multiple sources, including (i) EO Size, (ii) EO Condition, (iii) EO Landscape, and (iv) EO Rank (see Figure \@ref(fig:fieldworkoverview)).
+- **Demography**: This module stores data on population size, effective population size, and predicted recruitment at the population level. Data are recorded at the event level and aggregated at the EO level. The key tables are:
+  + `Events`: Stores data from discrete sampling units within a location (see `Locations`) where occurrences (see `Occurrences`) are recorded. For each event, we collect data on population size (e.g., number of fruiting plants and vegetative rosettes) and habitat condition (e.g., event area, presence of companion/invasive species). These data contribute to EO rankings. Events typically correspond to discrete sampling units within a location (e.g., microhabitat patches) where individuals of the target species were observed.
+  + `EODemography`: Stores EO-level demographic data derived from the `Events` table.
+- **Biobanking**: This module manages physical samples (e.g., seed accessions, DNA extractions) underpinning the genetic rescue process. The key tables are:
+  + `Occurrences`: Stores observations of individual organisms (`occurrenceID`) at a specific location and time. Each occurrence represents a reproductive individual of the target species observed during an event and is documented with images (see `Multimedia`). Seeds are collected for biobanking and breeding (see `Germplasm`). This table may be transferred to the **Environment** module.
+  + `Germplasm`: Stores metadata on seed accessions (`germplasmID`) collected from observed occurrences (see `Occurrences`). Includes estimated seed quantities per accession based on weight. These accessions form the basis of the **Breeding** module.
+  + `GermplasmTransactions`: Stores metadata on germplasm transactions (i.e., what seeds were taken for experiments or trials). This table allows inferring the balance on each germplasmID to keep track of stocks.
+  + `SeedLots`: Stores metadata on mixed seed accessions (i.e., multiple `occurrenceID`s combined into a single entry), similar to `Germplasm`.
+  + `MolecularBank`: Stores metadata on DNA/RNA extractions and quality metrics, mostly from tissues (see `TissueBank`) or seed accessions (see `Germplasm`). Extracts are used for sequencing (see `Sequencing` in **Genetics**) in support of the genetic rescue process.
+  + `TissueBank`: Stores metadata on tissue samples obtained from occurrences (see `Occurrences`) for genetic analysis (see `MolecularBank`).
+  + `PedigreeNodes`: Stores pedigree data for each `occurrenceID` (in `Occurrences`), supporting the breeding strategy described in the **Breeding** module.
+- **Genetics**: This module manages sequencing and analysis workflows. It focuses on (i) population genetic analyses and (ii) functional genetic analyses targeting genes associated with seed dormancy and breeding compatibility. These analyses support seed bank restoration and minimize inbreeding depression. The key table is:
+  + `Sequencing`: Stores metadata on sequencing and data quality metrics.
+- **Breeding**: This module captures the design and outcomes of breeding trials aimed at producing seeds for restoration.
+  + `Crosses`: Stores metadata on crosses involved in a `trialID` (see `Trials` in **Admin**). A cross is a hand pollination between two `occurrenceID`s in a controlled environment (e.g., greenhouse).
+- **Restoration**: This module captures the design and outcomes of restoration trials. No associated tables have been created yet.
+
+### Additional Information on `Occurrences`
+
+- The `provenance` term indicates the origin of the occurrence. It can be one of the following:
+  + **in situ**: The occurrence is based on an individual found in the field.
+  + **ex situ**: The occurrence is based on an individual from a greenhouse (but of known origin).
+  + **in vitro**: The occurrence is based on a line cultured in vitro.
+
+This data is important for the the **breeding** module as captured in the `Crosses` table.
+
+### Additional Information on `Germplasm` {.tabset}
+
+#### Model to Estimate Seed Counts
+
+A linear model was developed to estimate the number of seeds in a germplasm accession (`germplasmID`) based on seed weight (in grams). The equations are as follows:
+
+- **Estimated number of seeds** = (obs_weight − 0.0003681555) / 0.0004252451
+- **Lower bound estimate** = (obs_weight − 0.01926434 − 0.0003681555) / 0.0004252451
+- **Upper bound estimate** = (obs_weight + 0.01926434 − 0.0003681555) / 0.0004252451
+
+#### SQL Model Implementation
+
+Seed weight data are stored in the `germplasmWeight` field within the `Germplasm` table.
+
+The `UPDATE` and `SET` SQL functions are then used to calculate values for `germplasmQuantityEstimate`, `germplasmQuantityEstimateLow`, and `germplasmQuantityEstimateUpr` by applying the equations above.
+
+```{sql, eval = FALSE}
+-- Calculate germplasmQuantityEstimate based on weight and equation/model
+UPDATE Germplasm
+SET germplasmQuantityEstimate = ROUND((germplasmWeight - 0.0003681555) / 0.0004252451,2);
+
+-- Calculate germplasmQuantityEstimate Low based on weight and equation/model
+UPDATE Germplasm
+SET germplasmQuantityEstimateLow = ROUND((germplasmWeight - 0.01926434 - 0.0003681555) / 0.0004252451,2);
+
+-- Calculate germplasmQuantityEstimate Upr based on weight and equation/model
+UPDATE Germplasm
+SET germplasmQuantityEstimateUpr = ROUND((germplasmWeight + 0.01926434 - 0.0003681555) / 0.0004252451,2);
+```
+
+## Terminology and Ontology
+
+We are using the following sources for our terms and ontology:
+
+- **Darwin Core:** https://dwc.tdwg.org/terms/
+- **Dublin Core:** https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/2010-10-11/
+- **PlantBreeding/BrAPI:** https://github.com/plantbreeding/BrAPI/tree/brapi-V2.1/Specification
+  + Core: https://github.com/plantbreeding/BrAPI/tree/brapi-V2.1/Specification/BrAPI-Core
+  + Germplasm DB: https://github.com/plantbreeding/BrAPI/tree/brapi-V2.1/Specification/BrAPI-Germplasm
+- **BBMRI-ERIC:** https://github.com/BBMRI-ERIC/miabis
+
+Several terms are not available in these ontologies, so we are also creating new terms. All terms and their definitions (including associated standards) are available in the `Terms` table.
+
+## Publications
+
+Here are two key publications:
+
+- [https://doi.org/10.1093/bioinformatics/btz190](https://doi.org/10.1093/bioinformatics/btz190)
+- [https://doi.org/10.1093/g3journal/jkac078](https://doi.org/10.1093/g3journal/jkac078)
+
+## Creating Data
+
+This section provides an overview of data creation for this framework.
+
+Data creation is associated with fieldwork, and the following paragraph outlines the protocol (see Figure \@ref(fig:fieldworkoverview)). This protocol is critical for designing the forms used for data entry.
+
+The protocol is as follows:
+
+1. Travel to a defined `locationID` (recorded in `Locations`) where seeds of the target species will be harvested for genetic rescue. Assign a unique ID to each location (`locationID`) and take a picture of the location (with metadata stored in `Multimedia`).
+2. Identify specific events (recorded in `Events`) where sampling will occur. Assign a unique ID to each event (`eventID`). For each event, record variables related to population size and condition.
+3. Record metadata on occurrences (i.e., individual plants providing seeds, recorded in `Occurrences`). Assign a unique ID to each occurrence (`occurrenceID`) and take a picture of each one (with metadata stored in `Multimedia`).
+4. Harvest seeds from occurrences and store them in individual envelopes.
+5. In the lab, clean the seeds from each envelope and weigh the germplasm (i.e., all seeds produced by an occurrence). Assign a unique ID to each germplasm sample (`germplasmID`) and store the germplasm accessions at 4°C. Record these data in the `Germplasm` table.
+
+```{r fieldworkoverview, echo=FALSE, fig.cap="Overview of fieldwork and main tables.", fig.show="asis", out.width = '100%'}
+knitr::include_graphics("Figures/Figure_1.png")
+```
+
+## SQL Database
+
+The data life cycle and data from the field are stored in a SQL database.
+
+### Database Structure
+
+The database supporting the [data life cycle](#datastr) is implemented in an SQL (`SQLite`) database:
+
+- Filename: `Genetic_Rescue_SQL.db`.
+- The table named `TableModules` serves as a key, linking database tables to their respective modules (Figure \@ref(fig:approach)).
+- The `Terms` table provides clear definitions and standards for each term. If a term is based on an existing standard, a reference URL is included.
+- To support the development of data entry forms, terms are organized in the order in which they appear in each table, with primary and foreign keys included to facilitate understanding of relationships.
+
+### Example Query: Location-Level Fecundity Summary {.tabset}
+
+The following SQL query illustrates how to aggregate germplasm and event data by location to compute a predicted fecundity metric.
+
+**Fecundity** of a location = mean number of seeds per occurrence (from `germplasmID`s) × number of fertile plants in the location (sum of fertile plants across `eventID`s)
+
+#### Query Summary
+
+The SQL query is executed in three steps:
+
+1. **Germplasm aggregation (`g_agg`)**
+
+   The `Germplasm` table is grouped by `locationID` to calculate several metrics:
+
+   - **`number_of_events`** – Count of unique `eventID` values per location.
+   - **`number_of_occurrences`** – Count of unique `occurrenceID` values per location.
+   - **`total_number_of_seeds`** – Sum of `germplasmQuantityEstimate` values.
+   - **`mean_number_of_seeds`** – Average of `germplasmQuantityEstimate`, rounded to two decimal places.
+
+2. **Event aggregation (`e_agg`)**
+
+   The `Events` table is grouped by `locationID` to summarize organism counts:
+
+   - **`total_OrganismQuantityFertile`** – Sum of `OrganismQuantityFertile` values.
+   - **`total_OrganismQuantityVegetative`** – Sum of `OrganismQuantityVegetative` values.
+
+3. **Final location-level view and inference of fecundity**
+
+   The aggregated results from `g_agg` and `e_agg` are joined with the `Locations` table by `locationID`.
+
+   Each row in the final output represents one location and includes:
+
+   - **`locationCode`**, **`EOID`**, and **`subEOID`** (from `Locations`)
+   - Aggregated germplasm and event metrics
+   - A newly derived variable: `predicted_fecundity`
+
+#### SQL code
+
+```{sql eval = F}
+WITH g_agg AS (
+    SELECT
+        locationID,
+        COUNT(DISTINCT eventID)       AS number_of_events,
+        COUNT(DISTINCT occurrenceID)  AS number_of_occurrences,
+        ROUND(SUM(germplasmQuantityEstimate), 2)      AS total_number_of_seeds,
+        ROUND(SUM(germplasmQuantityEstimateLow), 2)   AS total_number_of_seeds_Low,
+        ROUND(SUM(germplasmQuantityEstimateUpr), 2)   AS total_number_of_seeds_Upr,
+        ROUND(AVG(germplasmQuantityEstimate), 2)      AS mean_number_of_seeds
+    FROM Germplasm
+    GROUP BY locationID
+),
+e_agg AS (
+    SELECT
+        locationID,
+        SUM(OrganismQuantityFertile)     AS total_OrganismQuantityFertile,
+        SUM(OrganismQuantityVegetative)  AS total_OrganismQuantityVegetative
+    FROM Events
+    GROUP BY locationID
+)
+SELECT
+    l.locationID,
+    l.locationCode,
+    l.EOID,
+    l.subEOID,
+    e_agg.total_OrganismQuantityFertile,
+    e_agg.total_OrganismQuantityVegetative,
+    COALESCE(g_agg.number_of_events, 0)               AS number_of_events,
+    COALESCE(g_agg.number_of_occurrences, 0)          AS number_of_occurrences,
+    COALESCE(g_agg.total_number_of_seeds, 0)          AS total_number_of_seeds_banked,
+    COALESCE(g_agg.total_number_of_seeds_Low, 0)      AS total_number_of_seeds_Low,
+    COALESCE(g_agg.total_number_of_seeds_Upr, 0)      AS total_number_of_seeds_Upr,
+    g_agg.mean_number_of_seeds                        AS mean_number_of_seeds_per_germplasm,
+    -- New derived variable: fecundity
+    ROUND(
+        COALESCE(g_agg.mean_number_of_seeds, 0) *
+        COALESCE(e_agg.total_OrganismQuantityFertile, 0),
+        2
+    ) AS predicted_fecundity
+FROM Locations l
+LEFT JOIN g_agg ON l.locationID = g_agg.locationID
+LEFT JOIN e_agg ON l.locationID = e_agg.locationID
+ORDER BY l.locationCode;
+```
+
+### Data Ownership and Sensitivity
+
+- Due to the sensitive nature of occurrence data for federally protected species, precise locations must be omitted in accordance with relevant agency guidelines.
+- Data fields such as `locationDecimalLatitude`, `locationDecimalLongitude`, `eventDecimalLatitude`, and `eventDecimalLongitude` must not be made public.
