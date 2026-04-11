@@ -1,5 +1,7 @@
 # Genetic Rescue Database Framework
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 ---
 
 ## Overview
@@ -110,3 +112,11 @@ Custom terms are defined in the `Terms` table (54 entries).
 
 - Buerki et al. (2019) *Bioinformatics* — https://doi.org/10.1093/bioinformatics/btz190
 - Buerki et al. (2022) *G3: Genes, Genomes, Genetics* — https://doi.org/10.1093/g3journal/jkac078
+
+---
+
+## License
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to share and adapt this material for non-commercial purposes, provided appropriate credit is given to the original author. See the [`LICENSE`](LICENSE) file for full terms.
