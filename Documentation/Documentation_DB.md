@@ -16,6 +16,12 @@
 - [Documentation](#documentation)
   - [Data Life Cycle](#data-life-cycle)
   - [Data Structure](#data-structure)
+    - [Admin](#module-admin)
+    - [Environment](#module-environment)
+    - [Demography](#module-demography)
+    - [Biobanking](#module-biobanking)
+    - [Genetics](#module-genetics)
+    - [Breeding](#module-breeding)
   - [Additional Information on Occurrences](#additional-information-on-occurrences)
   - [Additional Information on Germplasm](#additional-information-on-germplasm)
   - [Terminology and Ontology](#terminology-and-ontology)
@@ -96,6 +102,8 @@ The following steps outline the **research and development activities required t
 | **Typical methods** | Controlled cross-pollination, hybridization, or selection of desired phenotypes/genotypes.                                      |
 | **Outcome**         | New or improved genotypes for restoration, agriculture, or resilience.                                                          |
 | **Example**         | Crossing individuals from different populations to restore seed dormancy or increase adaptive potential.                        |
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
 
 ---
 
@@ -293,6 +301,8 @@ Stores metadata on breeding trials to produce seeds for restoration. These trial
 | `documentationURL` | TEXT    | —        | —                        |
 | `trialRemarks`     | TEXT    | —        | —                        |
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Module: Environment
@@ -348,6 +358,8 @@ Stores EO ranking data inferred from multiple sources, including (i) EO Size, (i
 | `EOLandscape` | INTEGER | —        | —          |
 | `EORank`      | TEXT    | —        | —          |
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Module: Demography
@@ -387,6 +399,8 @@ Stores EO-level demographic data derived from the `Events` table.
 | `effectivePopulationSize` | INTEGER | —        | —          |
 | `reproduction`            | NUMERIC | —        | —          |
 | `year`                    | INTEGER | —        | —          |
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
 
 ---
 
@@ -529,6 +543,8 @@ Stores metadata on germplam transactions (i.e., what seeds were taken for experi
 | `experimentID`               | INTEGER | —        | → `Experiments.experimentID` |
 | `date`                       | TEXT    | —        | —                            |
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Module: Genetics
@@ -554,6 +570,8 @@ Stores metadata on sequencing and data quality metrics.
 | `totalBp`        | NUMERIC | —        | —                             |
 | `qScoreNanopore` | INTEGER | —        | —                             |
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Module: Breeding
@@ -574,6 +592,11 @@ Stores metadata on crosses involved in a `trialID` (see `Trials` in **Admin**). 
 | `germplasmID`                | INTEGER | —        | → `Germplasm.germplasmID`    |
 | `crossRemarks`               | TEXT    | —        | —                            |
 | `trialID`                    | INTEGER | —        | → `Trials.trialID`           |
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
 ### Additional Information on `Occurrences`
 
 The `provenance` term indicates the origin of the occurrence. It can be one of the following:
@@ -583,6 +606,10 @@ The `provenance` term indicates the origin of the occurrence. It can be one of t
 - **in vitro**: The occurrence is based on a line cultured in vitro.
 
 This data is important for the **breeding** module as captured in the `Crosses` table.
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
 
 ### Additional Information on `Germplasm`
 
@@ -612,6 +639,10 @@ UPDATE Germplasm
 SET germplasmQuantityEstimateUpr = ROUND((germplasmWeight + 0.01926434 - 0.0003681555) / 0.0004252451, 2);
 ```
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
 ### Terminology and Ontology
 
 We are using the following sources for our terms and ontology:
@@ -625,14 +656,22 @@ We are using the following sources for our terms and ontology:
 
 Several terms are not available in these ontologies, so we are also creating new terms. All terms and their definitions (including associated standards) are available in the `Terms` table.
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
 ### Publications
 
 - [https://doi.org/10.1093/bioinformatics/btz190](https://doi.org/10.1093/bioinformatics/btz190)
 - [https://doi.org/10.1093/g3journal/jkac078](https://doi.org/10.1093/g3journal/jkac078)
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
 ### Data Acquisition Workflow
 
-Data entry follows a strict sequential hierarchy driven by the spatial nesting of the database: a Location contains Events, each Event contains Occurrences, and each Occurrence yields a Germplasm accession. Digital images are captured at every step and declared in the `Multimedia` table. Fieldwork data entry forms are provided in the [`Protocols/`](../Protocols/) folder.
+Data entry follows a strict sequential hierarchy driven by the spatial nesting of the database: a Location contains Events, each Event contains Occurrences, and each Occurrence yields a Germplasm accession (Figure 2). Digital images are captured at every step and declared in the `Multimedia` table. Fieldwork data entry forms are provided in the [`Protocols/`](../Protocols/) folder.
 
 ![Figure 2: Overview of fieldwork and main tables.](Figures/Figure_1.png)
 
@@ -667,11 +706,20 @@ flowchart TD
     ADV --> SEQ
 ```
 
+The workflow progresses through four sequential steps, each populating a dedicated database table (see [Data Structure](#data-structure) for complete field definitions):
+
+1. **[Step 1 — Location](#step-1--location-locations):** Establish site identity and landscape context before sampling begins — the spatial anchor for all downstream records.
+2. **[Step 2 — Event](#step-2--event-events):** Document each discrete sampling unit within the location, capturing population size, habitat condition, and plant counts.
+3. **[Step 3 — Occurrence](#step-3--occurrence-occurrences):** Record individual fruiting plants and collect seeds. Targets a 10% sample of fertile individuals per event, spaced ≥1 m apart.
+4. **[Step 4 — Germplasm](#step-4--germplasm-germplasm--lab):** Process and accession seeds in the lab — cleaning, weighing, and estimating counts from weight before cold storage.
+
+Images taken at each step are logged in the [`Multimedia`](#multimedia) table (Admin module).
+
 ---
 
 #### Step 1 — Location (`Locations`)
 
-A **Location** is a discrete, named site within an Element Occurrence (EO) where fieldwork is conducted. Each location is assigned a unique barcode (`locationID`) before or upon arrival. One location can contain multiple Events (sampling units).
+A **Location** is a discrete, named site within an Element Occurrence (EO) where fieldwork is conducted. Each location is assigned a unique barcode (`locationID`) before or upon arrival. One location can contain multiple Events (sampling units). For the complete field reference, see [`Locations`](#locations) in the [Data Structure](#data-structure) section.
 
 **Fieldwork form:** [`01_Location_fieldwork.docx`](../Protocols/01_Location_fieldwork.docx)
 
@@ -690,11 +738,13 @@ A **Location** is a discrete, named site within an Element Occurrence (EO) where
 
 > **Multimedia:** Photograph the access point / parking area to support future relocation. Record the image in `Multimedia` with `locationID` as the foreign key.
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Step 2 — Event (`Events`)
 
-An **Event** corresponds to a discrete sampling unit (e.g., a microhabitat patch) occupied by individuals of the target species within a Location. Each event is assigned a unique barcode (`eventID`). Up to 10 events may be recorded per location. For each event, population size and habitat condition are assessed.
+An **Event** corresponds to a discrete sampling unit (e.g., a microhabitat patch) occupied by individuals of the target species within a Location. Each event is assigned a unique barcode (`eventID`). Up to 10 events may be recorded per location. For each event, population size and habitat condition are assessed. For the complete field reference, see [`Events`](#events) in the [Data Structure](#data-structure) section.
 
 **Fieldwork form:** [`02_Event_fieldwork.docx`](../Protocols/02_Event_fieldwork.docx)
 
@@ -717,11 +767,13 @@ An **Event** corresponds to a discrete sampling unit (e.g., a microhabitat patch
 
 > **Multimedia:** Photograph the sampling unit to document its extent and condition. Record the image in `Multimedia` with `eventID` as the foreign key.
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Step 3 — Occurrence (`Occurrences`)
 
-An **Occurrence** is the observation of a single reproductive individual of the target species within an Event. A sample of 10% of fruiting individuals per event (up to 10) is targeted, spaced at least 1 m apart to maximise genetic representation. Each individual is assigned a unique barcode (`occurrenceID`) and seeds are collected in a labelled envelope.
+An **Occurrence** is the observation of a single reproductive individual of the target species within an Event. A sample of 10% of fruiting individuals per event (up to 10) is targeted, spaced at least 1 m apart to maximise genetic representation. Each individual is assigned a unique barcode (`occurrenceID`) and seeds are collected in a labelled envelope. For the complete field reference, see [`Occurrences`](#occurrences) in the [Data Structure](#data-structure) section.
 
 **Fieldwork form:** [`02_Event_fieldwork.docx`](../Protocols/02_Event_fieldwork.docx)
 
@@ -742,11 +794,13 @@ An **Occurrence** is the observation of a single reproductive individual of the 
 
 > **Multimedia:** Photograph each individual against a whiteboard background with a ruler and the barcode label visible. Record the image in `Multimedia` with `occurrenceID` as the foreign key. Images are used for morphometric measurements (height, crown size) and phenotypic documentation.
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 #### Step 4 — Germplasm (`Germplasm`) — Lab
 
-**Germplasm** records are created in the lab after seeds are cleaned and weighed. Each envelope from the field (one per `occurrenceID`) becomes one germplasm accession (`germplasmID`). Seed counts are estimated from weight using the linear model described in [Additional Information on Germplasm](#additional-information-on-germplasm). Accessions are stored at 4°C.
+**Germplasm** records are created in the lab after seeds are cleaned and weighed. Each envelope from the field (one per `occurrenceID`) becomes one germplasm accession (`germplasmID`). Seed counts are estimated from weight using the linear model described in [Additional Information on Germplasm](#additional-information-on-germplasm). Accessions are stored at 4°C. For the complete field reference, see [`Germplasm`](#germplasm) in the [Data Structure](#data-structure) section.
 
 | Key field | Type | Definition |
 |-----------|------|------------|
@@ -769,6 +823,8 @@ An **Occurrence** is the observation of a single reproductive individual of the 
 
 > **Multimedia:** No field photograph is typically taken at the germplasm stage, but images of the labelled envelope or seed lot may be stored in `Multimedia` if needed.
 
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
 ---
 
 ### Advanced Modules (In Development)
@@ -786,6 +842,10 @@ Scientific experiments (hypothesis-driven studies) are recorded in `Experiments`
 #### Genetics — `TissueBank`, `MolecularBank`, `Sequencing`
 
 Tissue samples collected from occurrences are logged in `TissueBank`. DNA/RNA extractions performed on tissues or seeds are stored in `MolecularBank` with quality metrics (concentration, A280/260 ratio). Sequencing runs and their associated quality statistics are recorded in `Sequencing`. These data underpin population genetic analyses used to define seed zones and guide translocation decisions.
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
 
 ### SQL Database
 
@@ -860,3 +920,5 @@ ORDER BY l.locationCode;
 
 - Due to the sensitive nature of occurrence data for federally protected species, precise locations must be omitted in accordance with relevant agency guidelines.
 - Data fields such as `locationDecimalLatitude`, `locationDecimalLongitude`, `eventDecimalLatitude`, and `eventDecimalLongitude` must not be made public.
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>

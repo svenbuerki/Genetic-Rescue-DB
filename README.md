@@ -110,8 +110,8 @@ Custom terms are defined in the `Terms` table (54 entries).
 
 ## Key Publications
 
-- Buerki et al. (2019) *Bioinformatics* — https://doi.org/10.1093/bioinformatics/btz190
-- Buerki et al. (2022) *G3: Genes, Genomes, Genetics* — https://doi.org/10.1093/g3journal/jkac078
+- Selby et al. (2019) BrAPI—an application programming interface for plant breeding applications. *Bioinformatics* 35(20):4147–4155. https://doi.org/10.1093/bioinformatics/btz190
+- Morales et al. (2022) Breedbase: a digital ecosystem for modern plant breeding. *G3: Genes|Genomes|Genetics* 12(7):jkac078. https://doi.org/10.1093/g3journal/jkac078
 
 ---
 
