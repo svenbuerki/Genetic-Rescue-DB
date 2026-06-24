@@ -30,6 +30,9 @@ Boise, Idaho, USA
 
 📧 [svenbuerki@boisestate.edu](mailto:svenbuerki@boisestate.edu)
 
+**Co-authors:** Peggy Martinez, Mathew Geisler, Sam Billingsley, Isaac Carretero, Jim Beck & Ian Robertson\
+Department of Biological Sciences, Boise State University
+
 ---
 
 ## Repository Structure
@@ -45,7 +48,15 @@ Genetic_Rescue_DB/
 ├── Protocols/
 │   ├── 01_Location_fieldwork.docx      # Location/EO data-entry form
 │   └── 02_Event_fieldwork.docx         # Event and individual plant data-entry form
+└── Multimedia_pipeline/                # Image → database linking + image-based phenotyping
+    ├── README.md                       # Full method and how to run it
+    ├── 00_link_named_files.py … 05_measure.py   # Pipeline steps (config in config.py)
+    └── REPORT_2025_measurement.md      # Worked example (2025 campaign)
 ```
+
+> Field imagery, intermediate CSVs, and the working database are **not** versioned
+> (ESA-protected locations) — only the `Multimedia_pipeline/` code and documentation are
+> published. See [Data Sensitivity](#data-sensitivity).
 
 | Resource | Description |
 |----------|-------------|
@@ -53,6 +64,7 @@ Genetic_Rescue_DB/
 | [01_Location_fieldwork.docx](Protocols/01_Location_fieldwork.docx) | Fieldwork data-entry form — Locations |
 | [02_Event_fieldwork.docx](Protocols/02_Event_fieldwork.docx) | Fieldwork data-entry form — Events and individual plants |
 | [Genetic_Rescue_SQL.db](Genetic_Rescue_SQL.db) | SQLite3 database (schema + `Terms` + `TableModules`) |
+| [Multimedia_pipeline/](Multimedia_pipeline/) | Code + docs to link field photos to occurrences and derive plant size from them |
 
 ---
 
@@ -84,6 +96,32 @@ EO (Element Occurrence — federally designated population)
            └── Occurrence (individual fruiting plant)
                 └── Germplasm (seed accession from that plant)
 ```
+
+---
+
+## Multimedia & Image-Based Phenotyping
+
+Each fruiting plant (`Occurrence`) is photographed in the field with a whiteboard recording
+its `occurrenceID` and date, plus two rulers for scale. The **[`Multimedia_pipeline/`](Multimedia_pipeline/)**
+turns these photos into structured data — two capabilities from the **same images**:
+
+**1. Occurrence linking (image → database).** The handwritten `occurrenceID` and date are
+read from each board and validated against the `Occurrences` table (the number must match an
+existing record; the date is cross-checked), then linked rows are written to the `Multimedia`
+table with a `remarks` validation note.
+
+**2. Image-based phenotyping (plant morphometrics).** From the same photos, plant **height**
+and **crown width** are estimated against the board rulers — including a "1 cm tile"
+calibration to measure plants larger than the ruler — and condensed into a robust **size
+class** (small / medium / large) stored in `Occurrences.occurrenceSizeClass`. This yields
+low-cost phenotypic trait data across the whole collection.
+
+Board reading and plant-extent estimation use a vision-capable language model, with every
+result cross-checked against the database; the workflow is fully scripted and scales from
+tens to thousands of images.
+
+📖 **Full method and usage:** **[`Multimedia_pipeline/README.md`](Multimedia_pipeline/README.md)**
+ — worked example: [`Multimedia_pipeline/REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md)
 
 ---
 

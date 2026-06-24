@@ -6,3 +6,19 @@
 
 # R auto-generated files
 Documentation/packages.bib
+
+# Python
+__pycache__/
+*.pyc
+
+# Multimedia pipeline — working data is sensitive / not versioned
+# (field imagery, crops, intermediate CSVs, the working database, backups)
+Multimedia_pipeline/work/
+Multimedia_pipeline/LEPA_SQL.db
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
+*.csv
+*.db.bak*
+*-bak-*
