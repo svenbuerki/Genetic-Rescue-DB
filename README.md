@@ -17,6 +17,8 @@ The six-step genetic rescue pipeline:
 5. Execute controlled breeding trials to increase diversity
 6. Reintroduce material to under-represented populations
 
+📖 **Full database documentation:** **[`Documentation/Documentation_DB.md`](Documentation/Documentation_DB.md)** — modules, tables, fields, and the data-acquisition workflow.
+
 ---
 
 ## Author
@@ -42,15 +44,14 @@ Genetic_Rescue_DB/
 ├── Genetic_Rescue_SQL.db                # Core SQLite3 database (schema + documentation tables)
 ├── README.md                            # This file
 ├── Documentation/
-│   ├── Documentation_DB.md             # Database documentation (GitHub-rendered)
-│   ├── Documentation_DB.Rmd            # Documentation source (R/bookdown)
+│   ├── Documentation_DB.md             # Database documentation (canonical, GitHub-rendered)
 │   └── Figures/                        # Workflow diagrams and figures
 ├── Protocols/
 │   ├── 01_Location_fieldwork.docx      # Location/EO data-entry form
 │   └── 02_Event_fieldwork.docx         # Event and individual plant data-entry form
 └── Multimedia_pipeline/                # Image → database linking + image-based phenotyping
     ├── README.md                       # Full method and how to run it
-    ├── 00_link_named_files.py … 05_measure.py   # Pipeline steps (config in config.py)
+    ├── 00_link_named_files.py … 06_phenotyping_schema.py   # Pipeline steps (config in config.py)
     └── REPORT_2025_measurement.md      # Worked example (2025 campaign)
 ```
 
@@ -72,7 +73,7 @@ Genetic_Rescue_DB/
 
 - **Engine:** SQLite 3
 - **File:** [`Genetic_Rescue_SQL.db`](Genetic_Rescue_SQL.db)
-- **Tables:** 22 (plus two documentation tables: `TableModules`, `Terms`)
+- **Tables:** 28 — every table is registered in the `TableModules` documentation table — plus 2 SQL views (`vOccurrenceTraits`, `GermplasmIDs_EO27`)
 - **Full documentation:** [Documentation_DB.md](Documentation/Documentation_DB.md)
 
 The database is organized into seven modules:
@@ -113,8 +114,10 @@ table with a `remarks` validation note.
 **2. Image-based phenotyping (plant morphometrics).** From the same photos, plant **height**
 and **crown width** are estimated against the board rulers — including a "1 cm tile"
 calibration to measure plants larger than the ruler — and condensed into a robust **size
-class** (small / medium / large) stored in `Occurrences.occurrenceSizeClass`. This yields
-low-cost phenotypic trait data across the whole collection.
+class** (small / medium / large). Each measurement is stored as its own record in the
+dedicated **`Phenotyping`** table (linked to the occurrence and its source image), following
+the Darwin Core *MeasurementOrFact* pattern. This yields low-cost phenotypic trait data
+across the whole collection.
 
 Board reading and plant-extent estimation use a vision-capable language model, with every
 result cross-checked against the database; the workflow is fully scripted and scales from
@@ -122,6 +125,19 @@ tens to thousands of images.
 
 📖 **Full method and usage:** **[`Multimedia_pipeline/README.md`](Multimedia_pipeline/README.md)**
  — worked example: [`Multimedia_pipeline/REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md)
+
+---
+
+## Companion Repositories
+
+This database is the integrative hub of a small ecosystem of repositories. Two companion projects feed specific modules:
+
+| Repository | Feeds module | Role |
+|------------|--------------|------|
+| **[SRK_bioinformatics](https://github.com/svenbuerki/SRK_bioinformatics)** | **Genetics** | S-locus receptor kinase (**SRK**) genotyping pipeline. Produces the per-individual SRK genotypes that populate the planned `Genotyping` table, each linked to an `occurrenceID` — the genetic-diversity basis for informed breeding. |
+| **[LEPA_EO_spatial_clustering](https://github.com/svenbuerki/LEPA_EO_spatial_clustering)** | **Environment** | Spatial clustering of Element Occurrences (EOs) to define seed-transfer zones. Informs the `EOs`, `Locations`, and `EORankings` tables and the choice of source populations for translocation. |
+
+Together they implement steps 1 (genetic diversity / seed zones) and 5 (informed breeding) of the genetic-rescue pipeline, with this database as the shared record.
 
 ---
 
@@ -142,7 +158,7 @@ For threatened or endangered species listed under national legislation, **precis
 | [PlantBreeding / BrAPI v2.1](https://github.com/plantbreeding/BrAPI) | Germplasm and breeding data |
 | [BBMRI-ERIC / MIABIS](https://github.com/BBMRI-ERIC/miabis) | Biobank and sample data |
 
-Custom terms are defined in the `Terms` table (54 entries).
+Custom terms are defined in the `Terms` table (63 entries).
 
 ---
 

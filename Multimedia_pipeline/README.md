@@ -35,7 +35,10 @@ Each occurrence photo shows a blue-framed whiteboard held in the field:
 | 2 | *(in-session, preferred)* / `02_ocr_boards.py` | `work/crop/` → `work/02_boards.csv` (board_id, board_date, has_board, confidence). **Preferred for this lab:** Claude Code reads the crops in-session — this is included in the Claude Code subscription, so there is **no extra per-image charge**, and every read is validated against the DB. `02_ocr_boards.py` is an **optional** headless alternative that OCRs each crop via the **Anthropic API** (separate pay-as-you-go account, `ANTHROPIC_API_KEY`) — use only for fully-unattended runs. Both write the same `02_boards.csv`. |
 | 3 | `03_validate.py` | `01_metadata.csv` + `02_boards.csv` + DB → `work/03_validated.csv` (resolved occurrenceID/locationID/eventID, `tableID`, `createDate`, `remarks`, `status`) |
 | 4 | `04_load_db.py` | `03_validated.csv` → `LEPA_SQL.db` (backup, fix existing tableIDs, insert Multimedia rows). **Dry-run by default; `--apply` to write.** |
-| 5 *(optional)* | `05_measure.py` | occurrence images → `work/05_measurements.csv` (plant **height** + **crown** in cm, read off the board rulers via Claude vision). **Review-only by default; `--write` populates `Occurrences.occurrenceHeight`/`occurrenceCrownSize` for high-confidence, non-`exceeds_ruler` rows.** |
+| 5 *(optional)* | `05_measure.py` | occurrence images → `work/05_measurements.csv` (plant **height** + **crown** in cm, read off the board rulers via Claude vision). **Review-only by default.** |
+| 6 *(schema)* | `06_phenotyping_schema.py` | `work/05_measurements.csv` → a dedicated **`Phenotyping`** table in `LEPA_SQL.db`. Creates the table, migrates each measurement as its own record (FK `occurrenceID` + FK `multimediaID` = the source image), registers it in `TableModules`/`Terms`, and **drops** the legacy `occurrenceHeight`/`occurrenceHeightUnit`/`occurrenceCrownSize`/`occurrenceCrownSizeUnit`/`occurrenceSizeClass` columns from `Occurrences`. Optional `vOccurrenceTraits` view joins Occurrences + Phenotyping + summed `Germplasm` yield. **Backup + dry-run by default; `--apply` to write, `--with-view` to add the view.** |
+
+Why a separate table: a measurement is an *observation of* an occurrence (with its own provenance image, method and confidence), not an intrinsic property of it — so it follows the Darwin Core *MeasurementOrFact* pattern in its own `Phenotyping` table rather than as columns on `Occurrences`. `Occurrences` is the hub; `Phenotyping`, `Germplasm`, `Multimedia` (and a planned `Genotyping`) hang off `occurrenceID`.
 
 Run order:
 
@@ -112,7 +115,9 @@ DB to calibrate against (`occurrenceHeight`/`occurrenceCrownSize` were empty):
 
 **Size class is the robust output.** A plant that overflows the board is reliably
 *large* even when its exact cm is uncertain, so `sizeClass` (small/medium/large) is derived
-from crown width + `exceeds_ruler` and written to `Occurrences.occurrenceSizeClass`. The
+from crown width + `exceeds_ruler`. Measurements (height, crown, size class, method,
+confidence) are stored in the dedicated **`Phenotyping`** table by step 06 — each as its own
+record linked to the occurrence and its source image — not as columns on `Occurrences`. The
 cm values stay review-only until signed off.
 
 Prototype on 4 sample images (`work/05_measurements.csv`):

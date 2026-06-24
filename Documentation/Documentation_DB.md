@@ -127,13 +127,15 @@ The database is organised into **seven modules**. The `TableModules` table maps 
 
 | Module          | Tables                                                                                                          |
 | --------------- | --------------------------------------------------------------------------------------------------------------- |
-| **Admin**       | `Persons`, `Projects`, `Studies`, `Experiments`, `Notes`, `Protocols`, `Multimedia`, `Trials`                   |
-| **Environment** | `Taxonomy`, `Locations`, `EORankings`                                                                           |
-| **Demography**  | `Events`, `EODemography`                                                                                        |
+| **Admin**       | `Persons`, `Projects`, `Studies`, `Experiments`, `Notes`, `Protocols`, `Multimedia`, `Trials`, `Terms`, `TableModules` |
+| **Environment** | `EOs`, `Taxonomy`, `Locations`, `EORankings`                                                                   |
+| **Demography**  | `Events`, `EODemography`, `Phenotyping`                                                                         |
 | **Biobanking**  | `Occurrences`, `Germplasm`, `SeedLots`, `MolecularBank`, `TissueBank`, `PedigreeNodes`, `GermplasmTransactions` |
 | **Genetics**    | `Sequencing`                                                                                                    |
 | **Breeding**    | `Crosses`                                                                                                       |
-| **Restoration** |                                                                                                                 |
+| **Restoration** | `GerminationPlates`, `Germinations`                                                                             |
+
+> All 28 tables are registered in `TableModules`. The database also defines 2 SQL views — `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and `GermplasmIDs_EO27`.
 
 ---
 
@@ -404,6 +406,30 @@ Stores EO-level demographic data derived from the `Events` table.
 
 ---
 
+##### `Phenotyping`
+
+Stores image-based morphometric measurements of individual occurrences (see `Occurrences`). Each row is **one measurement record** — plant height and crown width estimated from the field whiteboard rulers (see the **Multimedia & Image-Based Phenotyping** pipeline) — linked to the source photograph it was read from (see `Multimedia`). Following the Darwin Core *MeasurementOrFact* pattern, measurements live here rather than as columns on `Occurrences` (an observation *of* an occurrence, not an intrinsic property of it).
+
+| Field                       | Type    | Standard                                                              | Definition                                                                                            |
+| --------------------------- | ------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `phenotypingID`             | Integer | —                                                                     | Unique ID for the measurement record (primary key)                                                    |
+| `occurrenceID`              | Integer | [Darwin Core](http://rs.tdwg.org/dwc/terms/occurrenceID)              | → `Occurrences.occurrenceID` — the measured plant                                                      |
+| `multimediaID`              | Integer | —                                                                     | → `Multimedia.multimediaID` — the source photograph the measurement was read from (provenance)        |
+| `occurrenceHeight`          | Numeric | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementValue)          | Plant height (base to tallest point) inferred from the photograph; paired with `occurrenceHeightUnit`  |
+| `occurrenceHeightUnit`      | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementType)           | Unit for `occurrenceHeight` (cm)                                                                       |
+| `occurrenceCrownSize`       | Numeric | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementValue)          | Crown width (widest foliage spread) inferred from the photograph; paired with `occurrenceCrownSizeUnit`|
+| `occurrenceCrownSizeUnit`   | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementType)           | Unit for `occurrenceCrownSize` (cm)                                                                    |
+| `occurrenceSizeClass`       | Text    | —                                                                     | Robust coarse size class (small/medium/large) from crown width + exceeds-ruler; trusted over raw cm    |
+| `measurementMethod`         | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementMethod)         | How the value was obtained: `ruler` (within the scale) or `1cm-tile` (extrapolated beyond it)          |
+| `measurementConfidence`     | Text    | —                                                                     | Confidence in the measurement (low / medium / high)                                                   |
+| `measurementDeterminedBy`   | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementDeterminedBy)   | Who/what determined the value (e.g., Claude vision, in-session)                                        |
+| `measurementDeterminedDate` | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementDeterminedDate) | Date the measurement was determined                                                                   |
+| `remarks`                   | Text    | —                                                                     | Free-text notes (occlusion, parallax, exceeds-ruler, etc.)                                            |
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
 #### Module: Biobanking
 
 ##### `Occurrences`
@@ -415,10 +441,6 @@ Stores observations of individual organisms (`occurrenceID`) at a specific locat
 | `occurrenceID`            | Integer | [Darwin Core](http://rs.tdwg.org/dwc/terms/occurrenceID)          | Barcode # of fruiting plant collected in an Event                                                                          |
 | `basisOfRecord`           | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/basisOfRecord)         | The evidence/basis supporting the occurrence.  If the plant is photographed, then it is HumanObservation                   |
 | `reproductiveCondition`   | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/reproductiveCondition) | The reproductive status of the occurrence                                                                                  |
-| `occurrenceHeight`        | Numeric | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementValue)      | Height of the occurrence inferred based on the field photograph. t is associated with occurrenceHeightUnit                 |
-| `occurrenceHeightUnit`    | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementType)       | Unit associated with occurrenceHeight (cm)                                                                                 |
-| `occurrenceCrownSize`     | Numeric | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementValue)      | Size of the crown of the occurrence inferred based on the field photograph.  It is associated with occurrenceCrownSizeUnit |
-| `occurrenceCrownSizeUnit` | Text    | [Darwin Core](http://rs.tdwg.org/dwc/terms/measurementType)       | Unit associated with occurrenceCrownSize (cm)                                                                              |
 | `occurrenceRemarks`       | Text    | [Darwin Core](https://dwc.tdwg.org/terms/#occurrenceRemarks)      | Additional observations/notes on the occurrence                                                                            |
 
 ##### `Germplasm`
@@ -787,8 +809,6 @@ An **Occurrence** is the observation of a single reproductive individual of the 
 | `taxonID` | Integer | Foreign key → `Taxonomy.taxonID` |
 | `basisOfRecord` | Text | Evidence type (e.g., `HumanObservation`) |
 | `reproductiveCondition` | Text | Reproductive status of the individual |
-| `occurrenceHeight` | Numeric | Plant height inferred from photograph (cm) |
-| `occurrenceCrownSize` | Numeric | Crown diameter inferred from photograph (cm) |
 | `provenance` | Text | Origin: `in situ` (field), `ex situ` (greenhouse), or `in vitro` |
 | `occurrenceRemarks` | Text | Additional observations |
 
