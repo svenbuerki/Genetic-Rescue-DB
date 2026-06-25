@@ -27,6 +27,7 @@ A documented, reproducible pipeline (`Multimedia_pipeline/`):
 - **Measure** — the board's two rulers give scale: the horizontal ~15 cm Zukamo ruler
   (crown width) and the vertical ~30 cm edge ruler (height). Plants larger than the ruler are
   measured by a **"1 cm tile"** (read one graduation → cm-per-pixel → tile across the plant).
+  Measurement reads a **high-resolution crop of the lower frame** (the plant + rulers).
 - **Phenotyping** — each measurement is its own record (DwC *MeasurementOrFact*), linked to
   the occurrence **and** its source image (`06_phenotyping_schema.py`).
 
@@ -57,16 +58,17 @@ the manual read confirmed correct against the board.
 
 ### Measurement (Phenotyping)
 
-**624** measurement records (all image-linked):
+**668** measurement records (all image-linked):
 
 | Size class | n | crown width |
 |---|---|---|
-| small  | 286 | < 10 cm |
-| medium | 256 | 10–20 cm |
-| large  |  82 | > 20 cm / exceeds the board ruler |
+| small  | 343 | < 10 cm |
+| medium | 233 | 10–20 cm |
+| large  |  92 | > 20 cm / exceeds the board ruler |
 
-- Height ≈ 3–34 cm (mean ~9.7); crown ≈ 2–45 cm (mean ~11.6).
-- Method: **578** read within the ruler, **46** by the 1 cm-tile (exceeds-ruler).
+- Height ≈ 2–35 cm (mean ~10.6); crown ≈ 2–70 cm (mean ~11.4; the upper extreme is a single
+  very large individual).
+- Method: **607** read within the ruler, **61** by the 1 cm-tile (exceeds-ruler).
 
 ## 4. Accuracy & data quality
 
@@ -74,15 +76,15 @@ No field-measured ground truth exists, so these are estimates judged against the
 rulers. Accuracy is tiered: **in-ruler plants ~±2–3 cm**; **plants beyond the ruler ~±5–8 cm**
 (parallax + amplified calibration error).
 
-**Cross-method check.** The original 93 plants (measured from the dedicated high-resolution
-lower-frame crop) were compared against an independent full-frame re-measurement: size class
-agreed **53%** of the time (median crown Δ ~4 cm), with disagreements almost all *adjacent*
-classes (plants near the 10/20 cm thresholds flipping on a few cm). So:
+**One consistent method.** The whole collection is now measured from the **same
+high-resolution lower-frame crop** — occ 1–93 originally, and occ 94–763 re-measured in this
+campaign from the sharper crop (which also recovered ~44 plants the earlier low-resolution
+pass had missed). A cross-check of the two measurement passes over the same 524 plants showed
+mean height Δ **+1.4 cm** and crown Δ **+0.2 cm** — the aggregate is stable — yet **size class
+changed for ~33%** of plants, almost all *adjacent* classes near the 10/20 cm thresholds. So:
 
-> **Size class is indicative; cm is supporting.** For coarse trait data and class
-> distributions the values are fine; for tight per-plant precision, the planned refinement is
-> to re-measure occ 94+ from the **high-resolution lower-frame crop** (the method the sample
-> used), which sharpens the plant against the ruler.
+> **Size class is indicative; cm is supporting.** Size-class distributions and coarse trait
+> data are reliable; treat individual cm values as ±2–8 cm vision estimates.
 
 ## 5. Data-quality issues raised (GitHub — svenbuerki/Genetic-Rescue-DB)
 
@@ -104,7 +106,7 @@ classes (plants near the 10/20 cm thresholds flipping on a few cm). So:
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — `Phenotyping` (624 rows), `Multimedia` (760 occurrence images), views
+- `LEPA_SQL.db` — `Phenotyping` (668 rows), `Multimedia` (760 occurrence images), views
   `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and
   `vUnimagedOccurrences` (image-coverage gaps).
 - `Multimedia_pipeline/` — the full pipeline (steps 00–06) + this report.
