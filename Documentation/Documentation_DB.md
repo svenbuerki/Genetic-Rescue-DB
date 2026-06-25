@@ -135,7 +135,7 @@ The database is organised into **seven modules**. The `TableModules` table maps 
 | **Breeding**    | `Crosses`                                                                                                       |
 | **Restoration** | `GerminationPlates`, `Germinations`                                                                             |
 
-> All 28 tables are registered in `TableModules`. The database also defines 2 SQL views — `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and `GermplasmIDs_EO27`.
+> All 28 tables are registered in `TableModules`. The database also defines 3 SQL views — `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield), `vUnimagedOccurrences` (occurrences with no image), and `GermplasmIDs_EO27`.
 
 ---
 

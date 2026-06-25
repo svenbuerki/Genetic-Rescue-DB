@@ -73,7 +73,7 @@ Genetic_Rescue_DB/
 
 - **Engine:** SQLite 3
 - **File:** [`Genetic_Rescue_SQL.db`](Genetic_Rescue_SQL.db)
-- **Tables:** 28 — every table is registered in the `TableModules` documentation table — plus 2 SQL views (`vOccurrenceTraits`, `GermplasmIDs_EO27`)
+- **Tables:** 28 — every table is registered in the `TableModules` documentation table — plus 3 SQL views (`vOccurrenceTraits`, `vUnimagedOccurrences`, `GermplasmIDs_EO27`)
 - **Full documentation:** [Documentation_DB.md](Documentation/Documentation_DB.md)
 
 The database is organized into seven modules:

@@ -2,7 +2,7 @@
 
 **Prepared for:** Buerki Lab team
 **Subject:** Linking field whiteboard photos to the database, and estimating plant size from the photos
-**Data:** 95-image sample (`JCN_0016`–`JCN_0110`) of the 2025 campaign; full dataset to follow.
+**Data:** full 2025 campaign — `JCN_0016`–`JCN_0753` (731 frames)
 
 ---
 
@@ -14,76 +14,97 @@ rulers for scale. Two goals:
 
 1. **Link** every photo to its `Occurrences` record in `LEPA_SQL.db` and store it in the
    `Multimedia` table.
-2. **Measure** plant **height** and **crown width**, and assign a **size class**.
+2. **Measure** plant **height** and **crown width**, and assign a **size class**, stored in
+   the dedicated **`Phenotyping`** table.
 
 ## 2. Approach
 
-A small, documented, reproducible pipeline (`Multimedia_pipeline/`) that runs unchanged
-on the full dataset:
+A documented, reproducible pipeline (`Multimedia_pipeline/`):
 
 - **Read the board** — each photo's header is cropped and the handwritten occurrenceID +
-  date are read (for this sample, read and double-checked manually; for the full dataset,
-  the same read is done automatically by a vision model).
-- **Validate** — the board number must match an existing `occurrenceID`, and the board
-  date is cross-checked against the record's date. Mismatches are flagged, not guessed.
-- **Load** — linked rows are inserted into `Multimedia` (with a backup and a `remarks`
-  validation note).
-- **Measure** — the board's two rulers give scale: the horizontal ~15 cm ruler (crown
-  width) and the vertical ~30 cm edge ruler (height). For plants larger than the ruler we
-  use a **"1 cm tile"**: read one graduation to fix the cm-per-pixel scale, then extend
-  that unit across the plant to estimate sizes **beyond** the ruler's length.
+  date are read, then validated against `Occurrences` (number must match; date cross-checked).
+- **Load** — linked rows inserted into `Multimedia` (backup + `remarks` note).
+- **Measure** — the board's two rulers give scale: the horizontal ~15 cm Zukamo ruler
+  (crown width) and the vertical ~30 cm edge ruler (height). Plants larger than the ruler are
+  measured by a **"1 cm tile"** (read one graduation → cm-per-pixel → tile across the plant).
+- **Phenotyping** — each measurement is its own record (DwC *MeasurementOrFact*), linked to
+  the occurrence **and** its source image (`06_phenotyping_schema.py`).
+
+**Reading at scale.** Board reads and measurements were done **in-session by Claude Code**
+(covered by the subscription — no per-image API cost), parallelised across many subagents.
+Board IDs were established two ways and cross-checked: **manual reads** for `JCN_0111–0513`
+and an **alignment-proof single-image agent pass** for `JCN_0514–0753` (one agent per crop, so
+the filename↔ID mapping cannot drift). Agreement on the overlap with an independent agent
+sweep was 91.8%; all sampled disagreements were the agent's batch-boundary off-by-one, with
+the manual read confirmed correct against the board.
 
 ## 3. Results
 
-**Linking (Multimedia):** all 93 occurrence photos (boards 0001–0093) linked cleanly to
-occurrenceIDs 1–93. One landscape/setup shot had no board (held for a location decision);
-one "Event 14" marker was linked to that event. 94 rows inserted; 51 pre-existing
-occurrence images were corrected to the right module.
+### Linking (Multimedia)
 
-**Measurement (93 plants):**
+- **587** new occurrence images linked (boards `0111`–`0753` → occurrenceIDs **94–763**);
+  **760** occurrence images in `Multimedia` total (incl. the original 95-image sample).
+- **1** board-number conflict held back (board `289` reused on two plants — see Issues).
+- **47** no-board frames (transit / landscape / sky) not linked.
+- All **587** board numbers matched an existing `Occurrences` record.
+
+### Image coverage (Occurrences ↔ Multimedia)
+
+- **760 of 810** occurrences have an image. **50** do not:
+  **5 in-situ field plants** (occ 213, 214, 215, 236, 379 — photo-sequence gaps) and
+  **45 ex-situ** greenhouse/breeding accessions (not field-imaged by design).
+- Reusable view **`vUnimagedOccurrences`** lists them.
+
+### Measurement (Phenotyping)
+
+**624** measurement records (all image-linked):
 
 | Size class | n | crown width |
 |---|---|---|
-| small | 18 | < 10 cm |
-| medium | 61 | 10–20 cm |
-| large | 14 | > 20 cm (exceeds the board ruler) |
+| small  | 286 | < 10 cm |
+| medium | 256 | 10–20 cm |
+| large  |  82 | > 20 cm / exceeds the board ruler |
 
-- Height ≈ 7–26 cm (mean ~14.5 cm); crown ≈ 5–35 cm (mean ~14.4 cm).
-- A ~10 cm typical crown matches the independent field value on record for Event 14
-  (`measurementValueCrownAvg` = 10 cm) — a useful sanity check.
+- Height ≈ 3–34 cm (mean ~9.7); crown ≈ 2–45 cm (mean ~11.6).
+- Method: **578** read within the ruler, **46** by the 1 cm-tile (exceeds-ruler).
 
-## 4. Accuracy
+## 4. Accuracy & data quality
 
-There is **no field-measured ground truth** in the database, so these are estimates
-judged against the in-frame rulers. Accuracy is tiered:
+No field-measured ground truth exists, so these are estimates judged against the in-frame
+rulers. Accuracy is tiered: **in-ruler plants ~±2–3 cm**; **plants beyond the ruler ~±5–8 cm**
+(parallax + amplified calibration error).
 
-- **In-ruler plants** (compact, flush to the board, base visible) — good, ~**±2–3 cm**.
-- **Large plants beyond the ruler** (14 of 93) — measurable by the 1 cm-tile method, but
-  with **wider error (~±5–8 cm / ~20%)**: they sit in front of the board (parallax →
-  slight overestimate), and any calibration error is amplified across a big plant.
+**Cross-method check.** The original 93 plants (measured from the dedicated high-resolution
+lower-frame crop) were compared against an independent full-frame re-measurement: size class
+agreed **53%** of the time (median crown Δ ~4 cm), with disagreements almost all *adjacent*
+classes (plants near the 10/20 cm thresholds flipping on a few cm). So:
 
-Because of this, the **size class is the most trustworthy field** — a plant that overflows
-the board is reliably "large" even when its exact cm is uncertain. Size classes have been
-written to the database (`Occurrences.occurrenceSizeClass`); the cm estimates are kept in a
-review file (`work/05_measurements.csv`) pending sign-off before any cm is written.
+> **Size class is indicative; cm is supporting.** For coarse trait data and class
+> distributions the values are fine; for tight per-plant precision, the planned refinement is
+> to re-measure occ 94+ from the **high-resolution lower-frame crop** (the method the sample
+> used), which sharpens the plant against the ruler.
 
-## 5. Recommendations
+## 5. Data-quality issues raised (GitHub — svenbuerki/Genetic-Rescue-DB)
 
-1. **Add a taller scale to the field kit.** The current board ruler caps at ~15 cm
-   (horizontal) / ~30 cm (vertical); mature plants exceed it. A **meter stick or folding
-   rule placed in frame** would let large plants be measured directly and remove the main
-   source of error. *(Lowest-effort, highest-impact change for next campaign.)*
-2. **Use size class as the primary size metric** for analysis; treat cm as supporting,
-   especially for large plants.
-3. **Keep the board protocol** otherwise — it worked well: number + date legible, two-factor
-   validation caught a real photo-vs-observation date offset (plants observed 06-16,
-   photographed 06-17 for Event 14).
-4. **Scale-up is ready** — the pipeline processes the incoming full dataset automatically
-   (board reading + measurement via the Claude vision API), with the same validation and
-   review gates.
+- **#1** — board `289` reused on two plants (one image held pending the correct ID).
+- **#2** — 56 board-date ≠ `occurrenceDate`, plus 26 location-label candidates (blocks
+  occ 122–144 `EO30-2`/`EO30-1`, occ 441–443 `EO24-7`/`EO24-1`).
+- **#3** — 50 occurrences without images (the 5 in-situ field gaps + 45 ex-situ), requesting
+  team support to source the field-plant photos.
 
-## 6. Data products
+## 6. Recommendations
 
-- `LEPA_SQL.db` — `Multimedia` rows linked to occurrences (+ `remarks`); `Occurrences.occurrenceSizeClass` populated. Backups kept alongside the DB.
-- `Multimedia_pipeline/work/05_measurements.csv` — per-plant height, crown, size class, confidence, flags.
-- `Multimedia_pipeline/README.md` — full method and how to run it.
+1. **Add a taller scale to the field kit** (meter stick / folding rule in frame) — the ~15 cm
+   horizontal / ~30 cm vertical board rulers cap below mature plants; this is the main error
+   source and the lowest-effort, highest-impact fix.
+2. **Use size class as the primary size metric**; treat cm as supporting.
+3. **Keep the board protocol** (number + date legible, two-factor validation) — it caught real
+   field errors (the reused board number; date and location mismatches).
+4. **One board number per plant** — the `289` reuse shows the value of unique board numbers.
+
+## 7. Data products
+
+- `LEPA_SQL.db` — `Phenotyping` (624 rows), `Multimedia` (760 occurrence images), views
+  `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and
+  `vUnimagedOccurrences` (image-coverage gaps).
+- `Multimedia_pipeline/` — the full pipeline (steps 00–06) + this report.
