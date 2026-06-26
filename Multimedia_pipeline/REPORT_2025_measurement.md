@@ -58,17 +58,19 @@ the manual read confirmed correct against the board.
 
 ### Measurement (Phenotyping)
 
-**668** measurement records (all image-linked):
+**716** measurement records (all image-linked; all 19 EOs represented):
 
 | Size class | n | crown width |
 |---|---|---|
-| small  | 343 | < 10 cm |
-| medium | 233 | 10–20 cm |
-| large  |  92 | > 20 cm / exceeds the board ruler |
+| small  | 367 | < 10 cm |
+| medium | 237 | 10–20 cm |
+| large  | 112 | > 20 cm / exceeds the board ruler |
 
-- Height ≈ 2–35 cm (mean ~10.6); crown ≈ 2–70 cm (mean ~11.4; the upper extreme is a single
+- Height ≈ 2–35 cm (mean ~10.8); crown ≈ 2–70 cm (mean ~11.8; the upper extreme is a single
   very large individual).
 - Method: **607** read within the ruler, **61** by the 1 cm-tile (exceeds-ruler).
+
+> **Recovered EOs (post-hoc).** 48 in-situ plants in **EO68, EO70, EO72** were imaged in 2025 but initially un-measured — their board numbers (179–199, 444–468, 764–767) fell in the photo-sequence gaps (board jumps 178→200 and 443→469). They were OCR-validated (board ID = filename, dates matched) and measured from the same crops, bringing the whole **Bottleneck Lineage BL2 (EO68+EO70)** into the dataset and giving phenotype coverage for **all 19 EOs**.
 
 ## 4. Accuracy & data quality
 
@@ -106,7 +108,7 @@ changed for ~33%** of plants, almost all *adjacent* classes near the 10/20 cm th
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — `Phenotyping` (668 rows), `Multimedia` (760 occurrence images), views
+- `LEPA_SQL.db` — `Phenotyping` (716 rows), `Multimedia` (760 occurrence images), views
   `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and
   `vUnimagedOccurrences` (image-coverage gaps).
 - `Multimedia_pipeline/` — the full pipeline (steps 00–06) + this report.
