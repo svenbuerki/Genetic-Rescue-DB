@@ -52,7 +52,7 @@ SQL_DB/
 └── Not_GitHub/                          # Local development files (not versioned)
 ```
 
-**Full database and protocol documentation:** [`Documentation/LEPA_DB_Documentation.md`](Documentation/LEPA_DB_Documentation.md)
+**Full database and protocol documentation:** [`Documentation/Documentation_DB.md`](Documentation/Documentation_DB.md)
 
 ---
 
