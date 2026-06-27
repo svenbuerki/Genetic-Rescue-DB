@@ -4,6 +4,11 @@
 **Subject:** Linking field whiteboard photos to the database, and estimating plant size from the photos
 **Data:** full 2025 campaign — `JCN_0016`–`JCN_0753` (731 frames)
 
+> **Status update (2026-06).** This 2025 campaign report has been refreshed for the June-2026
+> gap-fill sweep (`Phenotyping` now **741**) and the occ 226–230 correction. For the current,
+> living data-quality state and the full tracked-issue list, see **[`DATA_QUALITY.md`](DATA_QUALITY.md)**
+> and the rebuilt pipeline guide **[`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md)**.
+
 ---
 
 ## 1. Objective
@@ -58,19 +63,26 @@ the manual read confirmed correct against the board.
 
 ### Measurement (Phenotyping)
 
-**716** measurement records (all image-linked; all 19 EOs represented):
+**741** measurement records (all image-linked; all 19 EOs represented):
 
 | Size class | n | crown width |
 |---|---|---|
-| small  | 367 | < 10 cm |
-| medium | 237 | 10–20 cm |
-| large  | 112 | > 20 cm / exceeds the board ruler |
+| small  | 387 | < 10 cm |
+| medium | 241 | 10–20 cm |
+| large  | 113 | > 20 cm / exceeds the board ruler |
 
-- Height ≈ 2–35 cm (mean ~10.8); crown ≈ 2–70 cm (mean ~11.8; the upper extreme is a single
+- Height ≈ 1.8–35 cm (mean ~10.7); crown ≈ 1.5–70 cm (mean ~11.7; the upper extreme is a single
   very large individual).
-- Method: **607** read within the ruler, **61** by the 1 cm-tile (exceeds-ruler).
+- Method: **661** read within the ruler, **80** by the 1 cm-tile (exceeds-ruler).
 
 > **Recovered EOs (post-hoc).** 48 in-situ plants in **EO68, EO70, EO72** were imaged in 2025 but initially un-measured — their board numbers (179–199, 444–468, 764–767) fell in the photo-sequence gaps (board jumps 178→200 and 443→469). They were OCR-validated (board ID = filename, dates matched) and measured from the same crops, bringing the whole **Bottleneck Lineage BL2 (EO68+EO70)** into the dataset and giving phenotype coverage for **all 19 EOs**.
+
+> **2026 gap-fill (June 2026).** A read-only agent sweep measured the 43 occurrence images that
+> were linked but still un-measured, adding **25** records (716 → **741**): the EO27 Figgins run,
+> the 10 EO26 "BC" exemplars (occ 336–345), and EO72. **18** images could not be measured (the
+> plant was photographed below the board, so no in-frame scale) and occ **220**'s image was lost —
+> both documented in `Multimedia.remarks` and GitHub issue #5. Separately, occ **226–230** were
+> corrected from a data-entry error (`EO38` → `EO27`, confirmed by board OCR + EXIF + neighbours).
 
 ## 4. Accuracy & data quality
 
@@ -95,6 +107,12 @@ changed for ~33%** of plants, almost all *adjacent* classes near the 10/20 cm th
   occ 122–144 `EO30-2`/`EO30-1`, occ 441–443 `EO24-7`/`EO24-1`).
 - **#3** — 50 occurrences without images (the 5 in-situ field gaps + 45 ex-situ), requesting
   team support to source the field-plant photos.
+- **#4** — 48 no-whiteboard context images (transit / landscape) added to `Multimedia` with
+  inferred sites — flagged `NEEDS CURATION` for team confirmation.
+- **#5** — 18 occurrence images that cannot be phenotyped (plant below the board, no scale) +
+  occ 220 (image lost) — tagged `NOT PHENOTYPED` / `IMAGE LOST` in `Multimedia.remarks`.
+
+The current status of all issues is consolidated in [`DATA_QUALITY.md`](DATA_QUALITY.md).
 
 ## 6. Recommendations
 
@@ -108,7 +126,9 @@ changed for ~33%** of plants, almost all *adjacent* classes near the 10/20 cm th
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — `Phenotyping` (716 rows), `Multimedia` (760 occurrence images), views
+- `LEPA_SQL.db` — `Phenotyping` (**741** rows), `Multimedia` (760 occurrence images), views
   `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield) and
   `vUnimagedOccurrences` (image-coverage gaps).
-- `Multimedia_pipeline/` — the full pipeline (steps 00–06) + this report.
+- `Multimedia_pipeline/` — the 2025 linking + measurement scripts are archived in `legacy_2025/`;
+  the current image→database pipeline is `00_sort_by_date.py … 03_phenotype.py`
+  (see [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md)) + this report.
