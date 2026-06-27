@@ -43,16 +43,19 @@ Department of Biological Sciences, Boise State University
 Genetic_Rescue_DB/
 ├── Genetic_Rescue_SQL.db                # Core SQLite3 database (schema + documentation tables)
 ├── README.md                            # This file
+├── LEPA_SQL_DB_overview.md              # Working LEPA database + image-pipeline overview (companion)
 ├── Documentation/
 │   ├── Documentation_DB.md             # Database documentation (canonical, GitHub-rendered)
 │   └── Figures/                        # Workflow diagrams and figures
 ├── Protocols/
 │   ├── 01_Location_fieldwork.docx      # Location/EO data-entry form
 │   └── 02_Event_fieldwork.docx         # Event and individual plant data-entry form
-└── Multimedia_pipeline/                # Image → database linking + image-based phenotyping
-    ├── README.md                       # Full method and how to run it
-    ├── 00_link_named_files.py … 06_phenotyping_schema.py   # Pipeline steps (config in config.py)
-    └── REPORT_2025_measurement.md      # Worked example (2025 campaign)
+└── Multimedia_pipeline/                # Image → database pipeline (2026, collision-proof naming)
+    ├── IMAGE_PIPELINE_GUIDE.md         # ▶ how the pipeline works (start here)
+    ├── DATA_QUALITY.md                 # data-quality status + tracked issues
+    ├── 00_sort_by_date.py … 03_phenotype.py   # the four pipeline scripts
+    ├── REPORT_2026_pipeline_dryrun.md, REPORT_2025_measurement.md, ISSUE_filename_collision.md
+    └── legacy_2025/                    # archived 2025 pipeline scripts
 ```
 
 > Field imagery, intermediate CSVs, and the working database are **not** versioned
@@ -62,6 +65,7 @@ Genetic_Rescue_DB/
 | Resource | Description |
 |----------|-------------|
 | [Documentation_DB.md](Documentation/Documentation_DB.md) | Full database and workflow documentation |
+| [LEPA_SQL_DB_overview.md](LEPA_SQL_DB_overview.md) | Working LEPA database + image-pipeline overview (companion to this README) |
 | [01_Location_fieldwork.docx](Protocols/01_Location_fieldwork.docx) | Fieldwork data-entry form — Locations |
 | [02_Event_fieldwork.docx](Protocols/02_Event_fieldwork.docx) | Fieldwork data-entry form — Events and individual plants |
 | [Genetic_Rescue_SQL.db](Genetic_Rescue_SQL.db) | SQLite3 database (schema + `Terms` + `TableModules`) |
@@ -123,8 +127,14 @@ Board reading and plant-extent estimation use a vision-capable language model, w
 result cross-checked against the database; the workflow is fully scripted and scales from
 tens to thousands of images.
 
-📖 **Full method and usage:** **[`Multimedia_pipeline/README.md`](Multimedia_pipeline/README.md)**
- — worked example: [`Multimedia_pipeline/REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md)
+As of 2026 the pipeline uses a **collision-proof image-naming scheme** (`LEPA_<date>_<sha8>.jpg`,
+content-addressed) so camera files that repeat across seasons can never overwrite one another, with
+a date-organised folder convention and a human review gate before any record is created.
+
+📖 **Full method and usage:** **[`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md)**
+ — data-quality status: [`DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md); worked examples:
+ [`REPORT_2026_pipeline_dryrun.md`](Multimedia_pipeline/REPORT_2026_pipeline_dryrun.md),
+ [`REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md)
 
 ---
 
@@ -158,7 +168,7 @@ For threatened or endangered species listed under national legislation, **precis
 | [PlantBreeding / BrAPI v2.1](https://github.com/plantbreeding/BrAPI) | Germplasm and breeding data |
 | [BBMRI-ERIC / MIABIS](https://github.com/BBMRI-ERIC/miabis) | Biobank and sample data |
 
-Custom terms are defined in the `Terms` table (63 entries).
+Custom terms are defined in the `Terms` table (68 entries).
 
 ---
 
