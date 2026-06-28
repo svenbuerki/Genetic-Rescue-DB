@@ -50,11 +50,12 @@ Genetic_Rescue_DB/
 ├── Protocols/
 │   ├── 01_Location_fieldwork.docx      # Location/EO data-entry form
 │   └── 02_Event_fieldwork.docx         # Event and individual plant data-entry form
-└── Multimedia_pipeline/                # Image → database pipeline (2026, collision-proof naming)
-    ├── IMAGE_PIPELINE_GUIDE.md         # ▶ how the pipeline works (start here)
+└── Multimedia_pipeline/                # field-form + image → database pipeline (2026, collision-proof naming)
+    ├── IMAGE_PIPELINE_GUIDE.md         # ▶ how the pipeline works, both stages (start here)
     ├── DATA_QUALITY.md                 # data-quality status + tracked issues
-    ├── 00_sort_by_date.py … 03_phenotype.py   # the four pipeline scripts
-    ├── REPORT_2026_pipeline_dryrun.md, REPORT_2025_measurement.md, ISSUE_filename_collision.md
+    ├── field_forms_ocr.py             # Stage A: forms → Locations/Events/Occurrences (+ form images)
+    ├── 00_sort_by_date.py … 03_phenotype.py, stageB_load.py   # Stage B: plant images → Multimedia + Phenotyping
+    ├── REPORT_2026_campaign.md, REPORT_2026_pipeline_dryrun.md, REPORT_2025_measurement.md, ISSUE_filename_collision.md
     └── legacy_2025/                    # archived 2025 pipeline scripts
 ```
 
@@ -127,12 +128,17 @@ Board reading and plant-extent estimation use a vision-capable language model, w
 result cross-checked against the database; the workflow is fully scripted and scales from
 tens to thousands of images.
 
-As of 2026 the pipeline uses a **collision-proof image-naming scheme** (`LEPA_<date>_<sha8>.jpg`,
-content-addressed) so camera files that repeat across seasons can never overwrite one another, with
-a date-organised folder convention and a human review gate before any record is created.
+From 2026 the pipeline runs in **two stages — field forms first**: **Stage A** OCRs the paper
+Location/Event sheets to create the `Locations`, `Events`, and `Occurrences` (with GPS) and files each
+form image as evidence; **Stage B** links the plant photos to those occurrences and measures them. It
+uses a **collision-proof image-naming scheme** (`LEPA_<date>_<sha8>.jpg`, content-addressed) so camera
+files that repeat across seasons can never overwrite one another, with a date-organised folder
+convention and a human review gate before any record is created. In the 2026 campaign the on-board
+field h/w **validated the image phenotyping to ~±1 cm**.
 
 📖 **Full method and usage:** **[`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md)**
  — data-quality status: [`DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md); worked examples:
+ [`REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md),
  [`REPORT_2026_pipeline_dryrun.md`](Multimedia_pipeline/REPORT_2026_pipeline_dryrun.md),
  [`REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md)
 
@@ -168,7 +174,7 @@ For threatened or endangered species listed under national legislation, **precis
 | [PlantBreeding / BrAPI v2.1](https://github.com/plantbreeding/BrAPI) | Germplasm and breeding data |
 | [BBMRI-ERIC / MIABIS](https://github.com/BBMRI-ERIC/miabis) | Biobank and sample data |
 
-Custom terms are defined in the `Terms` table (68 entries).
+Custom terms are defined in the `Terms` table (70 entries).
 
 ---
 

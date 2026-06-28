@@ -20,14 +20,25 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 810. **Phenotyping:** 741 (every occurrence image showing a measurable plant).
-- **Images:** 948 raw (`Multimedia_images/<year>/<date>/`), 809 linked occurrence/location/event images
-  in `Multimedia` under the unique `LEPA_<date>_<sha8>.jpg` scheme.
+- **Occurrences:** 894 (810 2025 + 84 2026). **Events:** 254. **Locations:** 40 (+EO69, the new 2026 site).
+- **Phenotyping:** 817 (741 2025 + 76 2026). **Multimedia:** 930 (incl. 40 2026 field-form images + 80 2026 plant images).
+- **Images:** unique `LEPA_<date>_<sha8>.jpg` scheme in `Multimedia_main/`; raw in `Multimedia_images/<year>/<date>/`.
+
+## 2026 campaign (processed June 2026) — see [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)
+
+Two-stage load: **forms → records** (1 new Location EO69, 17 Events, 84 Occurrences, 40 form images as
+evidence), then **plant images → multimedia + phenotyping** (80 linked, 76 phenotyped). **h/w validation:**
+on the 23 boards with field-written h/w, image measurement matched the field tape to **median ±1 cm
+(20/21 within ±2 cm)** for both height and width — the technique is validated against ground truth.
+Reused-barcode collisions caught + fixed (event sticker `0098`→`268`).
 
 ## Standing items (known; not integrity faults)
 
 | # | Item | Detail | GitHub |
 |---|---|---|---|
+| 0a | **EO38 forms missing (2026)** | 33 EO38 plants photographed (boards ~2281–2317) but no EO38 field form in the batch → no event/location to attach; staged in `stageB_unmatched_review.csv`, not loaded. | [#7](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/7) |
+| 0b | **2026 collected occ without image** | 7 occurrences (EO76 ×5, EO69 ×1, EO118 ×1) have no linked plant photo — un-photographed or a board# mis-read. | [#6](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/6) |
+| 0c | **EO118 plants missing their event form** | 9 EO118 plants photographed + field-measured (boards 2395–2403, with h/w) but absent from the loaded forms — their event envelope was pulled for seed cleaning. Staged in `stageB_unmatched_review.csv`, not loaded. | [#8](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/8) |
 | 1 | **Un-phenotyped: plant below board** | 18 occurrence images where the plant was photographed on the ground below/beside the board (no scale reference) → size indeterminate. Tagged in `Multimedia.remarks` (`NOT PHENOTYPED`). | [#5](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/5) |
 | 2 | **Un-phenotyped: image lost** | occ 220 (`EO27 Figgins - Occurrence 220.jpg`) deleted from Drive, no copy. Record retained, `IMAGE LOST` in remarks. | [#5](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/5) |
 | 3 | **No-board context images** | 48 location-level images (transit/landscape/crew) auto-attached to the nearest site; need a human to confirm content + locationID. `Multimedia.remarks LIKE 'NEEDS CURATION%'`. | [#4](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/4) |

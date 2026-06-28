@@ -23,3 +23,40 @@
 
 ## 20260627-163254 — flag un-phenotyped images
 - GitHub issue svenbuerki/Genetic-Rescue-DB#5 filed; Multimedia.remarks tagged on 18 'plant below board' images + occ 220. Backup `LEPA_SQL.db.bak-noplant-20260627-163254`
+
+## 20260627-222520 — add Events.measurementValuePlantArea
+- new columns measurementValuePlantArea(+Unit) on Events; Terms 69/70 (tableID 2). 2026 forms map the crown/area field here; measurementValueCrownAvg kept for 2025 (215 rows). Backup `LEPA_SQL.db.bak-plantarea-20260627-222520`
+- 20260627-222609 — REVERTED measurementValuePlantArea add (user: leave unchanged for now, investigate later)
+
+## 20260627-222825 — add Events.measurementValuePlantArea (re-applied)
+- new columns measurementValuePlantArea(+Unit) on Events; Terms 69/70 (tableID 2). Recorded from 2026 field campaign; measurementValueCrownAvg kept for 2025 (215 rows). Backup `LEPA_SQL.db.bak-plantarea-20260627-222825`
+
+## 20260627-224231 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 83 occurrences; occurrenceID collisions: 0. Review staging_2026/ before load.
+
+## 20260627-225019 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 83 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-225645 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 83 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-231531 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 84 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-232050 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 84 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-232425 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 84 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-233418 — field_forms_ocr --load field_forms_results.json
+- staged 6 locations (5 revisit / 1 new), 17 events, 84 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260627-233612 — field_forms_ocr --commit --apply
+- inserted 1 Locations, 17 Events, 84 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260627-233612`.
+
+## 20260627-233916 — field_forms_ocr --forms-mm --apply
+- linked 40 field-form images to Multimedia (6 Location tableID 9, 34 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260627-233915`.
+
+## 20260628-023623 — stageB_load --apply
+- linked 80 2026 plant images to occurrences (Multimedia tableID 13) + 76 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260628-023623`.

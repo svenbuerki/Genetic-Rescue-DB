@@ -1,5 +1,11 @@
 # LEPA 2026 — Image-driven data-entry pipeline (Steps A–C dry-run)
 
+> **Note (superseded by the outcome):** this is the **early dry-run** that scoped the approach on the
+> first mixed upload. The **actual 2026 campaign load** (field forms → records, then plant images →
+> multimedia + phenotyping, incl. the h/w validation) is in
+> **[`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)**. Kept here for the method/validation history.
+
+
 **Prepared for:** Buerki Lab team
 **Subject:** Processing the first 2026-campaign uploads as a *pre-population* dry-run, and validating the OCR + phenotyping technique before the adapted-board protocol begins.
 **Status:** **No database writes.** All outputs are staged for human review (`staging_2026/`).

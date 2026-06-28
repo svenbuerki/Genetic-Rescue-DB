@@ -12,7 +12,117 @@ Turns field whiteboard photos of *Lepidium papilliferum* into linked database re
 
 ---
 
-## Folder convention (what the field team does)
+## The full pipeline — two stages (run in order)
+
+**Stage A — Field forms → core records.** OCR the paper field sheets (one Location form, then
+Event forms — each over two photos) to create the `Locations`, `Events`, and `Occurrences`
+records, *with GPS*. This is the authoritative source for the occurrence hierarchy and **runs first**.
+
+**Stage B — Plant images → multimedia + phenotyping.** Ingest/rename the whiteboard plant photos,
+link each to the occurrence its board number names, and measure the plant. The occurrences already
+exist (from Stage A), so the board number is just a lookup.
+
+---
+
+## Stage A — Field forms (`field_forms_ocr.py`)
+
+Field crews fill paper forms (templates in `Protocols/`; the `…_with_terms` / `…_w_Terms` versions
+annotate each field with its DB column). Photograph them into **`Field_forms/<year>/` in order**:
+the **Location form first**, then each **Event over two images** — page 1 = event id / GPS / size /
+condition / counts; **page 2 = the occurrenceID (plant barcode) list**. There can be several events
+per location and (sometimes) more than one location.
+
+What each form harvests:
+
+| Form page | → table | key fields |
+|---|---|---|
+| Location | `Locations` | `locationID` (barcode), EO (locality), `locationDecimalLatitude/Longitude`, `landscapeHealth`, DSCN image #, `locationRemarks` |
+| Event p1 | `Events` (all new) | `eventID` (barcode), `eventDate`, `locationID`, `eventDecimalLatitude/Longitude`, `eventSizeValue`, `eventDefinition`, `eventCondition`, `organismQuantityFertile/Vegetative`, `measurementValuePlantArea` (2026+), `associatedTaxa` |
+| Event p2 | `Occurrences` (all new) | the plant barcodes → `occurrenceID`s, linked to event + location + EO |
+
+**Location revisit vs new:** if a location barcode already exists in `Locations`, **link to it (no
+insert)** — most 2026 forms are revisits; only genuinely new sites get a new `Locations` row.
+**Events and occurrences are always new.** The plant board number written in the field **equals the
+occurrenceID**, so Stage B's photos attach to the records created here.
+
+**Stage A command flow** (`field_forms_ocr.py`, each step dry-run by default + DB backup + log):
+
+```
+--worklist                       # ordered list of form images for the in-session OCR sweep
+   (run the read-only OCR sweep → results JSON)
+--load results.json              # reconstruct hierarchy → review staging (no DB writes)
+   (review staging_2026/, put fixes in the override files below)
+--commit [--apply]               # GATED LOAD: insert Locations → Events → Occurrences
+--forms-mm [--apply]             # link each form image into Multimedia as evidence
+```
+
+`--load` writes the review staging (`staging_2026/` Locations/Events/Occurrences) with
+`REVISIT` / `NEW_LOCATION` flags and the `_src_image(s)` column (the form photo behind each row).
+`--commit` reads the **reviewed** staging and inserts in dependency order (table-only columns already
+filled — `taxonID`, units, `stateProvince`/`country`, etc.; dates normalised to `MM-DD-YYYY`); it
+**blocks on collisions** (a staged event/occurrence ID already in the DB = a reused barcode) until
+resolved. `--forms-mm` ingests the form images under collision-proof names and links them
+(`tableID 9`→location, `tableID 11`→event, `type='field form'`) — durable evidence for every record.
+
+### How pages are detected and grouped (robust to ordering)
+
+Detection does **not** rely on image order alone — three independent signals are cross-checked:
+
+1. **Header self-identification (primary).** Each page is classified by its *printed* header —
+   "Location Data Collection" (location), "Section 1: Event Identification" (event p1), or
+   "Section 4: Fruiting Plants Collection Details" (event p2). A page says what it is, regardless
+   of where it falls in the sequence.
+2. **Capture order.** Walking the photos in order, the loader tracks the *current location* and
+   attaches every following event to it — **a location can have many events** — until the next
+   Location form starts a new group. Event p1 + p2 pair as consecutive pages.
+3. **Barcode fallback (most robust).** Every Event page 1 also carries its own "Location Unique
+   Barcode #", so each event links to its location *by barcode* even if the order is disturbed; the
+   loader prefers the stated barcode and only falls back to order-by-current-location when it's missing.
+
+`--load` also **flags anomalies** for review rather than silently mis-pairing — e.g. an event
+page-2 with no page-1 before it, an `occurrenceID` ≤ the current max (possible collision), or a
+location barcode that doesn't resolve. Nothing is written until you clear the staging.
+
+### Corrections — edit the override files, NOT the generated staging
+
+`--load` regenerates `*_staging.csv` from the OCR each run, so **manual edits to those files are
+overwritten.** Put human corrections in two small override files in `staging_2026/`, which `--load`
+re-applies every time (so the staging stays reproducible *and* corrected):
+
+- **`occurrence_overrides.csv`** (`eventID, occurrenceIDs, note`) — fix a mis-read plant-barcode
+  list. `occurrenceIDs` accepts ranges and lists, e.g. `2359-2368` or `2394,2412-2416`. The event's
+  occurrences are replaced and flagged `OVERRIDE`. (A real non-contiguous list with a field note —
+  e.g. "went back to add more samples" — is *not* an error; leave it as the OCR read it.)
+- **`location_overrides.csv`** (`barcode, locationID, …Location columns…, note`) — fill the
+  table-only / GPS-derived fields for a new site (`county`, `locality`, `verbatimElevation`, cleaned
+  lat/long). A new location's `locationID` defaults to its barcode; blank cells keep the staged value.
+- **`event_overrides.csv`** (`barcode, eventID, note`) — reassign a **reused event sticker** to a
+  free `eventID` (e.g. a 2026 sticker `0098` that clashes with a 2025 event → `268`); the event and
+  its occurrences are remapped to the new ID.
+
+### Form images as evidence (`--forms-mm`)
+
+After the records are loaded, `field_forms_ocr.py --forms-mm --apply` files each **field form photo**
+into `Multimedia` as durable evidence, so every Location and Event can be traced back to the paper
+sheet it came from:
+
+- Each form image is **ingested under the collision-proof name** (`LEPA_<date>_<sha8>.jpg`), copied
+  into `Multimedia_main/`, with `originalFilename` (the `PXL_…` name), `captureTimestamp`, `sha256`
+  kept as provenance — exactly like plant photos.
+- **Location form** → one `Multimedia` row, `tableID 9`, `locationID`. **Event form (2 pages)** → two
+  rows, `tableID 11`, `eventID`. All carry `type='field form'` and a descriptive `title`.
+- Idempotent (skips images already linked) and dry-run by default; backs up the DB on `--apply`.
+
+```sql
+SELECT * FROM Multimedia WHERE type='field form';     -- all field-sheet evidence
+SELECT identifier, title FROM Multimedia WHERE eventID = 268 AND type='field form';   -- a given event's sheets
+```
+
+---
+
+## Stage B — Plant images
+
+### Folder convention (what the field team does)
 
 **All raw images MUST be saved under `Multimedia_images/`** — this is the single source of truth
 for original photographs. Save each field day's images into a **date subfolder inside the year

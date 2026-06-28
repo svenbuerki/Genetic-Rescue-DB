@@ -32,10 +32,12 @@ SQL_DB/
 ├── README.md                            # This file
 ├── Multimedia_images/<year>/<date>/     # RAW field images (immutable source; one folder per field day)
 ├── Multimedia_main/                     # Renamed unique-name copies (LEPA_<date>_<sha8>.jpg) + file_registry.csv
-├── Multimedia_pipeline/                 # Image → database pipeline
-│   ├── IMAGE_PIPELINE_GUIDE.md          # ▶ how the pipeline works (start here)
+├── Field_forms/<year>/                  # photographed field sheets (Location + Event forms) — Stage A input
+├── Multimedia_pipeline/                 # field-form + image → database pipeline
+│   ├── IMAGE_PIPELINE_GUIDE.md          # ▶ how the pipeline works, both stages (start here)
 │   ├── DATA_QUALITY.md                  # ▶ data-quality status + tracked issues
-│   ├── 00_sort_by_date.py … 03_phenotype.py   # the four pipeline scripts
+│   ├── field_forms_ocr.py              # Stage A: forms → Locations/Events/Occurrences (+ form images)
+│   ├── 00_sort_by_date.py … 03_phenotype.py, stageB_load.py   # Stage B: plant images → Multimedia + Phenotyping
 │   ├── PIPELINE_LOG.md                  # running log of every --apply
 │   ├── REPORT_2025_measurement.md, REPORT_2026_pipeline_dryrun.md, ISSUE_filename_collision.md
 │   └── legacy_2025/                     # archived 2025 pipeline scripts
@@ -101,11 +103,16 @@ EO (Element Occurrence — federally designated population)
 ## Image → Database Pipeline (field photo to record)
 
 Every fruiting plant is photographed in the field with a whiteboard (ID + date + rulers).
-Those photos are the entry point for three tables — **Multimedia**, **Phenotyping**, and (from
-2026) **Occurrences** themselves. This section is the shared reference for the team before the
-**new adapted-board imaging protocol** begins.
+Those photos feed **Multimedia**, **Phenotyping**, and (from 2026) **Occurrences** themselves.
 
-> 📖 **Full pipeline guide:** [`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md) (folder convention, the four scripts, naming, idempotency). &nbsp; 🩺 **Data-quality status:** [`Multimedia_pipeline/DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md).
+**From 2026 the pipeline runs in two stages (forms first):**
+**Stage A — field forms → records** (`field_forms_ocr.py`): OCR the paper Location/Event sheets to
+create the `Locations`, `Events`, and `Occurrences` (with GPS), and file each form image into
+`Multimedia` as evidence. **Stage B — plant images → multimedia + phenotyping** (the four scripts
+below + `stageB_load.py`): link each whiteboard photo to its occurrence by board number and measure
+the plant. (In 2025 the flow was the reverse — link photos to already-digitized occurrences.)
+
+> 📖 **Full pipeline guide:** [`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md) (both stages, folder convention, naming, idempotency, override files). &nbsp; 🩺 **Data-quality status:** [`Multimedia_pipeline/DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md). &nbsp; 📊 **2026 campaign results:** [`Multimedia_pipeline/REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md).
 
 ### Two operating modes
 
@@ -169,10 +176,11 @@ A blind dry-run against records we already trust (full write-up:
 - **Guidance:** **size class is the primary size metric; cm is supporting.** A taller in-frame
   scale is the highest-value field-kit fix.
 
-**Current state (2026-06-27):** the pipeline is migrated and live — 948 images ingested under the
-new scheme, 809 `Multimedia` identifiers renamed, **Phenotyping = 741** (every occurrence image with
-a measurable plant), and a full integrity audit is clean. See
-[`DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md) for the standing items and tracked issues.
+**Current state (2026-06-28):** the pipeline is migrated and live, and the **2026 campaign is loaded** —
+Occurrences **894**, Events **254**, Phenotyping **817**, Multimedia **930** (incl. 40 field-form
+images + 80 2026 plant images). The 2026 field h/w validated the image phenotyping to **~±1 cm**. See
+[`DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md) for standing items + tracked issues and
+[`REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md) for the campaign write-up.
 
 > **For the field team:** structured board fields + GPS + on-board `h/w` + unique, never-reused
 > occurrence numbers are what make automated pre-population safe. Everything still passes a human
