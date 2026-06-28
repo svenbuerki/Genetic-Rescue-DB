@@ -1,6 +1,6 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-06-27**.
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-06-28**.
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -20,8 +20,8 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 894 (810 2025 + 84 2026). **Events:** 254. **Locations:** 40 (+EO69, the new 2026 site).
-- **Phenotyping:** 817 (741 2025 + 76 2026). **Multimedia:** 930 (incl. 40 2026 field-form images + 80 2026 plant images).
+- **Occurrences:** 940 (810 2025 + 130 2026). **Events:** 269. **Locations:** 40 (+EO69, the new 2026 site; EO38 2026 is a revisit of location 1).
+- **Phenotyping:** 859 (741 2025 + 118 2026). **Multimedia:** 1006 (incl. 71 2026 field-form images + 117 2026 plant images).
 - **Images:** unique `LEPA_<date>_<sha8>.jpg` scheme in `Multimedia_main/`; raw in `Multimedia_images/<year>/<date>/`.
 
 ## 2026 campaign (processed June 2026) — see [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)
@@ -32,13 +32,18 @@ on the 23 boards with field-written h/w, image measurement matched the field tap
 (20/21 within ±2 cm)** for both height and width — the technique is validated against ground truth.
 Reused-barcode collisions caught + fixed (event sticker `0098`→`268`).
 
+**Follow-up load (2026-06-28) — closed [#7](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/7) + [#8](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/8):**
+EO38 forms came in → +15 Events (239–241, 249–260), +37 Occurrences (2281–2317) on a **revisit of location 1**,
+34 plant images + 33 phenotyped, 31 form images as evidence. EO118 envelope event located → occ 2395–2403
+attached to **event 266**, 9 images + phenotyping linked. OCR section-4 fixes confirmed against plant boards
+(234→2314, 2205→2285, 2708→2308, 7310→2310; Event 255 = 2292–2299 per review).
+
 ## Standing items (known; not integrity faults)
 
 | # | Item | Detail | GitHub |
 |---|---|---|---|
-| 0a | **EO38 forms missing (2026)** | 33 EO38 plants photographed (boards ~2281–2317) but no EO38 field form in the batch → no event/location to attach; staged in `stageB_unmatched_review.csv`, not loaded. | [#7](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/7) |
 | 0b | **2026 collected occ without image** | 7 occurrences (EO76 ×5, EO69 ×1, EO118 ×1) have no linked plant photo — un-photographed or a board# mis-read. | [#6](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/6) |
-| 0c | **EO118 plants missing their event form** | 9 EO118 plants photographed + field-measured (boards 2395–2403, with h/w) but absent from the loaded forms — their event envelope was pulled for seed cleaning. Staged in `stageB_unmatched_review.csv`, not loaded. | [#8](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/8) |
+| 0d | **EO38 image residuals** | occ **2282** not photographed (board **2202** is an image with no occurrence — likely a 2282 misread, in `stageB_unmatched_review.csv` for a human check); occ **2288 & 2292** photographed but no plant in frame → linked board-only, tagged `NOT PHENOTYPED`. | (within #7) |
 | 1 | **Un-phenotyped: plant below board** | 18 occurrence images where the plant was photographed on the ground below/beside the board (no scale reference) → size indeterminate. Tagged in `Multimedia.remarks` (`NOT PHENOTYPED`). | [#5](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/5) |
 | 2 | **Un-phenotyped: image lost** | occ 220 (`EO27 Figgins - Occurrence 220.jpg`) deleted from Drive, no copy. Record retained, `IMAGE LOST` in remarks. | [#5](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/5) |
 | 3 | **No-board context images** | 48 location-level images (transit/landscape/crew) auto-attached to the nearest site; need a human to confirm content + locationID. `Multimedia.remarks LIKE 'NEEDS CURATION%'`. | [#4](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/4) |
@@ -48,6 +53,9 @@ Reused-barcode collisions caught + fixed (event sticker `0098`→`268`).
 
 ## Resolved this session (2026-06)
 
+- **#7 EO38 forms & #8 EO118 event** (2026-06-28) — both closed. EO38 forms OCR'd and loaded (revisit of
+  location 1; +15 Events, +37 Occurrences, plant images + form evidence); EO118 occ 2395–2403 attached to
+  event 266. See the 2026-campaign follow-up note above and the GitHub issues.
 - **Filename collisions** — camera `JCN_####` numbering resets yearly; 2026 frames had overwritten 56
   of the 2025 images. Recovered all 56 from `work/full/`; root-caused and fixed by a content-addressed
   naming scheme. See [`ISSUE_filename_collision.md`](ISSUE_filename_collision.md).

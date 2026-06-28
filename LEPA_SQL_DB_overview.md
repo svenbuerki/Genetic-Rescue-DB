@@ -86,17 +86,37 @@ EO (Element Occurrence — federally designated population)
                 └── Germplasm (seed accession from that plant)
 ```
 
-### Summer 2025 Snapshot
+### Field campaigns at a glance (2025 vs 2026-so-far)
 
-| Entity | Count |
-|--------|-------|
-| Element Occurrences (EOs) sampled | 19 |
-| Locations | 39 |
-| Events (slick spots) | 237 |
-| Occurrences (fruiting plants) | 810 |
-| Germplasm accessions | 785 |
-| Seeds biobanked (estimated) | 476,140 |
-| Hand-pollination crosses | 43 |
+| Metric | 2025 | 2026 (so far) |
+|---|---|---|
+| **EOs sampled** | 19 | 7 |
+| **Locations** | 39 | 7 (6 revisits + 1 new site, EO69) |
+| **Events** (slick spots) | 237 | 32 |
+| **Occurrences** (fruiting plants) | 810 | 130 |
+| &nbsp;&nbsp;in situ (field) / ex situ (greenhouse) | 765 / 45 | 130 / 0 |
+| **Image-phenotyped** (of in-situ field plants) | 741 / 765 (**97%**) | 118 / 130 (91%) |
+| &nbsp;&nbsp;size class — small / medium / large | 387 / 241 / 113 | 31 / 52 / 35 |
+| &nbsp;&nbsp;median height; crown width | 9 cm; 9 cm | 14 cm; 13 cm |
+
+*2026 EOs: EO38, EO52, EO68, EO69, EO70, EO76, EO118. The 2025 occurrences are a mix of **765 in-situ
+field plants** (photographed with boards → phenotyped) and **45 ex-situ greenhouse-grown accessions**
+(not field-photographed; imaged later by design). 2025 also produced 785 germplasm accessions
+(~476,140 estimated seeds) and 43 hand-pollination crosses; 2026 biobanking is in progress.*
+
+**Take-home from the phenotyping (859 plants measured from field photos):**
+
+1. **The image measurement is validated.** On the 21 plants whose boards carried a field-written
+   height/width, the photo estimate matched the hand tape to a **median of ±1 cm** (height **20/21**
+   within ±2 cm; width **20/21** within ±2 cm). The low-cost photo method reproduces tape
+   measurements — with **size class as the robust primary metric and cm as supporting**.
+2. **Coverage of field plants is high** — **97%** of 2025 *in-situ* plants (741/765) and **91%** of
+   2026's (118/130) were phenotyped, from the *same* photos that link each occurrence (one image →
+   link + trait). The **45 ex-situ greenhouse accessions** (2025) carry no field board photo and are
+   imaged later by design ([#3](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/3)).
+3. **2025 skewed small** (52% small; median 9 cm); **2026-so-far skews larger** (median 14 cm; more
+   medium/large). This is **preliminary** — 2026 covers only 7 EOs / 130 plants and may reflect which
+   sites and dates have been processed rather than a real size shift.
 
 ---
 
@@ -129,15 +149,26 @@ human review gate** — no record is written until a person approves the staged 
 
 ### The adapted 2026 board (what every field photo should carry)
 
-```
- O  = occurrence (one unique number per plant, never reused)
- EO = Element Occurrence code            L = Location code (resolves to GPS)
- h  = height (cm)     w = crown width (cm)        date
- + two rulers for scale  + a taller scale for large plants
-```
+![The revised 2026 LEPA field board](Documentation/Figures/LEPA_board_2026.jpg)
 
-A coordinate (or a Location code that resolves to one) **must** accompany each board: a
-`Location` is *defined* by its GPS, so without it no Occurrence can be created.
+The board carries every key the pipeline needs, plus two rulers for in-frame scale. Each printed
+label maps to one database field:
+
+| Board label | Database field | Notes |
+|---|---|---|
+| **OC** | `occurrenceID` | the unique plant barcode — one number per plant, never reused |
+| **EV** | `eventID` | the sampling event (slick spot) |
+| **EO** | `EOCode` | Element Occurrence code |
+| **L#** | `locationID` | the site — **resolves to GPS** |
+| **D** | `eventDate` | |
+| **W:** | `occurrenceCrownSize` (cm) | crown width, read against the rulers |
+| **H:** | `occurrenceHeight` (cm) | plant height, read against the rulers |
+| colour **sticker** | board size class | board size is matched to the plant; the sticker colour (blue here) encodes which board was used |
+| two **rulers** | scale | `x` and `y` axes, graduated **1–24 cm**, for image-based measurement |
+
+`W`/`H` are written in the field and double as a **ground-truth check** on the image-measured values
+(2026 validation: ±1 cm). A coordinate — or an `L#` that resolves to one — **must** accompany each
+board: a `Location` is *defined* by its GPS, so without it no Occurrence can be created.
 
 ### Storage & collision-proof naming
 

@@ -24,6 +24,31 @@ exist (from Stage A), so the board number is just a lookup.
 
 ---
 
+## The field board (what each plant photo carries)
+
+![The revised 2026 LEPA field board](../Documentation/Figures/LEPA_board_2026.jpg)
+
+Every plant is photographed against this board. Its printed labels are the keys the OCR sweep reads,
+and each maps to one database field — so a single photo carries the link **and** the measurement:
+
+| Board label | Database field | Notes |
+|---|---|---|
+| **OC** | `occurrenceID` | unique plant barcode — one per plant, never reused (the Stage B lookup key) |
+| **EV** | `eventID` | sampling event (slick spot) |
+| **EO** | `EOCode` | Element Occurrence code |
+| **L#** | `locationID` | site — resolves to GPS |
+| **D** | `eventDate` | |
+| **W:** | `occurrenceCrownSize` (cm) | crown width |
+| **H:** | `occurrenceHeight` (cm) | plant height |
+| colour **sticker** | board size class | board size is matched to the plant; the sticker colour (blue here) encodes which board was used |
+| two **rulers** | scale | `x` and `y` axes, graduated **1–24 cm**, for image-based measurement |
+
+The field-written **W/H** double as ground truth for the image-measured values — the 2026 check put
+the photo estimate within **±1 cm** of the tape. Larger plants use a larger board (different sticker
+colour); the rulers are always 1–24 cm so the scale is read the same way regardless of board size.
+
+---
+
 ## Stage A — Field forms (`field_forms_ocr.py`)
 
 Field crews fill paper forms (templates in `Protocols/`; the `…_with_terms` / `…_w_Terms` versions

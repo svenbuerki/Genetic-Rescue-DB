@@ -248,8 +248,10 @@ def commit(db, apply):   # GATED LOAD: reviewed staging -> DB (Locations -> Even
     print(f"GATED LOAD plan (Stage A) — to INSERT: {len(new_locs)} Locations, {len(new_events)} Events, {len(new_occs)} Occurrences")
     print(f"  already in DB / skipped: {skipped[0]} loc, {skipped[1]} ev, {skipped[2]} occ")
     if new_locs: print(f"  new Location(s): " + ", ".join(f"{l['locationID']}={l.get('locationCode')}" for l in new_locs))
-    print(f"  eventID range {min(int(e['eventID']) for e in new_events)}-{max(int(e['eventID']) for e in new_events)}; "
-          f"occurrenceID range {min(int(o['occurrenceID']) for o in new_occs)}-{max(int(o['occurrenceID']) for o in new_occs)}")
+    def _rng(rows, key):  # guard min()/max() when a batch adds only some entity types
+        ids = [int(r[key]) for r in rows]
+        return f"{min(ids)}-{max(ids)}" if ids else "none"
+    print(f"  eventID range {_rng(new_events, 'eventID')}; occurrenceID range {_rng(new_occs, 'occurrenceID')}")
     if problems:
         print("  ⚠ INTEGRITY PROBLEMS (fix before load):"); [print("     -", p) for p in problems[:20]]
         con.close(); return

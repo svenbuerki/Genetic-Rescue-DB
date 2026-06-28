@@ -16,6 +16,16 @@ TWO MODES
                flags (NEW_EO / NEEDS_LOCATION / OCC_EXISTS / LOW_OCR). No occurrence rows are
                created here: that is the gated load step (review the staging first).
 
+THE FIELD BOARD (revised 2026; photo: ../Documentation/Figures/LEPA_board_2026.jpg).
+Each plant photo is taken against a whiteboard whose printed labels map 1:1 to DB fields:
+  OC -> occurrenceID (the board_number = the Stage B lookup key)   EV -> eventID
+  EO -> EOCode        L# -> locationID (resolves to GPS)           D  -> eventDate
+  W: -> occurrenceCrownSize (cm)   H: -> occurrenceHeight (cm)
+  colour sticker -> board size class (board matched to plant size; here blue)
+  two rulers, x & y axes, graduated 1-24 cm -> the scale for image measurement
+Read OC as board_number; EV/EO/L#/D are cross-checks against the Stage-A record; W/H are the
+field-written board_w_cm/board_h_cm (ground truth for the image estimate).
+
 RESULTS CSV columns expected by --load:
   new_name, board_number, eo_code, date_raw, locality, plant_present,
   [optional] board_h_cm, board_w_cm, ocr_confidence
