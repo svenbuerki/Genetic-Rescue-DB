@@ -21,8 +21,9 @@ Each plant photo is taken against a whiteboard whose printed labels map 1:1 to D
   OC -> occurrenceID (the board_number = the Stage B lookup key)   EV -> eventID
   EO -> EOCode        L# -> locationID (resolves to GPS)           D  -> eventDate
   W: -> occurrenceCrownSize (cm)   H: -> occurrenceHeight (cm)
-  colour sticker -> board size class (board matched to plant size; here blue)
-  two rulers, x & y axes, graduated 1-24 cm -> the scale for image measurement
+  colour sticker -> board SIZE: blue = standard (rulers 1-24 cm), orange = large (rulers to 40 cm x / ~33 cm y)
+  two rulers, x & y axes -> the scale for image measurement; READ THE BOARD'S OWN graduations
+                           (do not assume 24 cm — a large/orange board goes to 40 cm)
 Read OC as board_number; EV/EO/L#/D are cross-checks against the Stage-A record; W/H are the
 field-written board_w_cm/board_h_cm (ground truth for the image estimate).
 

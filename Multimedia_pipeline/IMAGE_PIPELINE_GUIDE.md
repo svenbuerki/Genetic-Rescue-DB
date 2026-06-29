@@ -26,10 +26,17 @@ exist (from Stage A), so the board number is just a lookup.
 
 ## The field board (what each plant photo carries)
 
-![The revised 2026 LEPA field board](../Documentation/Figures/LEPA_board_2026.jpg)
+Plants are photographed against the field board, which comes in **two sizes** identified by **sticker
+colour**: a **standard** board (blue sticker, rulers **1–24 cm**) and a **large** board (orange
+sticker, rulers **to 40 cm** on the x-axis, ~33 cm on the y-axis) for big plants. **Both boards carry
+the identical labels** — only the ruler range differs.
 
-Every plant is photographed against this board. Its printed labels are the keys the OCR sweep reads,
-and each maps to one database field — so a single photo carries the link **and** the measurement:
+| Standard (blue) — rulers 1–24 cm | Large (orange) — rulers to 40 cm |
+|---|---|
+| ![Standard blue board](../Documentation/Figures/LEPA_board_2026.jpg) | ![Large orange board](../Documentation/Figures/LEPA_large_board_2026.jpg) |
+
+The printed labels are the keys the OCR sweep reads, and each maps to one database field — so a single
+photo carries the link **and** the measurement:
 
 | Board label | Database field | Notes |
 |---|---|---|
@@ -40,12 +47,14 @@ and each maps to one database field — so a single photo carries the link **and
 | **D** | `eventDate` | |
 | **W:** | `occurrenceCrownSize` (cm) | crown width |
 | **H:** | `occurrenceHeight` (cm) | plant height |
-| colour **sticker** | board size class | board size is matched to the plant; the sticker colour (blue here) encodes which board was used |
-| two **rulers** | scale | `x` and `y` axes, graduated **1–24 cm**, for image-based measurement |
+| colour **sticker** | board size | encodes which board: **blue = standard**, **orange = large** |
+| two **rulers** | scale | `x` and `y` axes for image measurement — **read the board's own graduations** (24 cm on the standard board, 40 cm on the large board) |
 
-The field-written **W/H** double as ground truth for the image-measured values — the 2026 check put
-the photo estimate within **±1 cm** of the tape. Larger plants use a larger board (different sticker
-colour); the rulers are always 1–24 cm so the scale is read the same way regardless of board size.
+**For OCR + phenotyping:** first identify the board from its sticker colour / ruler range, then measure
+the plant **against that board's own graduations** — the standard board tops out at 24 cm, the large
+board at 40 cm, so a plant read against the wrong scale would be badly mis-sized. The field-written
+**W/H** double as ground truth (2026 check: within **±1 cm** of the tape; **size class primary, cm
+supporting**).
 
 ---
 

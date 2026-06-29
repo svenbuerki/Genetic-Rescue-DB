@@ -165,10 +165,21 @@ human review gate** — no record is written until a person approves the staged 
 
 ### The adapted 2026 board (what every field photo should carry)
 
-![The revised 2026 LEPA field board](Documentation/Figures/LEPA_board_2026.jpg)
+The board comes in **two sizes**, chosen to fit the plant and identified by **sticker colour**. Both
+carry the **same printed labels** — only the ruler range differs, so an image is read the same way
+whichever board was used.
 
-The board carries every key the pipeline needs, plus two rulers for in-frame scale. Each printed
-label maps to one database field:
+| | **Standard board** | **Large board** |
+|---|---|---|
+| Sticker colour | blue | orange |
+| Rulers (x · y) | 1–24 cm · 1–~18 cm | 1–40 cm · 1–~33 cm |
+| Use for | small–medium plants | large plants |
+
+| Standard (blue) | Large (orange) |
+|---|---|
+| ![Standard blue 2026 LEPA field board](Documentation/Figures/LEPA_board_2026.jpg) | ![Large orange 2026 LEPA field board](Documentation/Figures/LEPA_large_board_2026.jpg) |
+
+Each printed label maps to one database field:
 
 | Board label | Database field | Notes |
 |---|---|---|
@@ -179,8 +190,8 @@ label maps to one database field:
 | **D** | `eventDate` | |
 | **W:** | `occurrenceCrownSize` (cm) | crown width, read against the rulers |
 | **H:** | `occurrenceHeight` (cm) | plant height, read against the rulers |
-| colour **sticker** | board size class | board size is matched to the plant; the sticker colour (blue here) encodes which board was used |
-| two **rulers** | scale | `x` and `y` axes, graduated **1–24 cm**, for image-based measurement |
+| colour **sticker** | board size | encodes which board: **blue = standard**, **orange = large** |
+| two **rulers** | scale | `x` and `y` axes for image measurement — **read the board's own graduations** (to 24 cm on the standard board, to 40 cm on the large board) |
 
 `W`/`H` are written in the field and double as a **ground-truth check** on the image-measured values
 (2026 validation: ±1 cm). A coordinate — or an `L#` that resolves to one — **must** accompany each

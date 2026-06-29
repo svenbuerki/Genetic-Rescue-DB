@@ -104,7 +104,8 @@ changed for ~33%** of plants, almost all *adjacent* classes near the 10/20 cm th
 
 - **#1** — board `289` reused on two plants (one image held pending the correct ID).
 - **#2** — 56 board-date ≠ `occurrenceDate`, plus 26 location-label candidates (blocks
-  occ 122–144 `EO30-2`/`EO30-1`, occ 441–443 `EO24-7`/`EO24-1`).
+  occ 122–144 `EO30-2`/`EO30-1`). *Resolved 2026-06-29: occ 441–443 (location 25) confirmed by Ian as
+  `EO24-7` — `Locations.locationCode` corrected; the board read was right.*
 - **#3** — 50 occurrences without images (the 5 in-situ field gaps + 45 ex-situ), requesting
   team support to source the field-plant photos.
 - **#4** — 48 no-whiteboard context images (transit / landscape) added to `Multimedia` with

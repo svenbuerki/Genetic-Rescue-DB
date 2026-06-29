@@ -14,9 +14,17 @@ TWO MODES
   --load FILE  Insert the agent results into Phenotyping (backup + dry-run first), link each to its
                source image (multimediaID) and occurrence, then append to PIPELINE_LOG.md.
 
+THE BOARD HAS TWO SIZES (photo: ../Documentation/Figures/LEPA_board_2026.jpg [standard] &
+LEPA_large_board_2026.jpg [large]). Measure the plant against THE BOARD'S OWN rulers, identified by
+sticker colour: blue/standard = rulers 1-24 cm; orange/large = rulers to 40 cm (x), ~33 cm (y). Do not
+assume 24 cm — a plant photographed on the large board against the 40 cm ruler must be scaled to it, or
+its height/crown will be badly under-read. The board's field-written W/H (occurrenceCrownSize /
+occurrenceHeight, in cm) are ground truth; if the image cannot be measured but W/H are written, the
+board values may be entered (measurementMethod='field tape'). Size class is the primary metric.
+
 RESULTS CSV columns expected by --load:
   occurrenceID, multimediaID, occurrenceHeight, occurrenceCrownSize, occurrenceSizeClass,
-  measurementMethod(ruler|1cm-tile), measurementConfidence(high|med|low),
+  measurementMethod(ruler|1cm-tile|field tape), measurementConfidence(high|med|low),
   [optional] boardHeight, boardWidth   (field-written h/w, for the validation case study)
 
 Usage:
