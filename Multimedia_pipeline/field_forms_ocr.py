@@ -258,7 +258,7 @@ def commit(db, apply):   # GATED LOAD: reviewed staging -> DB (Locations -> Even
     if not apply:
         print("\nDRY-RUN. Re-run with --commit --apply to write (DB backed up first)."); con.close(); return
 
-    bak = Path(db).with_name(Path(db).name + ".bak-formsload-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S"))
+    _bk = Path(db).parent / "db_backups"; _bk.mkdir(exist_ok=True); bak = _bk / (Path(db).name + ".bak-formsload-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S"))
     shutil.copy2(db, bak)
     def ins(table, rows):
         for r in rows:
@@ -312,7 +312,7 @@ def forms_multimedia(db, apply):   # link the field-form images to their Locatio
     if missing: print(f"  ⚠ {len(missing)} form images missing on disk: {missing[:5]}")
     if not apply:
         print("DRY-RUN. Re-run with --forms-mm --apply (copies images to Multimedia_main + inserts Multimedia rows)."); con.close(); return
-    bak = Path(db).with_name(Path(db).name + ".bak-formsmm-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")); shutil.copy2(db, bak)
+    _bk = Path(db).parent / "db_backups"; _bk.mkdir(exist_ok=True); bak = _bk / (Path(db).name + ".bak-formsmm-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")); shutil.copy2(db, bak)
     MAIN.mkdir(exist_ok=True)
     for p in todo:
         dst = MAIN / p["newname"]

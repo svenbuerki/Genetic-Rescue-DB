@@ -81,7 +81,7 @@ def load(db, results, apply):
     if not apply:
         print("DRY-RUN. Re-run with --apply to insert."); con.close(); return
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
-    bak = Path(db).with_name(Path(db).name + f".bak-pheno-{stamp}"); shutil.copy2(db, bak)
+    _bk = Path(db).parent / "db_backups"; _bk.mkdir(exist_ok=True); bak = _bk / (Path(db).name + f".bak-pheno-{stamp}"); shutil.copy2(db, bak)
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     for r in ins:
         cur.execute("""INSERT INTO Phenotyping

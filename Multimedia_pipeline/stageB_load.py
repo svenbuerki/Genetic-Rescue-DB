@@ -46,7 +46,7 @@ def main():
     if not a.apply:
         print("DRY-RUN. Re-run with --apply to write (DB backed up first)."); con.close(); return
 
-    bak = DB.with_name(DB.name + ".bak-stageB-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")); shutil.copy2(DB, bak)
+    _bk = DB.parent / "db_backups"; _bk.mkdir(exist_ok=True); bak = _bk / (DB.name + ".bak-stageB-" + datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")); shutil.copy2(DB, bak)
     occ_to_mmid = {}
     for m in new_mm:
         occ = int(m["occurrenceID"]); ident = m["identifier"]; rr = reg.get(ident, {})

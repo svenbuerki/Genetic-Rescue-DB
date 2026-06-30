@@ -146,7 +146,7 @@ def main():
         con.close(); return
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
-    bak = db.with_name(db.name + f".bak-ingest-{stamp}"); shutil.copy2(db, bak)
+    _bk = db.parent / "db_backups"; _bk.mkdir(exist_ok=True); bak = _bk / (db.name + f".bak-ingest-{stamp}"); shutil.copy2(db, bak)
     main_dir.mkdir(parents=True, exist_ok=True)
     for col, typ in PROV_COLS:
         if col not in have_cols:
