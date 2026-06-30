@@ -12,6 +12,35 @@ Turns field whiteboard photos of *Lepidium papilliferum* into linked database re
 
 ---
 
+## Requirements & setup (deploying to another computer)
+
+Plain **Python 3** (developed on 3.14, 3.9+ is fine) + **SQLite**, with two third-party packages and
+one system library. On a fresh machine:
+
+1. **Python deps** — `pip install -r Multimedia_pipeline/requirements.txt` (**Pillow** + **pyzbar**).
+   Everything else is the standard library (`sqlite3`, `csv`, `json`, `re`, `argparse`, `shutil`,
+   `hashlib`, `pathlib`).
+2. **zbar system library** — pyzbar needs it to decode the Event-sticker barcodes:
+   - macOS: `brew install zbar`, then run python with `DYLD_LIBRARY_PATH=/opt/homebrew/lib …`
+   - Debian/Ubuntu: `sudo apt-get install libzbar0` · Fedora: `sudo dnf install zbar`
+3. **HEIC → JPG** — board/form photos sometimes arrive as `.heic`: macOS `sips` (built-in); on Linux
+   use ImageMagick (`magick`) or libheif (`heif-convert`).
+4. **git + GitHub CLI (`gh`)** — for syncing docs/code to the public repo.
+5. **OCR & plant measurement run in-session in Claude Code** (subscription) — there are **no local ML
+   dependencies**; read-only agent sweeps read the boards/forms and the scripts ingest the results.
+
+| Component | Version used | Purpose |
+|---|---|---|
+| Python | 3.14 (3.9+) | run the scripts |
+| SQLite | 3.51 (bundled with Python) | the database (`LEPA_SQL.db`) |
+| Pillow | ≥ 10 | image IO |
+| pyzbar + zbar | 0.1.9 / 0.23 | decode CODE128 Event-sticker barcodes |
+| git / gh | 2.39 / 2.89 | repo sync |
+
+Run every script from the **`SQL_DB/`** directory (all paths are relative to it).
+
+---
+
 ## The full pipeline — two stages (run in order)
 
 **Stage A — Field forms → core records.** OCR the paper field sheets (one Location form, then
@@ -151,6 +180,33 @@ sheet it came from:
 SELECT * FROM Multimedia WHERE type='field form';     -- all field-sheet evidence
 SELECT identifier, title FROM Multimedia WHERE eventID = 268 AND type='field form';   -- a given event's sheets
 ```
+
+### Barcode verification — ground-truth the event numbers (`verify_event_barcodes.py`)
+
+Each **Event sticker** carries a printed **CODE128 barcode** with the event number written beneath it.
+Reading the *digits* by OCR is error-prone (6→8 and similar misreads); **decoding the barcode itself is
+ground truth.** This is now a standard data-quality step.
+
+- **Before loading a new batch:** read the barcode on each event page-1 image so events enter the DB
+  with verified numbers, instead of trusting the digit-OCR:
+  ```bash
+  DYLD_LIBRARY_PATH=/opt/homebrew/lib python3 Multimedia_pipeline/verify_event_barcodes.py \
+      --image Field_forms/2026/PXL_20260630_171632194.MP.jpg     # -> prints the true event number
+  ```
+- **Audit what's already loaded:** decode every event's linked form image and compare to its stored
+  `eventID`:
+  ```bash
+  DYLD_LIBRARY_PATH=/opt/homebrew/lib python3 Multimedia_pipeline/verify_event_barcodes.py --audit
+  #   event  269 -> barcode [269]   MATCH      ...      32 events | 32 MATCH | 0 MISMATCH
+  ```
+- The script is **read-only**. This audit caught **5 mis-entered 2026 events** (stored
+  `265/281/282/285/288` → true `263/261/262/265/269`); each was corrected with a backed-up **two-phase
+  renumber** (old → temp → true) cascading `Events` + `Occurrences` + `Multimedia`, so chained swaps
+  (e.g. 265↔263↔285) can't collide mid-update.
+- **Scope:** only the **Event stickers** are barcoded. The plant-board `OC`/`EV` fields are *handwritten*
+  (no barcode), so occurrence numbers still rely on board OCR + form reconciliation. And a *field note*
+  about which number was skipped can still be wrong — trust the decoded barcode (it showed one 2026 gap
+  was at event 277, not 271 as recalled in the field).
 
 ---
 

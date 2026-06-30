@@ -53,6 +53,11 @@ attached to **event 266**, 9 images + phenotyping linked. OCR section-4 fixes co
 
 ## Resolved this session (2026-06)
 
+- **Event-barcode audit** (2026-06-30) — new protocol: decode the **CODE128 barcode** on each Event
+  sticker instead of trusting digit-OCR (`Multimedia_pipeline/verify_event_barcodes.py`). The audit
+  found **5 mis-entered 2026 events** (stored `265/281/282/285/288` → true `263/261/262/265/269`); all
+  corrected by a backed-up two-phase renumber cascading Events/Occurrences/Multimedia. Now `32/32`
+  loaded 2026 events match their barcode. (Setup: see "Requirements & setup" in the pipeline guide.)
 - **#7 EO38 forms & #8 EO118 event** (2026-06-28) — both closed. EO38 forms OCR'd and loaded (revisit of
   location 1; +15 Events, +37 Occurrences, plant images + form evidence); EO118 occ 2395–2403 attached to
   event 266. See the 2026-campaign follow-up note above and the GitHub issues.

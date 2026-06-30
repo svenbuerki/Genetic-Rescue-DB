@@ -1,0 +1,15 @@
+# LEPA Multimedia pipeline — Python dependencies  (pip install -r requirements.txt)
+# Python 3.9+  (developed on 3.14).  sqlite3 is in the standard library.
+Pillow>=10            # image IO for form/board photos
+pyzbar>=0.1.9         # decode CODE128 Event-sticker barcodes (needs the zbar SYSTEM lib — see setup)
+#
+# Standard library (no install needed): sqlite3, csv, json, re, argparse, shutil, hashlib, pathlib, datetime, os, sys
+#
+# SYSTEM dependency for pyzbar — the zbar shared library:
+#   macOS:        brew install zbar      (then run python with DYLD_LIBRARY_PATH=/opt/homebrew/lib)
+#   Debian/Ubuntu: sudo apt-get install libzbar0
+#   Fedora:       sudo dnf install zbar
+# HEIC->JPG conversion of board/form photos uses macOS `sips` (built-in); on Linux use
+#   ImageMagick (`magick`) or libheif (`heif-convert`).
+# Repo sync uses git + the GitHub CLI (gh).
+# OCR / plant measurement is done in-session by Claude (Claude Code subscription) — no Python ML deps.
