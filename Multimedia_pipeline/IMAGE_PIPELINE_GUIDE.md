@@ -208,6 +208,22 @@ ground truth.** This is now a standard data-quality step.
   about which number was skipped can still be wrong — trust the decoded barcode (it showed one 2026 gap
   was at event 277, not 271 as recalled in the field).
 
+### Associated taxa — homogenized to the `Taxonomy` table
+
+Field crews write `associatedTaxa` as free-text shorthand with heavy spelling variation (`cheatrgass`,
+`crust`, `BSC`, `festuce`…). The loader **homogenizes it on `--load`** so the field becomes structured:
+
+- Each token is mapped through **`taxa_lexicon.csv`** (a local `variant → standard_name → taxonID`
+  table) to a **`Taxonomy.taxonID`**; the event's `associatedTaxa` is stored as a **`;`-separated list
+  of taxonIDs** (e.g. `2;4;19`), and the **verbatim original is preserved in `associatedTaxaOriginal`**
+  (Term 71) so nothing is lost and the mapping is auditable.
+- Tokens not in the lexicon are left in a **`_taxa_unknown`** review column in the staging (never
+  guessed) — review them, then add the taxon to `Taxonomy` + a row to `taxa_lexicon.csv`.
+- The **`Taxonomy`** table is Darwin Core (`family / genus / specificEpithet / taxonRank / WFOID /
+  taxonomicStatus`) with a **`taxonRemarks`** column holding the common name + confidence + expert
+  notes (e.g. *fescue = Vulpia microstachys, confirmed by Ian; NOT Festuca*). Lexicon variants and
+  common names (incl. field experts') resolve to the same taxonID, so future forms normalize the same way.
+
 ---
 
 ## Stage B — Plant images

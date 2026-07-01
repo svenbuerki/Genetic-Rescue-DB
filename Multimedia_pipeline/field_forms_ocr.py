@@ -60,6 +60,28 @@ def norm_date(s):    # "06-15-26" / "6/22/2026" / "6/22/26" -> "MM-DD-YYYY" (DB 
     mo, d, y = m.groups(); y = ("20" + y) if len(y) == 2 else y
     return f"{int(mo):02d}-{int(d):02d}-{y}"
 
+def load_taxa_lexicon():   # variant (lowercased) -> (taxonID, standard_name); homogenizes associatedTaxa
+    lex = {}
+    p = Path(__file__).resolve().parent / "taxa_lexicon.csv"
+    if p.exists():
+        for row in csv.DictReader(open(p)):
+            v = (row.get("variant") or "").strip()
+            if v: lex[v.lower()] = (row.get("taxonID") or "", row.get("standard_name") or "")
+    return lex
+
+def normalize_taxa(raw, lex):   # "cheatrgass|crust" -> ("2;35", verbatim, [unknown tokens])
+    if not raw or not lex: return (raw or None), raw, []
+    ids, unknown = [], []
+    for tok in re.split(r"[|,;]", str(raw)):
+        tok = tok.strip()
+        if not tok: continue
+        hit = lex.get(tok.lower())
+        if hit and hit[0]:
+            if hit[0] not in ids: ids.append(hit[0])   # -> Taxonomy.taxonID
+        else:
+            unknown.append(tok)                        # keep for review; verbatim stays in Original
+    return (";".join(ids) if ids else None), raw, unknown
+
 def worklist(year):
     d = FORMS / year
     imgs = sorted(p for p in d.iterdir() if p.suffix.lower() in (".jpg", ".jpeg") and not p.name.startswith("."))
@@ -112,6 +134,7 @@ def load(db, results):
     # county / locality / verbatimElevation are GPS-derived (Google-Maps lookup) -> left blank + flagged for new sites
 
     locs, events, occs = {}, [], []
+    taxa_lex = load_taxa_lexicon()                          # associatedTaxa -> Taxonomy.taxonID homogenization
     cur_loc = None; pending_event = None
     def norm_eo(s):
         m = re.search(r"(\d+)", str(s or "")); return f"EO{int(m.group(1))}" if m else None
@@ -144,14 +167,16 @@ def load(db, results):
             stated = r.get("location_barcode"); sb = barcode_int(stated); loc = cur_loc   # ORDER primary
             locflag = f"LOC_REF={stated}?" if (sb and cur_loc and sb != cur_loc and sb in loc_full) else ""
             evid = barcode_int(r.get("event_barcode")); evid = ev_id_overrides.get(evid, evid)   # reassign reused sticker
+            at_ids, at_orig, at_unknown = normalize_taxa(r.get("associated_taxa"), taxa_lex)
             pending_event = dict(eventID=evid, eventDate=r.get("event_date"), locationID=loc,
                                  eventDecimalLatitude=r.get("event_lat"), eventDecimalLongitude=r.get("event_long"),
                                  eventSizeValue=r.get("size_value"), eventDefinition=r.get("defined"),
                                  eventCondition=r.get("condition"), organismQuantityFertile=r.get("fertile"),
                                  organismQuantityVegetative=r.get("vegetative"),
                                  measurementValuePlantArea=r.get("plant_area"), measurementValuePlantAreaUnit="",
-                                 associatedTaxa=r.get("associated_taxa"), eventRemarks=None, **EVT_DEFAULTS,
-                                 _stated_location=stated, _locflag=locflag, _conf=r.get("confidence"), _src_p1=src)
+                                 associatedTaxa=at_ids, associatedTaxaOriginal=at_orig, eventRemarks=None, **EVT_DEFAULTS,
+                                 _stated_location=stated, _locflag=locflag, _conf=r.get("confidence"), _src_p1=src,
+                                 _taxa_unknown="; ".join(at_unknown))
             events.append(pending_event)
         elif pt == "event_p2":  # → Occurrences (all new; section-4 plant barcodes)
             ev0 = pending_event["eventID"] if pending_event is not None else None
@@ -186,7 +211,7 @@ def load(db, results):
     w(STAGE / "locations_staging.csv",
       ["locationID","locationCode","EOID","subEOID","locationDecimalLatitude","locationDecimalLongitude","verbatimElevation","landscapeHealth","locationRemarks","locality","county","stateProvince","country","_src_image","_barcode","_flag","_needs","_dscn","_conf","_form_lat","_form_long"], list(locs.values()))
     w(STAGE / "events_staging.csv",
-      ["eventID","eventDate","locationID","eventDecimalLatitude","eventDecimalLongitude","eventSizeValue","eventSizeUnit","eventDefinition","eventCondition","organismQuantityFertile","organismQuantityVegetative","measurementValuePlantArea","measurementValuePlantAreaUnit","associatedTaxa","eventRemarks","_src_images","_stated_location","_locflag","_conf"], events)
+      ["eventID","eventDate","locationID","eventDecimalLatitude","eventDecimalLongitude","eventSizeValue","eventSizeUnit","eventDefinition","eventCondition","organismQuantityFertile","organismQuantityVegetative","measurementValuePlantArea","measurementValuePlantAreaUnit","associatedTaxa","associatedTaxaOriginal","eventRemarks","_src_images","_stated_location","_locflag","_conf","_taxa_unknown"], events)
     w(STAGE / "occurrences_staging.csv",
       ["occurrenceID","taxonID","basisOfRecord","reproductiveCondition","provenance","eventID","locationID","EOID","occurrenceDate","occurrenceRemarks","_src_image","_EO","_flags"], occs)
 
