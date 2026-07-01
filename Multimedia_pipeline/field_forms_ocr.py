@@ -72,7 +72,7 @@ def load_taxa_lexicon():   # variant (lowercased) -> (taxonID, standard_name); h
 def normalize_taxa(raw, lex):   # "cheatrgass|crust" -> ("2;35", verbatim, [unknown tokens])
     if not raw or not lex: return (raw or None), raw, []
     ids, unknown = [], []
-    for tok in re.split(r"[|,;]", str(raw)):
+    for tok in re.split(r"[|,;/]", str(raw)):
         tok = tok.strip()
         if not tok: continue
         hit = lex.get(tok.lower())

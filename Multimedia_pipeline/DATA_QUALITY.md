@@ -1,6 +1,6 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-06-30**.
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-01**.
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -20,8 +20,8 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 1044 (810 2025 + 234 2026). **Events:** 301. **Locations:** 40 (+EO69, the new 2026 site; EO38 & EO18-7 2026 are revisits).
-- **Phenotyping:** 964 (741 2025 + 223 2026). **Multimedia:** 1175 (incl. 136 field-form images).
+- **Occurrences:** 1120 (810 2025 + 310 2026). **Events:** 326. **Locations:** 40 (+EO69, the new 2026 site; EO38 & EO18-7 ×2 loc 2026 are revisits).
+- **Phenotyping:** 1040 (741 2025 + 299 2026). **Multimedia:** 1302 (incl. 187 field-form images).
 - **Images:** unique `LEPA_<date>_<sha8>.jpg` scheme in `Multimedia_main/`; raw in `Multimedia_images/<year>/<date>/`.
 
 ## 2026 campaign (processed June 2026) — see [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)
@@ -44,6 +44,11 @@ numbers **barcode-verified** (no collisions after the 5-event fix). Occurrence n
 reads, which resolved the noisy form OCR (e.g. 7470→2430, 24465→2465, 501→2501). Also recovered occ **2379**
 (EO69, collected + imaged but missed in the original load) and flagged occ **2386** as a no-image gap;
 occ 2387–2391 confirmed as skipped barcodes.
+
+**EO18-7 Location 16 load (2026-07-01, fieldwork 06-30):** +25 Events (303–327, barcode-verified — one "630"
+was really 324), +76 Occurrences (2520–2595), all imaged + phenotyped, +51 form sheets, on a **revisit of
+location 16**. Board reads corrected 4 form-OCR slips. **First live run of `associatedTaxa` auto-homogenization**
+→ `Taxonomy` taxonIDs (verbatim kept in `associatedTaxaOriginal`); 1 run-together token reviewed by Sven.
 
 ## Standing items (known; not integrity faults)
 

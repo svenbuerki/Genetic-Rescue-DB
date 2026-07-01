@@ -107,12 +107,12 @@ EO (Element Occurrence — federally designated population)
 | Metric | 2025 | 2026 (so far) |
 |---|---|---|
 | **EOs sampled** | 19 | 8 |
-| **Locations** | 39 | 8 (7 revisits + 1 new site, EO69) |
-| **Events** (slick spots) | 237 | 64 |
-| **Occurrences** (fruiting plants) | 810 | 234 |
-| &nbsp;&nbsp;in situ (field) / ex situ (greenhouse) | 765 / 45 | 234 / 0 |
-| **Phenotyped** (of in-situ field plants) | 741 / 765 (**97%**) | 223 / 234 (**95%**) |
-| &nbsp;&nbsp;size class — small / medium / large | 387 / 241 / 113 | 70 / 103 / 50 |
+| **Locations** | 39 | 9 (8 revisits + 1 new site, EO69) |
+| **Events** (slick spots) | 237 | 89 |
+| **Occurrences** (fruiting plants) | 810 | 310 |
+| &nbsp;&nbsp;in situ (field) / ex situ (greenhouse) | 765 / 45 | 310 / 0 |
+| **Phenotyped** (of in-situ field plants) | 741 / 765 (**97%**) | 299 / 310 (**96%**) |
+| &nbsp;&nbsp;size class — small / medium / large | 387 / 241 / 113 | 92 / 138 / 69 |
 | &nbsp;&nbsp;median height; crown width | 9 cm; 9 cm | 14 cm; 13 cm |
 
 *2026 EOs: EO18, EO38, EO52, EO68, EO69, EO70, EO76, EO118. The 2025 occurrences are a mix of **765 in-situ
@@ -120,18 +120,18 @@ field plants** (photographed with boards → phenotyped) and **45 ex-situ greenh
 (not field-photographed; imaged later by design). 2025 also produced 785 germplasm accessions
 (~476,140 estimated seeds) and 43 hand-pollination crosses; 2026 biobanking is in progress.*
 
-**Take-home from the phenotyping (964 plants measured from field photos):**
+**Take-home from the phenotyping (1,040 plants measured from field photos):**
 
-1. **The image measurement is validated.** On the **121 plants** whose boards carried a field-written
-   height/width, the photo estimate matched the hand tape to a **median of ±1 cm**. The low-cost photo
+1. **The image measurement is validated.** On the **197 plants** whose boards carried a field-written
+   height/width, the photo estimate matched the hand tape to a **median of ±0.5 cm**. The low-cost photo
    method reproduces tape measurements — with **size class as the robust primary metric and cm as
    supporting**.
-2. **Coverage of field plants is high** — **97%** of 2025 *in-situ* plants (741/765) and **95%** of
-   2026's (223/234) were phenotyped, from the *same* photos that link each occurrence (one image →
+2. **Coverage of field plants is high** — **97%** of 2025 *in-situ* plants (741/765) and **96%** of
+   2026's (299/310) were phenotyped, from the *same* photos that link each occurrence (one image →
    link + trait). The **45 ex-situ greenhouse accessions** (2025) carry no field board photo and are
    imaged later by design ([#3](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/3)).
 3. **2025 skewed small** (52% small; median 9 cm); **2026-so-far skews larger** (median 14 cm; more
-   medium/large). This is **preliminary** — 2026 covers only 8 EOs / 234 plants and may reflect which
+   medium/large). This is **preliminary** — 2026 covers only 8 EOs / 310 plants and may reflect which
    sites and dates have been processed rather than a real size shift.
 
 ---
@@ -234,10 +234,11 @@ A blind dry-run against records we already trust (full write-up:
 - **Guidance:** **size class is the primary size metric; cm is supporting.** A taller in-frame
   scale is the highest-value field-kit fix.
 
-**Current state (2026-06-30):** the pipeline is migrated and live, and the **2026 campaign is loaded
-through EO18-7** — Occurrences **1044**, Events **301**, Phenotyping **964**, Multimedia **1175** (incl.
-136 field-form images). Event numbers are **barcode-verified** (CODE128 decode caught + fixed 5
-mis-entries); the 2026 field h/w validated the image phenotyping to **~±1 cm** across 121 boards. See
+**Current state (2026-07-01):** the pipeline is migrated and live, and the **2026 campaign is loaded
+through EO18-7 (two locations)** — Occurrences **1120**, Events **326**, Phenotyping **1040**, Multimedia
+**1302** (incl. 187 field-form images). Event numbers are **barcode-verified** (CODE128 decode), `associatedTaxa`
+is homogenized to `Taxonomy` taxonIDs (verbatim kept in `associatedTaxaOriginal`), and the 2026 field h/w
+validated the image phenotyping to **~±0.5 cm** across 197 boards. See
 [`DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md) for standing items + tracked issues and
 [`REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md) for the campaign write-up.
 
