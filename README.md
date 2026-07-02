@@ -21,6 +21,45 @@ The six-step genetic rescue pipeline:
 
 ---
 
+## Documentation Map
+
+Use this map to navigate the project — *what has been done, and how.* Two operational pipelines turn raw
+field/lab work into records in the database:
+
+**① Field → Database (photos & forms → records).** How each plant becomes an `Occurrence` with images and
+phenotypes.
+
+```
+Field forms + board photos ──▶ OCR / image pipeline ──▶ Locations · Events · Occurrences · Multimedia · Phenotyping
+```
+→ [`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md) (start here) ·
+[Multimedia & Image-Based Phenotyping](#multimedia--image-based-phenotyping) (below)
+
+**② Biobanking → Genetics (the genotyping pipeline).** How each occurrence moves from a tissue sample to a
+sequenced genotype, and how we track where it is.
+
+```
+Occurrence ──▶ TissueBank ──▶ MolecularBank (DNA) ──▶ Sequencing ──▶ GenotypingStatus (tally)
+                                                          └──▶ vSequencingOccurrence (view) ──▶ SRK pipeline
+```
+→ [`Documentation_DB.md` → **Biobanking**](Documentation/Documentation_DB.md#module-biobanking) ·
+[→ **Genetics**](Documentation/Documentation_DB.md#module-genetics) ·
+[Database](#database) and [Companion Repositories](#companion-repositories) (below)
+
+### All documents
+
+| Document | What you'll find | Read it to… |
+|----------|------------------|-------------|
+| [`Documentation/Documentation_DB.md`](Documentation/Documentation_DB.md) | Canonical reference — every module, table and field, with the data-acquisition workflow | Understand the schema and what each field means |
+| [`LEPA_SQL_DB_overview.md`](LEPA_SQL_DB_overview.md) | Working-database + image-pipeline overview (LEPA instance) | See the live project at a glance |
+| [`Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md`](Multimedia_pipeline/IMAGE_PIPELINE_GUIDE.md) | How field photos/forms become records (both stages) | Run or understand pipeline ① |
+| [`Multimedia_pipeline/DATA_QUALITY.md`](Multimedia_pipeline/DATA_QUALITY.md) | Current data-quality status + tracked GitHub issues | Check what's clean and what's open |
+| [`Multimedia_pipeline/REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md) | 2026 field-campaign results | Review the latest season |
+| [`Multimedia_pipeline/REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md) · [`REPORT_2026_pipeline_dryrun.md`](Multimedia_pipeline/REPORT_2026_pipeline_dryrun.md) | Image-measurement validation + blind dry-run | See how well the method works |
+| [`Multimedia_pipeline/PIPELINE_LOG.md`](Multimedia_pipeline/PIPELINE_LOG.md) | Running log of every applied load | Trace what changed and when |
+
+---
+
 ## Author
 
 **Sven Buerki, Ph.D.** (he/him)\
