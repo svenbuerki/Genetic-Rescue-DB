@@ -78,7 +78,7 @@ Genetic_Rescue_DB/
 
 - **Engine:** SQLite 3
 - **File:** [`Genetic_Rescue_SQL.db`](Genetic_Rescue_SQL.db)
-- **Tables:** 28 — every table is registered in the `TableModules` documentation table — plus 3 SQL views (`vOccurrenceTraits`, `vUnimagedOccurrences`, `GermplasmIDs_EO27`)
+- **Tables:** 30 — every table is registered in the `TableModules` documentation table — plus 4 SQL views (`vOccurrenceTraits`, `vUnimagedOccurrences`, `vSequencingOccurrence`, `GermplasmIDs_EO27`)
 - **Full documentation:** [Documentation_DB.md](Documentation/Documentation_DB.md)
 
 The database is organized into seven modules:
@@ -88,10 +88,16 @@ The database is organized into seven modules:
 | **Admin** | Staff, project metadata, QC notes, multimedia |
 | **Environment** | Spatial hierarchy, taxonomy, EO rankings |
 | **Demography** | Population size and habitat condition per event/EO |
-| **Biobanking** | Seed accessions, transactions, tissue and molecular samples |
-| **Genetics** | Sequencing metadata and quality metrics |
+| **Biobanking** | Seed accessions and transactions; tissue samples (`TissueBank`) and tissue-weight transactions (`TissueTransactions`); DNA/RNA/protein extractions (`MolecularBank`) |
+| **Genetics** | Sequencing metadata and quality metrics (`Sequencing`); per-occurrence genotyping-pipeline status (`GenotypingStatus`) |
 | **Breeding** | Hand-pollination records and trial design |
 | **Restoration** | Restoration trial outcomes |
+
+**Genotyping pipeline (2026).** The biobanking-to-genetics chain is now populated end-to-end:
+`Occurrence → TissueBank → MolecularBank (DNA extraction) → Sequencing (Oxford Nanopore) → GenotypingStatus`.
+`GenotypingStatus` tracks where each occurrence sits in the pipeline (DNA extraction → PCR/library prep →
+sequencing), the pass/fail of each round, and a derived next step to completion — the operational board for
+completing genotyping across the collection.
 
 ### Spatial Hierarchy
 
@@ -150,10 +156,22 @@ This database is the integrative hub of a small ecosystem of repositories. Two c
 
 | Repository | Feeds module | Role |
 |------------|--------------|------|
-| **[SRK_bioinformatics](https://github.com/svenbuerki/SRK_bioinformatics)** | **Genetics** | S-locus receptor kinase (**SRK**) genotyping pipeline. Produces the per-individual SRK genotypes that populate the planned `Genotyping` table, each linked to an `occurrenceID` — the genetic-diversity basis for informed breeding. |
+| **[SRK_bioinformatics](https://github.com/svenbuerki/SRK_bioinformatics)** | **Genetics** | S-locus receptor kinase (**SRK**) genotyping pipeline. Consumes the sequencing outputs tracked in `Sequencing`/`GenotypingStatus` and produces the per-individual SRK genotypes that will populate the planned `Genotyping` table, each linked to an `occurrenceID` — the genetic-diversity basis for informed breeding. |
 | **[LEPA_EO_spatial_clustering](https://github.com/svenbuerki/LEPA_EO_spatial_clustering)** | **Environment** | Spatial clustering of Element Occurrences (EOs) to define seed-transfer zones. Informs the `EOs`, `Locations`, and `EORankings` tables and the choice of source populations for translocation. |
 
 Together they implement steps 1 (genetic diversity / seed zones) and 5 (informed breeding) of the genetic-rescue pipeline, with this database as the shared record.
+
+> **How the SRK pipeline and this database intersect.** The two systems align on a single key: the SRK
+> pipeline's per-sample identifier (`SampleID` in its `sampling_metadata.csv`) is **identical, 1:1, to
+> `Sequencing.libraryName`** in the database. That shared key is the join between the flat sequencing file
+> and the relational record. Crucially, occurrence identity — which the SRK CSV records only sparsely — is
+> **recovered in one hop through the database**: `Sequencing.molecularID → MolecularBank.occurrenceID`. The
+> convenience view **`vSequencingOccurrence`** exposes this directly (`libraryName`/`SampleID`,
+> `molecularID`, `occurrenceID`, `tissueID`, `taxonID`, `ingroup`, flow cell, barcode, plate), so the
+> pipeline can select an authoritative `occurrenceID` for every sequenced sample without re-joining. This
+> lets the revised SRK pipeline **point at the database instead of the CSV and treat `occurrenceID` as the
+> single source of truth**, tying each SRK genotype back to a specific plant (`Occurrences`) and, in turn,
+> to the planned `Genotyping` table.
 
 ---
 

@@ -130,12 +130,12 @@ The database is organised into **seven modules**. The `TableModules` table maps 
 | **Admin**       | `Persons`, `Projects`, `Studies`, `Experiments`, `Notes`, `Protocols`, `Multimedia`, `Trials`, `Terms`, `TableModules` |
 | **Environment** | `EOs`, `Taxonomy`, `Locations`, `EORankings`                                                                   |
 | **Demography**  | `Events`, `EODemography`, `Phenotyping`                                                                         |
-| **Biobanking**  | `Occurrences`, `Germplasm`, `SeedLots`, `MolecularBank`, `TissueBank`, `PedigreeNodes`, `GermplasmTransactions` |
-| **Genetics**    | `Sequencing`                                                                                                    |
+| **Biobanking**  | `Occurrences`, `Germplasm`, `SeedLots`, `MolecularBank`, `TissueBank`, `TissueTransactions`, `PedigreeNodes`, `GermplasmTransactions` |
+| **Genetics**    | `Sequencing`, `GenotypingStatus`                                                                                |
 | **Breeding**    | `Crosses`                                                                                                       |
 | **Restoration** | `GerminationPlates`, `Germinations`                                                                             |
 
-> All 28 tables are registered in `TableModules`. The database also defines 3 SQL views — `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield), `vUnimagedOccurrences` (occurrences with no image), and `GermplasmIDs_EO27`.
+> All 30 tables are registered in `TableModules`. The database also defines 4 SQL views — `vOccurrenceTraits` (occurrence + phenotyping + summed germplasm yield), `vUnimagedOccurrences` (occurrences with no image), `vSequencingOccurrence` (each sequencing library joined to its `occurrenceID`/`tissueID` via `MolecularBank` — the join point for the SRK pipeline), and `GermplasmIDs_EO27`.
 
 ---
 
@@ -564,6 +564,23 @@ Stores metadata on germplam transactions (i.e., what seeds were taken for experi
 | `personID`                   | INTEGER | —        | → `Persons.personID`         |
 | `experimentID`               | INTEGER | —        | → `Experiments.experimentID` |
 | `date`                       | TEXT    | —        | —                            |
+
+##### `TissueTransactions`
+
+Tissue-weight ledger for `TissueBank`, modelled on `GermplasmTransactions`: it records biomass drawn from a tissue tube so the remaining balance can be reconstructed. The opening (start) weight lives in `TissueBank.tissueWeight`; each transaction row logs the amount drawn (`tissueWeightTaken`, the debit) and the resulting remaining weight (`tissueWeightUpdated`).
+
+> **Provenance & scope — read before use.** This table was **created on 2026-07-02 and did not exist in the original tissue-bank files.** It is seeded **log-only** (like `GermplasmTransactions`) from the tissue bank's `current_weight` column, for the **33** tubes whose current weight differs from their start weight. It therefore holds a **single reconciling snapshot per tube — not a full per-withdrawal history**: individual draws cannot be separated, and `personID`, `experimentID` and `date` are **empty because the source did not record who drew tissue, when, or for which experiment**. Five tubes carry an impossible **negative remaining weight** (scale/tare artifacts; see GitHub issue #13). **Going forward,** each withdrawal should be logged as its own row (amount taken, person, experiment, date) to make this a true balance ledger.
+
+| Field                     | Type    | Standard | Notes / FK                                        |
+| ------------------------- | ------- | -------- | ------------------------------------------------- |
+| `tissueTransactionID`     | INTEGER | —        | —                                                 |
+| `tissueID`                | INTEGER | —        | → `TissueBank.tissueID`                           |
+| `tissueWeightTaken`       | NUMERIC | Grams    | Amount drawn (debit) = start − remaining          |
+| `tissueWeightUpdated`     | NUMERIC | Grams    | Remaining weight after the withdrawal             |
+| `tissueWeightUnitUpdated` | TEXT    | —        | Unit (g)                                          |
+| `personID`                | INTEGER | —        | → `Persons.personID` (empty — not in source)      |
+| `experimentID`            | INTEGER | —        | → `Experiments.experimentID` (empty — not in source) |
+| `date`                    | TEXT    | —        | Empty — not recorded in source                    |
 
 <div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
 
