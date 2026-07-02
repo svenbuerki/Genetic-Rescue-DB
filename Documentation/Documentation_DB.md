@@ -590,24 +590,59 @@ Tissue-weight ledger for `TissueBank`, modelled on `GermplasmTransactions`: it r
 
 ##### `Sequencing`
 
-Stores metadata on sequencing and data quality metrics.
+Stores metadata on sequencing and data quality metrics. Sequencing was performed on Oxford Nanopore; the run-quality fields (`nReads`, `N50ReadLength`, `totalBp`, `qScoreNanopore`) are populated post-run. `libraryName` is the per-sample identifier and is **identical to `SampleID`** in the SRK pipeline's `sampling_metadata.csv` — the key that joins the two systems (see **Companion Repositories** and the `vSequencingOccurrence` view).
 
-*Term definitions not yet documented in the `Terms` table. Fields derived from the SQL schema.*
+*Field definitions are documented in the `Terms` table.*
 
-| Field            | Type    | Standard | Notes / FK                    |
-| ---------------- | ------- | -------- | ----------------------------- |
-| `sequencingID`   | INTEGER | —        | —                             |
-| `libraryName`    | TEXT    | —        | —                             |
-| `instrument`     | TEXT    | —        | —                             |
-| `strategy`       | TEXT    | —        | —                             |
-| `source`         | TEXT    | —        | —                             |
-| `selection`      | TEXT    | —        | —                             |
-| `layout`         | TEXT    | —        | —                             |
-| `molecularID`    | INTEGER | —        | → `MolecularBank.molecularID` |
-| `nReads`         | INTEGER | —        | —                             |
-| `N50ReadLength`  | NUMERIC | —        | —                             |
-| `totalBp`        | NUMERIC | —        | —                             |
-| `qScoreNanopore` | INTEGER | —        | —                             |
+| Field            | Type    | Standard        | Notes / FK                                   |
+| ---------------- | ------- | --------------- | -------------------------------------------- |
+| `sequencingID`   | INTEGER | —               | —                                            |
+| `libraryName`    | TEXT    | INSDC           | Sample/library name (= `SampleID` in the SRK CSV) |
+| `instrument`     | TEXT    | INSDC           | Instrument model (e.g., Oxford Nanopore)     |
+| `strategy`       | TEXT    | INSDC           | `library_strategy` (e.g., WGS)               |
+| `source`         | TEXT    | INSDC           | `library_source` (e.g., GENOMIC)             |
+| `selection`      | TEXT    | INSDC           | `library_selection`                          |
+| `layout`         | TEXT    | INSDC           | `library_layout` (SINGLE / PAIRED)           |
+| `molecularID`    | INTEGER | —               | → `MolecularBank.molecularID`                |
+| `nReads`         | INTEGER | —               | Read count (post-run QC)                     |
+| `N50ReadLength`  | NUMERIC | —               | Read-length N50, bp (post-run QC)            |
+| `totalBp`        | NUMERIC | —               | Total bases produced (post-run QC)           |
+| `qScoreNanopore` | INTEGER | —               | Mean Nanopore Q score (post-run QC)          |
+| `flowCellID`     | TEXT    | —               | Flow cell identifier                         |
+| `barcode`        | INTEGER | —               | Multiplexing barcode within the library      |
+| `libraryNumber`  | INTEGER | —               | Library batch number (1–11)                  |
+| `ingroup`        | INTEGER | —               | 1 = target species (LEPA); 0 = outgroup      |
+| `plateNumber`    | TEXT    | —               | Source plate identifier                      |
+| `platePosition`  | TEXT    | —               | Well position on the source plate            |
+
+<div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
+
+---
+
+##### `GenotypingStatus`
+
+Per-occurrence status in the genotyping pipeline (**DNA extraction → PCR/library prep → sequencing**), derived from the sequencing master sheet. Records the action needed and the pass/fail of each round, plus derived stage flags and a human-readable next step to completion. An occurrence **may have multiple entries** (one per tissue/extraction tracking line). Rolls up to: *Complete* (sequenced & passed), *Failed* (needs a redo), or *Incomplete* (not yet sequenced).
+
+*Field definitions are documented in the `Terms` table.*
+
+| Field                | Type    | Standard | Notes / FK                                            |
+| -------------------- | ------- | -------- | ----------------------------------------------------- |
+| `genotypingStatusID` | INTEGER | —        | —                                                     |
+| `occurrenceID`       | INTEGER | —        | → `Occurrences.occurrenceID` (may repeat across rows) |
+| `tissueID`           | INTEGER | —        | → `TissueBank.tissueID`                               |
+| `molecularID`        | INTEGER | —        | → `MolecularBank.molecularID` (null if not extracted) |
+| `kit`                | TEXT    | —        | Extraction kit (MP / Omega)                           |
+| `libraryNumber`      | INTEGER | —        | Round-1 library number                                |
+| `actionNeeded`       | TEXT    | —        | Stage reached / next action: DNA extraction, PCR, Sequencing |
+| `passed`             | TEXT    | —        | Round-1 sequencing QC outcome (Yes / No)              |
+| `secondAction`       | TEXT    | —        | Redo after a failure: 2nd PCR / 2nd DNA extraction / 2nd Sequencing |
+| `secondLibrary`      | INTEGER | —        | Round-2 library number                                |
+| `secondPassed`       | TEXT    | —        | Round-2 sequencing QC outcome (Yes / No)              |
+| `extractionDone`     | INTEGER | —        | Derived flag (0/1): DNA extraction completed          |
+| `pcrDone`            | INTEGER | —        | Derived flag (0/1): PCR/library prep completed        |
+| `sequencingDone`     | INTEGER | —        | Derived flag (0/1): sample was sequenced              |
+| `pipelineStatus`     | TEXT    | —        | Derived rollup: Complete / Failed / Incomplete        |
+| `nextStep`           | TEXT    | —        | Derived human-readable next action to complete        |
 
 <div align="right"><a href="#table-of-contents">↑ Table of Contents</a></div>
 
