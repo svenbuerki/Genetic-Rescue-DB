@@ -1,6 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-01**.
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-02**
+(genotyping/biobanking pipeline integrated + validated).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -15,14 +16,28 @@ A full audit (2026-06-27) found no structural problems:
 | Duplicate images (same SHA-256 content) | **0** |
 | Locations missing GPS (`locationDecimalLatitude/Longitude`) | **0** of 39 |
 | Locations with null `EOID` | **0** |
-| Tables documented in `TableModules` | **28 / 28** (all real tables) |
+| Tables documented in `TableModules` | **30 / 30** (all real tables) |
 | Photo-date (EXIF) vs `occurrenceDate`, where EXIF present | **0 mismatches** of 77 checkable |
+| Genotyping FK chain: `GenotypingStatus`/`TissueBank` → Occurrences; `MolecularBank` → TissueBank; `Sequencing` → MolecularBank | **0** orphans |
 
 ## Coverage
 
-- **Occurrences:** 1120 (810 2025 + 310 2026). **Events:** 326. **Locations:** 40 (+EO69, the new 2026 site; EO38 & EO18-7 ×2 loc 2026 are revisits).
-- **Phenotyping:** 1040 (741 2025 + 299 2026). **Multimedia:** 1302 (incl. 187 field-form images).
+- **Occurrences:** 2526 (1120 field + 1406 added for genotyping). **Events:** 326. **Locations:** 40.
+- **Phenotyping:** 1040. **Multimedia:** 1302 (incl. 187 field-form images).
 - **Images:** unique `LEPA_<date>_<sha8>.jpg` scheme in `Multimedia_main/`; raw in `Multimedia_images/<year>/<date>/`.
+
+## Genotyping & biobanking (integrated 2026-07-02)
+
+Biobanking→genetics pipeline loaded and **validated against Peggy's master sheet** (full multiset match, 0 diffs):
+
+- **TissueBank** 1,699 · **TissueTransactions** 33 · **MolecularBank** 662 DNA extractions (MP/Omega) ·
+  **Sequencing** 505 Nanopore libraries (497 ingroup / 8 outgroup) · **GenotypingStatus** 885 rows.
+- **Pipeline status** (885 rows): **Complete 259 · Failed 225 · Incomplete 401** (883 distinct occurrences; 258 Complete).
+- **Taxonomy:** +9 *Lepidium* congeners (outgroups). **6 clone occurrences** flagged (`occurrenceRemarks LIKE '%CLONE%'`).
+- **View** `vSequencingOccurrence` joins each library to its `occurrenceID` (SRK-pipeline entry point; `SampleID` = `libraryName`).
+- **Terms** now document every genotyping field (140 total); `TissueTransactions` (Biobanking) + `GenotypingStatus` (Genetics) registered.
+- **Issues:** #9–#13 filed for the lab team; **#12 closed** (status gaps reconciled; occ 1134 resolved to *L. montanum*). Open: **#10** (57 tissues no weight), **#11** (6 master-sheet tissue cells), **#13** (5 negative tissue weights).
+- **Event-265 occurrence-ID collision fixed** — wild EO69 plants renumbered off the genotyping-bank IDs (2384/2385/2386→2894/2895/2896, +2897); clones/outgroups now hold 2383–2386; three board images annotated with corrected OccIDs. See `Notes` (Data Correction rows) + `PIPELINE_LOG.md`.
 
 ## 2026 campaign (processed June 2026) — see [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)
 
