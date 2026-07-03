@@ -259,6 +259,23 @@ legacy; `00_sort_by_date.py` will move them into date subfolders.)
 and only phenotyped if its occurrence has no measurement yet. Re-running any step just shrinks its
 worklist — nothing is ever redone or duplicated.
 
+### ⚠ Which loader for Stage B — depends on whether Stage A ran first
+
+There are **two** ways to load Stage B, and picking the wrong one creates duplicate/garbage occurrences:
+
+- **Forms-first workflow (the normal 2026 path — Stage A already created the occurrences):** after
+  `01_ingest_register.py --apply` and the read-only board sweep (OC# + measurement in **one pass**,
+  results like `board_number, eo_code, date_raw, plant_present, board_h/w_cm, height_cm, crown_cm,
+  size_class`), load with **`stageB_load.py --apply`**. It reads `staging_2026/stageB_multimedia_staging.csv`
+  + `stageB_phenotyping_staging.csv` and **links each board# to its EXISTING `occurrenceID`** (Multimedia
+  tableID 13) **and inserts Phenotyping** in one step. This is what every 2026 revisit load used.
+- **Standalone / no-forms workflow:** `02_ocr.py --load` **CREATES new occurrences** from the boards
+  (provisional IDs above the current max) — use this *only* when there are no field forms and the boards
+  are the sole source of occurrences. **Do NOT run `02_ocr.py --load` after Stage A** — it will stage a
+  parallel set of new occurrence IDs (and overwrite the Stage-A `occurrences_staging.csv`).
+
+Rule of thumb: **if you ran `field_forms_ocr.py --commit`, load Stage B images with `stageB_load.py`**, not `02_ocr.py --load`.
+
 ### The OCR / measurement step itself
 
 Steps 02 and 03 split the work into **deterministic plumbing (Python)** + **the actual reading

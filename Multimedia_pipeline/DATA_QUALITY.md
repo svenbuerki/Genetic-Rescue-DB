@@ -22,8 +22,15 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 2526 (1120 field + 1406 added for genotyping). **Events:** 326. **Locations:** 40.
-- **Phenotyping:** 1040. **Multimedia:** 1302 (incl. 187 field-form images).
+- **Occurrences:** 2698. **Events:** 371. **Locations:** 40.
+- **Phenotyping:** 1212. **Multimedia:** 1570 (incl. field-form images).
+
+## July 1–2 2026 campaign (EO18-8 / EO18-7 / EO25 / EO24 — loaded 2026-07-03)
+
+Revisit of existing locations 18–25 (2025 data already present). Two-stage load, both stages verified 0-orphan:
+- **Stage A** (`field_forms_ocr.py`): 96 forms → **+45 Events** (328–372, **CODE128 barcode-verified**, 44/45 decoded), **+172 Occurrences** (2596–2767), +96 form images. Counts matched Ian's field emails exactly (loc 20 = 98, loc 18 = 59, loc 21 = 8, EO24 = 6, loc 19 = 1). `associatedTaxa` auto-homogenized; **+2 taxa** (Descurainia 46, Physaria 47) + 14 lexicon variants added for the new tokens.
+- **Stage B** (`stageB_load.py` — NOT `02_ocr --load`; see the guide's "which loader" note): 172 boards ingested → **+172 Multimedia** (tableID 13) **+172 Phenotyping** (48 large / 107 medium / 17 small). 15 board-only-unclassed re-scored from field-written h/w (field tape, high confidence). No stray/other-day images (date cross-check clean).
+- **[#14](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/14) (CLOSED)** — occ 2714 reused across events 362 & 363 (field envelope reused); resolved by moving occ 2714 → event 363, so both events hold 4 plants matching the whiteboards.
 - **Images:** unique `LEPA_<date>_<sha8>.jpg` scheme in `Multimedia_main/`; raw in `Multimedia_images/<year>/<date>/`.
 
 ## Genotyping & biobanking (integrated 2026-07-02)
