@@ -246,3 +246,29 @@
 
 ## 20260703-222730 — occ 2714 moved event 362->363 (issue #14, board evidence)
 - Event 362=2710-2713, Event 363=2714-2717. Backup bak-2714move-20260703-222730
+
+## 20260704-190620 — taxonRemarks updated w/ Ian's 2026-07-03 feedback (Descurainia genus confirmed; Physaria/Lesqu -> Teo)
+- Backup bak-taxaremark-20260704-190620
+
+## 20260706-231306 — field_forms_ocr --load forms0706_results.json
+- staged 1 locations (1 revisit / 0 new), 36 events, 137 occurrences; occ collisions 125. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260706-232636 — field_forms_ocr --load forms0706_results.json
+- staged 1 locations (1 revisit / 0 new), 36 events, 137 occurrences; occ collisions 125. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260707-044950 — field_forms_ocr --load forms0706_results.json
+- staged 1 locations (1 revisit / 0 new), 36 events, 137 occurrences; occ collisions 125. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260707-045000 — field_forms_ocr --commit --apply
+- inserted 0 Locations, 36 Events, 137 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260707-045000`.
+
+## 20260707-045011 — field_forms_ocr --forms-mm --apply
+- linked 73 field-form images to Multimedia (1 Location tableID 9, 72 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260707-045011`.
+
+## 20260707-045347 — 01_ingest_register --apply
+- source `/Users/sven/Documents/Current_projects/LEPA_fieldwork_protocol/SQL_DB/Multimedia_images` years ['2025', '2026']; copied 137 new files into `Multimedia_main/` (1436 unique, 0 duplicate bytes)
+- Multimedia identifiers migrated to `LEPA_<YYYY-MM-DD>_<sha8>.jpg`: 1255; new registered: 153; ambiguous: 28
+- DB backup `LEPA_SQL.db.bak-ingest-20260707-045347`; registry `Multimedia_main/file_registry.csv`
+
+## 20260707-051333 — stageB_load --apply
+- linked 137 2026 plant images to occurrences (Multimedia tableID 13) + 137 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260707-051333`.

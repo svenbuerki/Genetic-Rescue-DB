@@ -1,80 +1,69 @@
-# LEPA 2026 — field-form + plant-image processing (campaign report)
+# LEPA 2026 — field season processing (campaign report)
 
 **Prepared for:** Buerki Lab team
-**Subject:** Digitizing the 2026 field sheets and plant photos into `LEPA_SQL.db`
+**Subject:** Digitizing the 2026 field sheets, plant photos, and genotyping data into `LEPA_SQL.db`
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
-(full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
+(full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
+
+*Last refreshed: 2026-07-06 (through the July 3 EO32 "10 Mile Creek" load).*
 
 ---
 
-## 1. What was loaded (DB deltas)
+## 1. The 2026 field season so far (DB deltas)
 
-| Table | Added (2026) | Notes |
+| | 2026 total | Notes |
 |---|---|---|
-| `Locations` | **+1** | EO69 (loc 41, New Plymouth/Payette) — the one genuinely new site; the other 5 are revisits (link, no insert) |
-| `Events` | **+17** | with GPS; one reused sticker (`0098`) reassigned to a free `eventID` 268 |
-| `Occurrences` | **+84** | the seed-collected plants (forms' Section 4), IDs 2318–2416 |
-| `Multimedia` | **+120** | 40 field-form images (evidence) + 80 plant images linked by board# |
-| `Phenotyping` | **+76** | image-measured height/crown/size for the matched plants |
+| **Occurrences** (field-collected) | **619** | across 11 EOs (below) |
+| **Events** (slick spots) | **170** | each with GPS + habitat/condition + associated taxa |
+| **Locations** | revisits + **EO69** (loc 41) | EO69 (New Plymouth/Payette) is the one genuinely new site; the rest are revisits (link, no insert) |
+| **Plant images** phenotyped | **608 / 619 (98%)** | each has a linked board image; measured height/crown/size class |
 
-Every step ran staged + gated, with a DB backup and a `PIPELINE_LOG.md` entry.
+**By Element Occurrence:**
+
+| EO | occ | EO | occ |
+|---|---|---|---|
+| **EO18** (7 & 8) | 239 | EO118 | 25 |
+| **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
+| **EO25** (A & B) | 106 | EO76 | 8 |
+| EO70 | 42 | EO69 | 8 |
+| EO38 | 37 | EO52 | 1 |
+| EO24 | 6 | | |
+
+The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, and **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots). Recurring theme: cheatgrass inundation of slick spots.
 
 ## 2. Stage A — field forms → Locations / Events / Occurrences
 
-40 form photos (Location form + Event forms, 2 pages each) were OCR'd by a read-only agent sweep,
-pages classified by their printed header, and the hierarchy reconstructed from the barcodes + capture
-order. Table-only columns (`EOID`, `taxonID`, units, `stateProvince`/`country`, …) were auto-filled;
-human corrections went through three persistent override files (an OCR'd occurrence range corrected
-`2354–2362`→`2359–2368`; a non-contiguous list confirmed real from the field note "went back to add
-more samples"; the EO69 GPS/county/locality filled). The **40 form images are now in `Multimedia`** as
-evidence (`type='field form'`, `tableID 9`→location / `tableID 11`→event).
+Paper Location + Event forms (2 pages each) are OCR'd by a **read-only agent sweep** (subscription, no API cost), pages classified by their printed header, and the hierarchy rebuilt from barcodes + capture order. **Event IDs are ground-truthed by decoding the CODE128 sticker barcode** (`verify_event_barcodes.py`) — the printed/handwritten event numbers are frequently wrong, so the decoded barcode is authoritative (this caught mis-entries all season). Table-only columns auto-fill; human fixes go through three persistent override files (occurrence ranges, reused event stickers, new-site GPS). Form photos are filed into `Multimedia` as evidence (`type='field form'`).
+
+**`associatedTaxa`** is auto-homogenized to `Taxonomy.taxonID` lists (verbatim kept in `associatedTaxaOriginal`); the season added several taxa to the lexicon (Descurainia, Physaria, and spelling variants).
 
 ## 3. Stage B — plant images → multimedia + phenotyping
 
-135 plant photos were OCR'd + measured (read-only sweep). Board number = occurrence barcode, so each
-was matched to the Stage-A occurrences:
-
-- **80 matched** → linked as occurrence images (`tableID 13`) + **76 phenotyped** (4 had no
-  measurable plant). Covers **77 distinct occurrences**.
-- **46 photographed-but-not-collected** (board# not in the forms' Section 4) — staged for review in
-  `staging_2026/stageB_unmatched_review.csv`, **not loaded**. Dominated by **33 EO38** plants (see §5).
-- **7 collected occurrences have no image** in the batch (see §5).
-- **8 context/setup frames** (no measurable plant; e.g. board-placement shots).
+Board photos are ingested under collision-proof content-addressed names (`LEPA_<date>_<sha8>.jpg`; camera `JCN_####` names reset yearly and are **not** a stable key). A read-only sweep reads each board (OC# = occurrenceID) + measures the plant against the board's own ruler, cross-checking the written date to catch stray images from other field days. `stageB_load.py` links each image to its **existing** Stage-A occurrence (`tableID 13`) and inserts Phenotyping.
 
 ### 3a. h/w validation (the headline result)
 
-23 boards carried **field-written height/width** (the EO118 adapted sheets). Comparing the
-**image-measured** value to the **field-written** value — the first true ground-truth check we've had:
+Where boards carry **field-written height/width**, the **image-measured** value matches the **field tape** to a **median of ≈±1 cm** (the large majority within ±2 cm) for both height and width — a true ground-truth check, not self-consistency. Conclusion: the low-cost photo phenotyping reproduces the tape; keep using it, with **size class as the primary metric and cm as supporting**. (Boards with no clear image scale are scored straight from the field-written h/w — `measurementMethod = field tape`.)
 
-| | image − field (median) | within ±2 cm |
-|---|---|---|
-| **height** | **+1.0 cm** | **20 / 21** |
-| **width / crown** | **+1.0 cm** | **20 / 21** |
+## 4. Genotyping data integrated (2026-07-02)
 
-The image phenotyping reproduces the field tape to **~±1 cm**. This validates the in-image
-measurement technique against ground truth (not just self-consistency) and supports continuing to use
-it at scale — with **size class as the primary metric, cm as supporting**.
+The biobanking→genetics chain was loaded and validated against Peggy's master sheet:
+**Occurrence → TissueBank (1,699) → MolecularBank (662 DNA extractions) → Sequencing (505 Nanopore libraries) → GenotypingStatus (885)**. `GenotypingStatus` tracks where each occurrence sits in the pipeline (DNA extraction → PCR → sequencing) with a derived next step; the `vSequencingOccurrence` view is the join point for the SRK genotyping pipeline (`SampleID` = `Sequencing.libraryName`). See `DATA_QUALITY.md` and the database documentation for detail.
 
-## 4. Reused-barcode collisions handled
+## 5. Reused-ID handling
 
-The recurring 2026 theme — IDs reused across years — appeared again and was caught by the gated load:
-the event sticker `0098` clashed with a 2025 event and was reassigned to **eventID 268**; the new
-EO69 location barcode `0041` is a genuinely new `locationID 41`. (Same root cause as the JCN filename
-collisions; the pipeline collision-checks every ID against the DB.)
+The recurring 2026 theme — IDs reused across years and across field days — kept appearing and was caught by the gated loads: event stickers reassigned to free IDs; the EO69 barcode as a genuinely new location; and **reused field envelopes** (e.g. occ 2714 written on two event forms → resolved to event 363 from the board evidence; occ **2897** written on an EO32 plant but already a wild EO69 plant → reassigned to fresh 2909). A companion failure mode surfaced at EO32: **OCR digit-errors on the plant numbers** (a looped hand-written 9 read as 4: 2404→2904, 2744→2794) — caught by reading the physical forms and cross-checking the plant boards, which carry the same number. Every ID is collision-checked against the DB before insert.
 
-## 5. Open items (tracked on GitHub)
+## 6. Open items (tracked on GitHub — svenbuerki/Genetic-Rescue-DB)
 
-- **[#7](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/7) — EO38 forms missing.** 33 EO38
-  (EO38-6) plants were photographed (boards ~2281–2317) but no EO38 Location/Event form was in the
-  batch, so they have no hierarchy to attach to. Awaiting the EO38 field sheets, then they run A→B.
-- **[#6](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/6) — 7 collected occurrences without
-  an image** (EO76 ×5 event 244; EO69 ×1 event 285; EO118 ×1 event 266). Possibly un-photographed, or
-  a board# mis-read among the unmatched set — to confirm.
-- The 9 EO118 photographed-not-collected plants + the 8 context frames are minor review items.
+- **#6** — a handful of collected occurrences without a plant image (un-photographed / board# mis-read).
+- **#10** — 57 tissue samples missing a weight (lab to supply or confirm blank).
+- **#11** — 6 tissue-sample cell errors in the master sheet (lab to correct online).
+- **#13** — 5 impossible negative tissue weights + missing who/when/experiment metadata.
+- *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse).
 
-## 6. Data products
+## 7. Data products
 
-- `LEPA_SQL.db` — Locations 40, Events 254, Occurrences 894, Multimedia 930, **Phenotyping 817**.
-- `staging_2026/` — the reviewed staging + the 3 override files + `stageB_*` staging (incl. the
-  unmatched-review list).
-- `field_forms_ocr.py` (Stage A: `--worklist/--load/--commit/--forms-mm`) + `stageB_load.py`.
+- `LEPA_SQL.db` — **Locations 40, Events 407, Occurrences 2,835, Multimedia 1,780, Phenotyping 1,349** (incl. all prior-year data + the 2026 season + the genotyping integration).
+- `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
+- Scripts: `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).

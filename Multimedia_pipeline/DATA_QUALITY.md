@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-02**
-(genotyping/biobanking pipeline integrated + validated).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-06**
+(EO32 "10 Mile Creek" July-3 fieldwork loaded + verified end-to-end).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,15 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 2698. **Events:** 371. **Locations:** 40.
-- **Phenotyping:** 1212. **Multimedia:** 1570 (incl. field-form images).
+- **Occurrences:** 2835. **Events:** 407. **Locations:** 40.
+- **Phenotyping:** 1349. **Multimedia:** 1780 (incl. field-form images).
+
+## EO32 "10 Mile Creek" — July 3 2026 campaign (loaded 2026-07-06)
+
+Revisit of existing location 6 (EO32). Two-stage load, both stages verified **0-orphan; 137/137 occurrences imaged + phenotyped**:
+- **Stage A** (`field_forms_ocr.py`): 73 forms → **+36 Events** (373–408, **CODE128 barcode-verified**, 36/36 decoded clean), **+137 Occurrences** (2768–2909), +73 form images. Occurrence OCR digit-errors caught by reading the physical forms + boards: `2404→2904`, `2405–2408→2905–2908`, `2744–2749→2794–2799` (all looped-9 misread as 4 — confirmed on the plant boards). `associatedTaxa` auto-homogenized; **+2 taxa** (Tragopogon 48, prickly mustard 49, both provisional — flag Ian/Teo) + 6 lexicon variants. Event 385's form mis-dated 07-04 corrected to 07-03 (+remark); 8 events' condition `1.5→1`.
+- **Reused envelope:** occ **2897** written on event 404's 7th plant (form + board both read 2897) was already the wild EO69 plant (event 265) → reassigned to fresh **2909**; board image title retains verbatim 2897; provenance in `Occurrences.occurrenceRemarks`.
+- **Stage B** (`stageB_load.py`): 137 boards ingested (content-addressed `LEPA_2026-07-03_<sha8>.jpg`) → **+137 Multimedia** (tableID 13) **+137 Phenotyping** (112 medium / 14 small / 11 large; 136 field-tape H/W, 1 image-scale). No stray/other-day images (date cross-check clean; one board mis-dated 07-04-2024 noted).
 
 ## July 1–2 2026 campaign (EO18-8 / EO18-7 / EO25 / EO24 — loaded 2026-07-03)
 
