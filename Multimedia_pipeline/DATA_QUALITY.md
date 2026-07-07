@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-06**
-(EO32 "10 Mile Creek" July-3 fieldwork loaded + verified end-to-end).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-07**
+(EO30 complex July-6 fieldwork loaded + verified; EO27 Red Tie held pending forms — issue #15).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,19 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 2835. **Events:** 407. **Locations:** 40.
-- **Phenotyping:** 1349. **Multimedia:** 1780 (incl. field-form images).
+- **Occurrences:** 2885. **Events:** 418. **Locations:** 41.
+- **Phenotyping:** 1399. **Multimedia:** 1854 (incl. field-form images).
+
+## EO30 complex — July 6 2026 (loaded 2026-07-07)
+
+Simco Rd, sampled after EO27 Red Tie the same morning (Red Tie held — see below). Two-stage load, verified **0-orphan, 50/50 imaged + phenotyped**:
+- **Stage A** (`field_forms_ocr.py`): 24 forms (Peggy's phone, **HEIC→JPG via `sips`**) → **+1 new Location** (42 = EO30-2; loc 13 EO30-1 is a revisit), **+11 Events** (431, 432, 449–457, all **CODE128 barcode-verified**), **+50 Occurrences** (2996–3045), +24 form images. Event 449's form OCR read loc "0044" → **plant boards confirm loc 42** (OCR slip); remark added. Event 457 condition 2.5→2. `associatedTaxa` homogenized, no new taxa.
+- **Stage B** (`stageB_load.py`): 50 EO30 boards (JCN_0896–0945) → **+50 Multimedia + 50 Phenotyping** (22 small / 28 medium; all field-tape H/W). Board OC/EV/EO/L# all matched the forms exactly.
+- **Form-image datestamp fix:** Peggy's iPhone writes `IMG_####` (no date in filename) vs the Pixel's `PXL_<date>`; `--forms-mm` was falling back to a stale hardcoded date. Fixed to derive the datestamp from **EXIF capture = the imaging date** (forms are photographed ~1 day after fieldwork; these = 2026-07-07). The 24 already-loaded form images were renamed to `LEPA_2026-07-07_*`.
+
+### HELD — EO27 Red Tie (loc 12), July 6 — [#15](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/15)
+
+The 137-image board upload also contained **~87 Red Tie plants** (JCN_0800–0893, occ 2909–2995, events 0409–0430) with **no field forms** — the crew is completing Red Tie and the loc-12 forms arrive next batch. Boards are **ingested (provenance saved) but not linked** (no Multimedia/Phenotyping rows). When the forms arrive: load Stage A → link the held boards → **resolve the occ-2909 collision** (the EO32 event-404 plant, synthetically reassigned to 2909 last session, must move to a reserved ID — the field's real roll used 2909 for a Red Tie plant).
 
 ## EO32 "10 Mile Creek" — July 3 2026 campaign (loaded 2026-07-06)
 

@@ -327,7 +327,13 @@ def forms_multimedia(db, apply):   # link the field-form images to their Locatio
         src = FORMS / pxl
         if not src.exists(): missing.append(pxl); continue
         digest = sha(src); m = re.match(r"PXL_(\d{4})(\d{2})(\d{2})", pxl)
-        fdate = f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else "2026-06-27"
+        # datestamp = the IMAGING date (forms are photographed ~1 day after fieldwork):
+        # PXL filenames carry it directly; other cameras (e.g. Peggy's HEIC→JPG IMG_####) get it from EXIF capture.
+        if m:
+            fdate = f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
+        else:
+            _cm = re.match(r"(\d{4})[:\-](\d{2})[:\-](\d{2})", str(cap(src) or ""))
+            fdate = f"{_cm.group(1)}-{_cm.group(2)}-{_cm.group(3)}" if _cm else datetime.now(timezone.utc).strftime("%Y-%m-%d")
         plan.append(dict(pxl=pxl, src=str(src), newname=f"LEPA_{fdate}_{digest[:8]}.jpg", digest=digest,
                          capture=cap(src), fdate=fdate, createDate=f"{fdate[5:7]}-{fdate[8:10]}-{fdate[0:4]}",
                          tableID=tid, fkcol=fkcol, fkid=int(fkid), title=title))
