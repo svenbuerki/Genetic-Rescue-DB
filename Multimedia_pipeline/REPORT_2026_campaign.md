@@ -5,7 +5,7 @@
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
 
-*Last refreshed: 2026-07-07 (through the July 6 EO30-complex load; EO27 Red Tie held — issue #15).*
+*Last refreshed: 2026-07-08 (through the July 6/7 EO27 Red Tie + EO27-5 load; issue #15 closed).*
 
 ---
 
@@ -13,21 +13,22 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **669** | across 12 EOs (below); + ~87 EO27 Red Tie plants imaged but **held** pending forms (issue #15) |
-| **Events** (slick spots) | **181** | each with GPS + habitat/condition + associated taxa |
-| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) | two genuinely new sites this season; the rest are revisits (link, no insert) |
-| **Plant images** phenotyped | **658 / 669 (98%)** | each has a linked board image; measured height/crown/size class |
+| **Occurrences** (field-collected) | **828** | across 13 EOs (below) |
+| **Events** (slick spots) | **224** | each with GPS + habitat/condition + associated taxa |
+| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) | three genuinely new sites this season; the rest are revisits (link, no insert) |
+| **Plant images** phenotyped | **817 / 828 (99%)** | each has a linked board image; measured height/crown/size class |
 
 **By Element Occurrence:**
 
 | EO | occ | EO | occ |
 |---|---|---|---|
-| **EO18** (7 & 8) | 239 | EO118 | 25 |
+| **EO18** (7 & 8) | 239 | EO38 | 37 |
+| **EO27** (Red Tie + 27-5) | 159 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
 | **EO30** (Simco Rd, 1 & 2) | 50 | EO69 | 8 |
 | EO70 | 42 | EO24 | 6 |
-| EO38 | 37 | EO52 | 1 |
+| | | EO52 | 1 |
 
 The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, and **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots). Recurring theme: cheatgrass inundation of slick spots.
 
@@ -64,6 +65,6 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — **Locations 41, Events 418, Occurrences 2,885, Multimedia 1,854, Phenotyping 1,399** (incl. all prior-year data + the 2026 season + the genotyping integration).
+- `LEPA_SQL.db` — **Locations 42, Events 461, Occurrences 3,044, Multimedia 2,103, Phenotyping 1,558** (incl. all prior-year data + the 2026 season + the genotyping integration).
 - `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
 - Scripts: `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).

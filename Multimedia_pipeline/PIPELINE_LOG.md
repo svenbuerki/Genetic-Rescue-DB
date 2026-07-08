@@ -289,3 +289,23 @@
 
 ## 20260707-180358 — stageB_load --apply
 - linked 50 2026 plant images to occurrences (Multimedia tableID 13) + 50 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260707-180358`.
+
+## 20260708-214151 — field_forms_ocr --load forms0607_results.json
+- staged 2 locations (1 revisit / 1 new), 43 events, 159 occurrences; occ collisions 159. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260708-214422 — field_forms_ocr --load forms0607_results.json
+- staged 2 locations (1 revisit / 1 new), 43 events, 159 occurrences; occ collisions 159. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260708-214448 — field_forms_ocr --commit --apply
+- inserted 1 Locations, 43 Events, 159 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260708-214448`.
+
+## 20260708-214450 — field_forms_ocr --forms-mm --apply
+- linked 88 field-form images to Multimedia (2 Location tableID 9, 86 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260708-214449`.
+
+## 20260708-214847 — 01_ingest_register --apply
+- source `/Users/sven/Documents/Current_projects/LEPA_fieldwork_protocol/SQL_DB/Multimedia_images` years ['2025', '2026']; copied 74 new files into `Multimedia_main/` (1647 unique, 0 duplicate bytes)
+- Multimedia identifiers migrated to `LEPA_<YYYY-MM-DD>_<sha8>.jpg`: 1442; new registered: 177; ambiguous: 28
+- DB backup `LEPA_SQL.db.bak-ingest-20260708-214847`; registry `Multimedia_main/file_registry.csv`
+
+## 20260708-214918 — stageB_load --apply
+- linked 159 2026 plant images to occurrences (Multimedia tableID 13) + 159 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260708-214918`.

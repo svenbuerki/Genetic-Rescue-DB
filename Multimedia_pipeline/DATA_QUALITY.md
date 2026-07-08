@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-07**
-(EO30 complex July-6 fieldwork loaded + verified; EO27 Red Tie held pending forms — issue #15).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-08**
+(EO27 Red Tie July-6/7 + EO27-5 loaded + verified; issue #15 closed).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,16 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 2885. **Events:** 418. **Locations:** 41.
-- **Phenotyping:** 1399. **Multimedia:** 1854 (incl. field-form images).
+- **Occurrences:** 3044. **Events:** 461. **Locations:** 42.
+- **Phenotyping:** 1558. **Multimedia:** 2103 (incl. field-form images).
+
+## EO27 Red Tie (loc 12) + EO27-5 (loc 43) — July 6/7 2026 (loaded 2026-07-08; closes [#15](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/15))
+
+The held July-6 Red Tie boards + the July-7 completion + the new EO27-5 site, loaded together once the loc-12 forms arrived. **0-orphan, 159/159 imaged + phenotyped.**
+- **Board-driven reconciliation:** the July-6 Red Tie **form** occurrence lists were badly OCR-garbled (looped-9→4, overlaps, a stray "2133"); resolved by sweeping **all 159 boards** (held Red Tie 0800-0893 + July-7 0947-1020) for the authoritative OC↔EV mapping. The July-7 form occurrence lists matched the boards exactly. All 43 event stickers CODE128-verified.
+- **Stage A:** +1 new Location (**43 = EO27-5**; loc 12 EO27RT revisit), **+43 Events** (409-430, 433-448, 458-462), **+159 Occurrences** (Red Tie 2909-2995 + 3046-3084; EO27-5 3085-3117), +88 form images (Sven's Pixel, `PXL_20260708`).
+- **Stage B:** +159 Multimedia + 159 Phenotyping (field-tape H/W on every board). +2 "New Location Truck Images" (JCN_0946, JCN_1021) linked to loc 43 as context (`NEEDS CURATION`).
+- **occ-2909 collision resolved:** the EO32 event-404 plant (synthetically reassigned to 2909 last session) was moved to a **reserved out-of-band ID 9001** so the real Red Tie plant (board OC 2909) takes 2909. (Lesson: reassign envelope-reuse plants to a reserved high block, never "next free above max" — the field roll grows into it.)
 
 ## EO30 complex — July 6 2026 (loaded 2026-07-07)
 
