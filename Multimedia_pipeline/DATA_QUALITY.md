@@ -22,7 +22,7 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3044. **Events:** 461. **Locations:** 42.
+- **Occurrences:** 3043. **Events:** 461. **Locations:** 42.
 - **Phenotyping:** 1558. **Multimedia:** 2103 (incl. field-form images).
 
 ## EO27 Red Tie (loc 12) + EO27-5 (loc 43) — July 6/7 2026 (loaded 2026-07-08; closes [#15](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/15))
@@ -31,7 +31,7 @@ The held July-6 Red Tie boards + the July-7 completion + the new EO27-5 site, lo
 - **Board-driven reconciliation:** the July-6 Red Tie **form** occurrence lists were badly OCR-garbled (looped-9→4, overlaps, a stray "2133"); resolved by sweeping **all 159 boards** (held Red Tie 0800-0893 + July-7 0947-1020) for the authoritative OC↔EV mapping. The July-7 form occurrence lists matched the boards exactly. All 43 event stickers CODE128-verified.
 - **Stage A:** +1 new Location (**43 = EO27-5**; loc 12 EO27RT revisit), **+43 Events** (409-430, 433-448, 458-462), **+159 Occurrences** (Red Tie 2909-2995 + 3046-3084; EO27-5 3085-3117), +88 form images (Sven's Pixel, `PXL_20260708`).
 - **Stage B:** +159 Multimedia + 159 Phenotyping (field-tape H/W on every board). +2 "New Location Truck Images" (JCN_0946, JCN_1021) linked to loc 43 as context (`NEEDS CURATION`).
-- **occ-2909 collision resolved:** the EO32 event-404 plant (synthetically reassigned to 2909 last session) was moved to a **reserved out-of-band ID 9001** so the real Red Tie plant (board OC 2909) takes 2909. (Lesson: reassign envelope-reuse plants to a reserved high block, never "next free above max" — the field roll grows into it.)
+- **occ-2909/2897 fully resolved ([#17](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/17) closed):** the real Red Tie plant took **2909**; the EO32 event-404 plant (board+form read 2897) was parked at 9001, then **restored to its true number 2897** after we found EO69's 2897 was *spurious* — the EO69 event-265 field sheet stops at 2896, and its 2897 had no image/tissue/DNA (a synthetic over-assignment from the July event-265 reconciliation). Removed the phantom EO69 2897 (EO69 event 265 now = 2379-2382, 2894-2896) and reassigned the EO32 plant 9001→**2897**; 9001 retired. (Lesson: synthetic/lab reassignments must draw from a **reserved high block**, never the live field-number range.)
 
 ## EO30 complex — July 6 2026 (loaded 2026-07-07)
 
@@ -71,7 +71,7 @@ Biobanking→genetics pipeline loaded and **validated against Peggy's master she
 - **View** `vSequencingOccurrence` joins each library to its `occurrenceID` (SRK-pipeline entry point; `SampleID` = `libraryName`).
 - **Terms** now document every genotyping field (140 total); `TissueTransactions` (Biobanking) + `GenotypingStatus` (Genetics) registered.
 - **Issues:** #9–#13 filed for the lab team; **#12 closed** (status gaps reconciled; occ 1134 resolved to *L. montanum*). Open: **#10** (57 tissues no weight), **#11** (6 master-sheet tissue cells), **#13** (5 negative tissue weights).
-- **Event-265 occurrence-ID collision fixed** — wild EO69 plants renumbered off the genotyping-bank IDs (2384/2385/2386→2894/2895/2896, +2897); clones/outgroups now hold 2383–2386; three board images annotated with corrected OccIDs. See `Notes` (Data Correction rows) + `PIPELINE_LOG.md`.
+- **Event-265 occurrence-ID collision fixed** — wild EO69 plants renumbered off the genotyping-bank IDs (2384/2385/2386→2894/2895/2896); clones/outgroups now hold 2383–2386; three board images annotated with corrected OccIDs. *(A 4th wild plant "2897" added here was later found **spurious** — not on the EO69 field sheet, no image/data — and removed 2026-07-08; see [#17](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/17). occ 2897 now correctly = the EO32 event-404 plant.)* See `Notes` (Data Correction rows) + `PIPELINE_LOG.md`.
 
 ## 2026 campaign (processed June 2026) — see [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)
 

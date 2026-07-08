@@ -13,7 +13,7 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **828** | across 13 EOs (below) |
+| **Occurrences** (field-collected) | **827** | across 13 EOs (below) |
 | **Events** (slick spots) | **224** | each with GPS + habitat/condition + associated taxa |
 | **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) | three genuinely new sites this season; the rest are revisits (link, no insert) |
 | **Plant images** phenotyped | **817 / 828 (99%)** | each has a linked board image; measured height/crown/size class |
@@ -26,7 +26,7 @@
 | **EO27** (Red Tie + 27-5) | 159 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
-| **EO30** (Simco Rd, 1 & 2) | 50 | EO69 | 8 |
+| **EO30** (Simco Rd, 1 & 2) | 50 | EO69 | 7 |
 | EO70 | 42 | EO24 | 6 |
 | | | EO52 | 1 |
 
@@ -65,6 +65,6 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — **Locations 42, Events 461, Occurrences 3,044, Multimedia 2,103, Phenotyping 1,558** (incl. all prior-year data + the 2026 season + the genotyping integration).
+- `LEPA_SQL.db` — **Locations 42, Events 461, Occurrences 3,043, Multimedia 2,103, Phenotyping 1,558** (incl. all prior-year data + the 2026 season + the genotyping integration).
 - `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
 - Scripts: `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).
