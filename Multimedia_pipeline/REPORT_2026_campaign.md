@@ -5,7 +5,7 @@
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
 
-*Last refreshed: 2026-07-08 (through the July 6/7 EO27 Red Tie + EO27-5 load; issue #15 closed).*
+*Last refreshed: 2026-07-09 (through the July 8 EO27 Figgins / new-site / Pleasant Valley load).*
 
 ---
 
@@ -13,24 +13,24 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **827** | across 13 EOs (below) |
-| **Events** (slick spots) | **224** | each with GPS + habitat/condition + associated taxa |
-| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) | three genuinely new sites this season; the rest are revisits (link, no insert) |
-| **Plant images** phenotyped | **817 / 828 (99%)** | each has a linked board image; measured height/crown/size class |
+| **Occurrences** (field-collected) | **930** | across 13 EOs (below) |
+| **Events** (slick spots) | **256** | each with GPS + habitat/condition + associated taxa |
+| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) | four genuinely new sites this season; the rest are revisits (link, no insert) |
+| **Plant images** phenotyped | **920 / 931 (99%)** | each has a linked board image; measured height/crown/size class |
 
 **By Element Occurrence:**
 
 | EO | occ | EO | occ |
 |---|---|---|---|
-| **EO18** (7 & 8) | 239 | EO38 | 37 |
-| **EO27** (Red Tie + 27-5) | 159 | EO118 | 25 |
+| **EO27** (Red Tie, 27-5, Figgins, PV, new site) | 262 | EO38 | 37 |
+| **EO18** (7 & 8) | 239 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
 | **EO30** (Simco Rd, 1 & 2) | 50 | EO69 | 7 |
 | EO70 | 42 | EO24 | 6 |
 | | | EO52 | 1 |
 
-The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, and **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots). Recurring theme: cheatgrass inundation of slick spots.
+The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots), and then a sustained week-long push through the **EO27 complex** (Red Tie, EO27-5, Figgins, Pleasant Valley and a new site) that made EO27 the season's largest EO at 262 plants. Recurring theme: cheatgrass inundation of slick spots.
 
 ## 2. Stage A — field forms → Locations / Events / Occurrences
 
@@ -54,6 +54,8 @@ The biobanking→genetics chain was loaded and validated against Peggy's master 
 ## 5. Reused-ID handling
 
 The recurring 2026 theme — IDs reused across years and across field days — kept appearing and was caught by the gated loads: event stickers reassigned to free IDs; the EO69 barcode as a genuinely new location; and **reused field envelopes** (e.g. occ 2714 written on two event forms → resolved to event 363 from the board evidence; occ **2897** written on an EO32 plant but already a wild EO69 plant → reassigned to fresh 2909). A companion failure mode surfaced at EO32: **OCR digit-errors on the plant numbers** (a looped hand-written 9 read as 4: 2404→2904, 2744→2794) — caught by reading the physical forms and cross-checking the plant boards, which carry the same number. Every ID is collision-checked against the DB before insert.
+
+**Which source wins?** Neither, categorically. On July 6 the Red Tie *forms* were unreadable and the *boards* settled the occurrence↔event mapping; on July 8 a *board* was mis-written (JCN_1052 hand-labelled `3142`, a duplicate) and the *form* settled it as 3143. The rule the season has converged on: **cross-check forms against boards on every load, and treat the physical envelope number as the tie-breaker** — which is exactly what Ian confirmed for the July-8 case. Two independent, error-prone records of the same number are what make the errors visible at all.
 
 ## 6. Open items (tracked on GitHub — svenbuerki/Genetic-Rescue-DB)
 

@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-08**
-(EO27 Red Tie July-6/7 + EO27-5 loaded + verified; issue #15 closed).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-09**
+(EO27 Figgins / new EO27 site / Pleasant Valley July-8 fieldwork loaded + verified).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,33 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3043. **Events:** 461. **Locations:** 42.
-- **Phenotyping:** 1558. **Multimedia:** 2103 (incl. field-form images).
+- **Occurrences:** 3146. **Events:** 493. **Locations:** 43.
+- **Phenotyping:** 1661. **Multimedia:** 2273 (incl. field-form images).
+
+## EO27 Figgins (loc 9) + new EO27 site (loc 44) + Pleasant Valley (loc 10) — July 8 2026 (loaded 2026-07-09)
+
+Ian's ~104-sample day across three EO27 sites. **0-orphan, 103/103 imaged + phenotyped**, and — for the first time this season — the **forms and the boards agreed on every one of the 32 events** once two isolated digit errors were corrected.
+
+- **Stage A:** +1 new Location (**44 = EO27**, GPS recorded from the location sheet; loc 9 Figgins + loc 10 Pleasant Valley revisits), **+32 Events** (463–494, all CODE128-verified, no gaps), **+103 Occurrences** (3118–3220), **+67 form images** (Peggy's iPhone HEIC → JPG; datestamped `LEPA_2026-07-09_*` = the imaging date).
+  - Event split: loc 9 → 24 events / 79 occ; loc 44 → 6 events / 17 occ; loc 10 → 2 events / 7 occ.
+- **Stage B:** +103 Multimedia + 103 Phenotyping. Every board carried field-written H/W and a usable image scale; no stray/other-day images (date cross-check clean), no missing plants.
+- **Form-set completeness audit (pre-load):** 3 location pages + 32 event p1 + 32 event p2 = **67, a complete set** — nothing to request from the field crew.
+
+### Corrections recorded (each carries an `eventRemarks` note)
+
+| Event | Correction | Authority |
+|---|---|---|
+| **472** (occ 3143) | Board **JCN_1052** hand-written `3142` — a duplicate of event 471's last plant. Corrected to **3143**. | **Form** (Ian: "no errors with the occurrence-number envelopes… just a white-board photo mistake") |
+| **494** (occ 3218–3220) | Page-2 occurrence numbers hand-written `3118/3119/3120` (2-read-as-1). Corrected to **3218/3219/3220**. | **Boards** |
+| **472** | Longitude illegible and inconsistent with the site (the read value breaks the longitude pattern of every bracketing event). Filled with the **midpoint of bracketing events 471 & 473**, flagged PROVISIONAL. | post-hoc, per the [#16](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/16) convention |
+| **464, 489, 492** | Form dates hand-written `07-09`, `08-07` (transposed), `07-09`. Normalized to **07-08-2026**. | event-sticker sequence + Ian's report |
+| **471** | Slick-spot condition hand-written `2.5`. Recorded as **2** (scale is integer 1–4). | convention |
+
+**Note the inversion:** on July 6 the *boards* were authoritative over garbled forms; here the *form* was authoritative over a mis-written board. Neither source is categorically reliable — the two must always be cross-checked, and the physical envelope number is the tie-breaker.
+
+**Flagged, not blocking:** the Pleasant Valley (loc 10) location sheet carries a hand-written barcode `500010` where the printed barcode reads `0010`, and its lat/long are recorded at low precision (3 decimal places, vs 6-7 elsewhere). Worth a word to the field crew.
+
+**Location-13 clash — averted, resolved 2026-07-09.** The field plan named "Location 13" for a new EO27-1 area, but loc 13 is already **EO30-1** (a different EO, 39 occurrences over two seasons). Flagged before any load; **Ian confirmed the crew is in location 11** (`EO27-1`, sampled 2025 only) and that the sample records are correct. No data change was required — loc 11 will load as a revisit. *(EO27-1 exists at two locationIDs, 11 and 37; the boards should read L11.)*
 
 ## EO27 Red Tie (loc 12) + EO27-5 (loc 43) — July 6/7 2026 (loaded 2026-07-08; closes [#15](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/15))
 
@@ -38,7 +63,7 @@ The held July-6 Red Tie boards + the July-7 completion + the new EO27-5 site, lo
 Simco Rd, sampled after EO27 Red Tie the same morning (Red Tie held — see below). Two-stage load, verified **0-orphan, 50/50 imaged + phenotyped**:
 - **Stage A** (`field_forms_ocr.py`): 24 forms (Peggy's phone, **HEIC→JPG via `sips`**) → **+1 new Location** (42 = EO30-2; loc 13 EO30-1 is a revisit), **+11 Events** (431, 432, 449–457, all **CODE128 barcode-verified**), **+50 Occurrences** (2996–3045), +24 form images. Event 449's form OCR read loc "0044" → **plant boards confirm loc 42** (OCR slip); remark added. Event 457 condition 2.5→2. `associatedTaxa` homogenized, no new taxa.
 - **Stage B** (`stageB_load.py`): 50 EO30 boards (JCN_0896–0945) → **+50 Multimedia + 50 Phenotyping** (22 small / 28 medium; all field-tape H/W). Board OC/EV/EO/L# all matched the forms exactly.
-- **Missing event GPS — [#16](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/16):** events **405** (EO32) and **451** (EO30-2) had NULL lat/long (**blank on the forms**; boards carry no GPS). Per Ian's guidance (event numbers run sequentially along the travel route), each is filled with a **post-hoc midpoint of its bracketing events** (405 = mid of 404/406 → 43.50932, -116.29023; 451 = mid of 450/452 → 43.31542, -115.91939). **PROVISIONAL** — flagged in `eventRemarks`; true fix needs a **site revisit** (EO30 easier than EO32). *Process fix going forward: confirm lat/long is written on every event form.* (Older: event 13, 2025, still NULL.)
+- **Missing event GPS — [#16](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/16):** events **405** (EO32) and **451** (EO30-2) had NULL lat/long (**blank on the forms**; boards carry no GPS). Per Ian's guidance (event numbers run sequentially along the travel route), each is filled with a **post-hoc midpoint of its bracketing events** (405 = mid of 404/406; 451 = mid of 450/452). **PROVISIONAL** — flagged in `eventRemarks`; true fix needs a **site revisit** (EO30 easier than EO32). *Process fix going forward: confirm lat/long is written on every event form.* (Older: event 13, 2025, still NULL.)
 - **Form-image datestamp fix:** Peggy's iPhone writes `IMG_####` (no date in filename) vs the Pixel's `PXL_<date>`; `--forms-mm` was falling back to a stale hardcoded date. Fixed to derive the datestamp from **EXIF capture = the imaging date** (forms are photographed ~1 day after fieldwork; these = 2026-07-07). The 24 already-loaded form images were renamed to `LEPA_2026-07-07_*`.
 
 ### HELD — EO27 Red Tie (loc 12), July 6 — [#15](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/15)
