@@ -22,7 +22,7 @@
 
 | EO | occ | EO | occ |
 |---|---|---|---|
-| **EO27** (Red Tie, 27-1, 27-5, Figgins, PV, new site) | 387 | EO38 | 37 |
+| **EO27** (Red Tie South 11/12, 27-5, Figgins, PV, new site) | 387 | EO38 | 37 |
 | **EO18** (7 & 8) | 239 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
