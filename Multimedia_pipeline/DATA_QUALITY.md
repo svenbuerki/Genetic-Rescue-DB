@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-09**
-(EO27 Figgins / new EO27 site / Pleasant Valley July-8 fieldwork loaded + verified).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-10**
+(EO27-1 Red Tie / loc 11 July-9 fieldwork loaded + verified).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,29 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3146. **Events:** 493. **Locations:** 43.
-- **Phenotyping:** 1661. **Multimedia:** 2273 (incl. field-form images).
+- **Occurrences:** 3271. **Events:** 525. **Locations:** 43.
+- **Phenotyping:** 1786. **Multimedia:** 2463 (incl. field-form images).
+
+## EO27-1 Red Tie (loc 11) — July 9 2026 (loaded 2026-07-10)
+
+Ian's full day across a new area of EO27-1 Red Tie (the "Location 13" the field plan named, corrected to **loc 11** after the collision was flagged — see below). Single location, 32 events. **0-orphan, 125/125 imaged + phenotyped.** The occurrence assignment was **board-driven** (the boards ran perfectly sequential 3221–3345), with the forms supplying event metadata; the two crew-flagged occurrence corrections were confirmed by the boards.
+
+- **Stage A:** loc 11 **revisit** (no insert; `EO27-1`, Orchard, previously sampled 2025 only), **+32 Events** (495–526, all CODE128-decoded — one sticker, 525, didn't scan and was placed by capture order + confirmed by its boards), **+125 Occurrences** (3221–3345, contiguous), **+65 form images** (Sven's Pixel, `PXL_20260710` → datestamped `LEPA_2026-07-10_*`, the imaging date).
+- **Stage B:** +125 Multimedia + 125 Phenotyping. Every board carried field-written H/W and an image scale; no stray/other-day images; no missing plants.
+
+### Corrections recorded (each carries an `eventRemarks` note)
+
+| Event | Correction | Authority |
+|---|---|---|
+| **515** (occ 3288) | Form page-2 occurrence number illegible (read like "528/5286"); board reads **3288** cleanly. | **Board** (matches Sven's pre-load correction) |
+| **512** (occ 3274–3276) | Confirmed 3274/3275/3276. | Board + form + Sven's pre-load note |
+| **501** | Latitude illegible/inconsistent on the form; filled with the **midpoint of bracketing events 500 & 502**, flagged PROVISIONAL (longitude was legible). | post-hoc, per the [#16](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/16) convention |
+| **519–524** | Event GPS **re-read directly from the forms** — a subagent OCR batch systematically misread the longitude prefix (a looped "11" as "4", giving spurious −116.48xx) and shifted several latitudes. Direct reads restored the true −116.11–12xx values. | direct read |
+| **503** | Slick-spot condition hand-written `1.5`; recorded as **1** (integer 1–4 scale). | convention |
+
+**Unresolved taxa (3, held for team ID — verbatim kept in `associatedTaxaOriginal`, tokens in `_taxa_unknown`):** **"Ernst"** (events 507/509/510/511/512 — likely *Eriogonum*/buckwheat; the boards for those events show buckwheat-like plants), **"blanketflower"** (event 503 — likely *Gaillardia*), **"stiff flax"** (event 500 — likely *Linum*). Ask Teo before adding to `Taxonomy`.
+
+**Location-13 → loc 11 (resolved 2026-07-09, loaded here):** the field plan named "Location 13" for this new EO27-1 area, but loc 13 is **EO30-1** (a different EO). Ian confirmed the crew is in **location 11**; loaded as the loc-11 revisit. (EO27-1 also exists at loc 37; the boards all read L11.)
 
 ## EO27 Figgins (loc 9) + new EO27 site (loc 44) + Pleasant Valley (loc 10) — July 8 2026 (loaded 2026-07-09)
 

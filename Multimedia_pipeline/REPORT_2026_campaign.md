@@ -5,7 +5,7 @@
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
 
-*Last refreshed: 2026-07-09 (through the July 8 EO27 Figgins / new-site / Pleasant Valley load).*
+*Last refreshed: 2026-07-10 (through the July 9 EO27-1 Red Tie / loc 11 load).*
 
 ---
 
@@ -13,16 +13,16 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **930** | across 13 EOs (below) |
-| **Events** (slick spots) | **256** | each with GPS + habitat/condition + associated taxa |
+| **Occurrences** (field-collected) | **1,055** | across 13 EOs (below) |
+| **Events** (slick spots) | **288** | each with GPS + habitat/condition + associated taxa |
 | **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) | four genuinely new sites this season; the rest are revisits (link, no insert) |
-| **Plant images** phenotyped | **920 / 931 (99%)** | each has a linked board image; measured height/crown/size class |
+| **Plant images** phenotyped | **1,045 / 1,056 (99%)** | each has a linked board image; measured height/crown/size class |
 
 **By Element Occurrence:**
 
 | EO | occ | EO | occ |
 |---|---|---|---|
-| **EO27** (Red Tie, 27-5, Figgins, PV, new site) | 262 | EO38 | 37 |
+| **EO27** (Red Tie, 27-1, 27-5, Figgins, PV, new site) | 387 | EO38 | 37 |
 | **EO18** (7 & 8) | 239 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
