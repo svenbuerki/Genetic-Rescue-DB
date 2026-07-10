@@ -42,7 +42,12 @@ Ian's full day across a new area of **EO27-1 "Red Tie South"** (the "Location 13
 | **519–524** | Event GPS **re-read directly from the forms** — a subagent OCR batch systematically misread the longitude prefix (a looped "11" as "4", giving spurious −116.48xx) and shifted several latitudes. Direct reads restored the true −116.11–12xx values. | direct read |
 | **503** | Slick-spot condition hand-written `1.5`; recorded as **1** (integer 1–4 scale). | convention |
 
-**Unresolved taxa (3, held for team ID — verbatim kept in `associatedTaxaOriginal`, tokens in `_taxa_unknown`):** **"Ernst"** (events 507/509/510/511/512 — likely *Eriogonum*/buckwheat; the boards for those events show buckwheat-like plants), **"blanketflower"** (event 503 — likely *Gaillardia*), **"stiff flax"** (event 500 — likely *Linum*). Ask Teo before adding to `Taxonomy`.
+**Taxa flagged as "unknown" — all resolved by reading the forms (2026-07-10):** the OCR sweep produced three unknown tokens; reading the actual sheets (Sven transcribing) showed **all three were OCR misreads of taxa already in `Taxonomy`** — no new taxa were needed. Each corrected in place (taxonID added, verbatim fixed, `eventRemarks` note):
+- **"Ernst" → crust** (biological soil crust, taxonID 35) on events 507/509/510/511/512.
+- **"stiff flax" → Atriplex** (saltbush, genus-level taxonID 25; species not determined) on event 500.
+- **"blanketflower" → bur buttercup** (*Ceratocephala testiculata*, taxonID 9) on event 503.
+
+*Lesson: an OCR "unknown taxon" is usually a misread of a common known one (here crust, Atriplex, bur buttercup all appear on nearly every sheet) — read the form before treating it as a new species.*
 
 **Location-13 → loc 11 (resolved 2026-07-09, loaded here):** the field plan named "Location 13" for this new EO27-1 area, but loc 13 is **EO30-1** (a different EO). Ian confirmed the crew is in **location 11**; loaded as the loc-11 revisit. (EO27-1 "Red Tie South" spans loc 11, 12, 37; the boards all read L11.)
 

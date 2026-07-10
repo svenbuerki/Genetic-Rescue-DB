@@ -355,3 +355,7 @@
 
 ## 20260710-201023 — stageB_load --apply
 - linked 125 2026 plant images to occurrences (Multimedia tableID 13) + 125 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260710-201022`.
+
+- 2026-07-10 TAXA FIX (July-9 load): 'Ernst'→crust(35) on ev 507/509/510/511/512; 'stiff flax'→Atriplex(25) on ev 500. OCR artifacts confirmed against forms (Sven). 'blanketflower' (ev 503) still pending Teo. Backup LEPA_SQL.db.bak-taxafix-20260710-142312.
+
+- 2026-07-10 TAXA FIX cont'd: 'blanketflower'→bur buttercup(9) on ev 503 (OCR artifact, Sven read the form). ALL 3 July-9 'unknown' taxa were OCR misreads of known taxa — no new Taxonomy rows needed. Backup LEPA_SQL.db.bak-taxafix503-20260710-142448.
