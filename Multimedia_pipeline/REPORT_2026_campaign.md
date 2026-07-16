@@ -5,7 +5,7 @@
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
 
-*Last refreshed: 2026-07-10 (through the July 9 EO27-1 Red Tie / loc 11 load).*
+*Last refreshed: 2026-07-16 (through the July 10 OCTC wrap-up: EO27-1 loc 45/46 + EO67 loc 39).*
 
 ---
 
@@ -13,16 +13,16 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **1,055** | across 13 EOs (below) |
-| **Events** (slick spots) | **288** | each with GPS + habitat/condition + associated taxa |
-| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) | four genuinely new sites this season; the rest are revisits (link, no insert) |
-| **Plant images** phenotyped | **1,045 / 1,056 (99%)** | each has a linked board image; measured height/crown/size class |
+| **Occurrences** (field-collected) | **1,092** | across 13 EOs (below) |
+| **Events** (slick spots) | **299** | each with GPS + habitat/condition + associated taxa |
+| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) + **EO27-1** (45, 46) | six genuinely new sites this season; the rest are revisits (link, no insert) |
+| **Plant images** phenotyped | **1,082 / 1,093 (99%)** | each has a linked board image; measured height/crown/size class |
 
 **By Element Occurrence:**
 
 | EO | occ | EO | occ |
 |---|---|---|---|
-| **EO27** (Red Tie South 11/12, 27-5, Figgins, PV, new site) | 387 | EO38 | 37 |
+| **EO27** (Red Tie South 11/12/45/46, 27-5, Figgins, PV, new site) | 418 | EO38 | 37 |
 | **EO18** (7 & 8) | 239 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
 | **EO25** (A & B) | 106 | EO76 | 8 |
@@ -30,7 +30,7 @@
 | EO70 | 42 | EO24 | 6 |
 | | | EO52 | 1 |
 
-The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots), and then a sustained week-long push through the **EO27 complex** (Red Tie, EO27-5, Figgins, Pleasant Valley and a new site) that made EO27 the season's largest EO at 262 plants. Recurring theme: cheatgrass inundation of slick spots.
+The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots), and then a sustained week-long push through the **EO27 complex** (Red Tie, EO27-5, Figgins, Pleasant Valley and a new site) that made EO27 the season's largest EO at 418 plants (Red Tie South, EO27-5, Figgins, Pleasant Valley, plus new locations 44/45/46), finishing 2026-07-10 with a Range-Fire-burned wrap-up (loc 45/46) and a brief EO67 revisit before the crew moved to eastern populations. Recurring theme: cheatgrass inundation of slick spots — and, at the OCTC, the 2025 Range Fire.
 
 ## 2. Stage A — field forms → Locations / Events / Occurrences
 
@@ -67,6 +67,6 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — **Locations 42, Events 461, Occurrences 3,043, Multimedia 2,103, Phenotyping 1,558** (incl. all prior-year data + the 2026 season + the genotyping integration).
+- `LEPA_SQL.db` — **Locations 45, Events 536, Occurrences 3,308, Multimedia 2,525, Phenotyping 1,823** (incl. all prior-year data + the 2026 season + the genotyping integration).
 - `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
 - Scripts: `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).

@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-10**
-(EO27-1 Red Tie / loc 11 July-9 fieldwork loaded + verified).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-16**
+(July-10 OCTC wrap-up loaded + verified: EO27-1 loc 45 & 46 new, EO67 loc 39 revisit).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,29 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3271. **Events:** 525. **Locations:** 43.
-- **Phenotyping:** 1786. **Multimedia:** 2463 (incl. field-form images).
+- **Occurrences:** 3308. **Events:** 536. **Locations:** 45.
+- **Phenotyping:** 1823. **Multimedia:** 2525 (incl. field-form images).
+
+## July 10 2026 — OCTC wrap-up (loaded 2026-07-16): EO27-1 loc 45 & 46 (new) + EO67 loc 39 (revisit)
+
+Ian's final OCTC day, mostly in Range-Fire-burned ground (low numbers expected). **0-orphan, 37/37 imaged + phenotyped.** Board-driven occurrence assignment; forms and boards reconciled on all 11 events. Forms were Peggy's HEIC (→JPG via `sips`), imaged 2026-07-13 (Sven traveling), so form images datestamp `LEPA_2026-07-13_*`.
+
+- **Stage A:** **+2 new Locations** (**45** = EO27-1, east of the Red Tie exclosure loc 12; **46** = EO27-1, western edge) + **loc 39 EO67 revisit**; **+11 Events** (527–537); **+37 Occurrences** (3346–3382, contiguous); +25 form images.
+  - Split: loc 45 → 7 events / 21 occ; loc 46 → 2 events / 10 occ; loc 39 (EO67) → 2 events / 6 occ. *(Ian's email estimated ~7 for EO67; forms + boards agree on 6 — his rough field count.)*
+  - Burned-area events (528–533, 536, 537) legitimately have **size 0 and condition N/A** (no differentiable slick spot in the burn); recorded as such with the crew's burn notes in `eventRemarks`.
+- **Stage B:** +37 Multimedia + 37 Phenotyping (every board field-tape H/W + image scale).
+
+### Corrections recorded (each carries an `eventRemarks`/`locationRemarks` note)
+
+| Item | Correction | Basis |
+|---|---|---|
+| **Loc 46 latitude** | Location sheet's latitude had a single-digit slip inconsistent with its own two events by ~6.6 km; corrected to match the events. Longitude as written. | direct read + event consistency |
+| **Events 527, 528, 530** | Latitude OCR outliers (off by whole tenths/hundredths of a degree from the site) re-read to the loc-45 cluster; flagged PROVISIONAL. | direct read |
+| **ev 536 occ list** | Form page-2 read "5377–5379"; boards give **3377–3379** (5→3 misread). | boards |
+
+**Two taxa flagged for Teo** (verbatim kept in `associatedTaxaOriginal`): **"Helianthus sp."** (event 528 — a legible, genuine new candidate = annual sunflower, plausible in burned/disturbed ground; not in `Taxonomy` yet) and **"thistle mangt?"** (event 536 — genuinely illegible, not guessed). All other OCR "unknowns" this load were bracket-annotation artifacts of known taxa (cheatgrass, Poa→Sandberg).
+
+This closes the **OCTC / EO27 season** (Ian's crew moves to eastern populations next). **EO77 was searched and empty → no `EOs` row created**, as expected.
 
 ## EO27-1 "Red Tie South" (loc 11) — July 9 2026 (loaded 2026-07-10)
 

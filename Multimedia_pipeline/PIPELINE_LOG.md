@@ -359,3 +359,23 @@
 - 2026-07-10 TAXA FIX (July-9 load): 'Ernst'→crust(35) on ev 507/509/510/511/512; 'stiff flax'→Atriplex(25) on ev 500. OCR artifacts confirmed against forms (Sven). 'blanketflower' (ev 503) still pending Teo. Backup LEPA_SQL.db.bak-taxafix-20260710-142312.
 
 - 2026-07-10 TAXA FIX cont'd: 'blanketflower'→bur buttercup(9) on ev 503 (OCR artifact, Sven read the form). ALL 3 July-9 'unknown' taxa were OCR misreads of known taxa — no new Taxonomy rows needed. Backup LEPA_SQL.db.bak-taxafix503-20260710-142448.
+
+## 20260713-210858 — field_forms_ocr --load forms0710fw_results.json
+- staged 3 locations (1 revisit / 2 new), 11 events, 37 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260713-211118 — field_forms_ocr --load forms0710fw_results.json
+- staged 3 locations (1 revisit / 2 new), 11 events, 37 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260713-211150 — field_forms_ocr --commit --apply
+- inserted 2 Locations, 11 Events, 37 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260713-211150`.
+
+## 20260713-211226 — field_forms_ocr --forms-mm --apply
+- linked 25 field-form images to Multimedia (3 Location tableID 9, 22 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260713-211226`.
+
+## 20260713-211246 — 01_ingest_register --apply
+- source `../Multimedia_images` years ['2025', '2026']; copied 37 new files into `Multimedia_main/` (1912 unique, 0 duplicate bytes)
+- Multimedia identifiers migrated to `LEPA_<YYYY-MM-DD>_<sha8>.jpg`: 1831; new registered: 53; ambiguous: 28
+- DB backup `LEPA_SQL.db.bak-ingest-20260713-211246`; registry `Multimedia_main/file_registry.csv`
+
+## 20260716-201520 — stageB_load --apply
+- linked 37 2026 plant images to occurrences (Multimedia tableID 13) + 37 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260716-201520`.
