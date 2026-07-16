@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
 Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-16**
-(July-10 OCTC wrap-up loaded + verified: EO27-1 loc 45 & 46 new, EO67 loc 39 revisit).
+(July-13 EO8 Hammett Hills loc 28 loaded + verified — first eastern-population load).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,21 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3308. **Events:** 536. **Locations:** 45.
-- **Phenotyping:** 1823. **Multimedia:** 2525 (incl. field-form images).
+- **Occurrences:** 3431. **Events:** 590. **Locations:** 45.
+- **Phenotyping:** 1946. **Multimedia:** 2757 (incl. field-form images).
+
+## July 13 2026 — EO8 Hammett Hills, loc 28 (loaded 2026-07-16): first eastern-population load
+
+The crew's move east after finishing the OCTC. **123 samples, one location, one day — the biggest single-day load of the season.** loc 28 (EO8, Hammett Hills) is a **revisit** (sampled 2025). **0-orphan, 123/123 imaged + phenotyped.** Peggy's 109 HEIC forms → JPG (`sips`), imaged 2026-07-15 (form images datestamp `LEPA_2026-07-15_*`). 123 boards (JCN_1308–1432).
+
+- **Stage A:** loc 28 revisit; **+54 Events** (538–591, all CODE128-decoded, no gaps); **+123 Occurrences** (3383–3505, contiguous — continuing straight from the OCTC max 3382); +109 form images.
+- **Stage B:** +123 Multimedia + 123 Phenotyping (every board field-tape H/W + image scale).
+- **Board-driven load; forms + boards reconciled on all 54 events.** The forms' OCR'd occurrence lists were noisy (rotated pages, looped-9→4, and several agents second-guessing the 4-digit numbers), so occurrences were taken from the boards and cross-checked; every event matched.
+
+### The whiteboard-duplicate that resolved itself
+Ian pre-declared (email 07-13): *"after occurrence 4321 I forgot to update the occurrence number, so it appears twice. The second should be 4322."* On inspection: the numbering is actually **3421/3422** (Ian's "43xx" was a leading-digit slip — both forms and boards read the 3300s–3500s), and because the boards were imaged 07-15 (two days later), **Isaac had already applied the correction** — the boards show 3421 and 3422 each exactly once, and event 551's form even carries the handwritten note *"change to 3422."* Nothing to fix on load; both occurrences link to distinct plants (JCN_1346 = 3421, JCN_1347 = 3422).
+
+**Four new candidate taxa flagged for Teo** (new to this eastern habitat; verbatim kept, held out of `Taxonomy`): **snakeweed** (*Gutierrezia*?, events 552/553), **lupine** (*Lupinus*?, event 552), **penstemon** (event 559), **rush** (*Juncus*?, event 559). Other OCR "unknowns" were artifacts of known taxa (rabbitbrush=17, crested wheatgrass=15, tumble mustard=5, Descurainia=46).
 
 ## July 10 2026 — OCTC wrap-up (loaded 2026-07-16): EO27-1 loc 45 & 46 (new) + EO67 loc 39 (revisit)
 
