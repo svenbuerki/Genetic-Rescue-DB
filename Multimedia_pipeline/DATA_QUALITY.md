@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-16**
-(July-13 EO8 Hammett Hills loc 28 loaded + verified — first eastern-population load).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-20**
+(July-14 EO8 loc 27 + loc 28 loaded + verified; new loc 47 deferred to the July-15 load).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,25 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3431. **Events:** 590. **Locations:** 45.
-- **Phenotyping:** 1946. **Multimedia:** 2757 (incl. field-form images).
+- **Occurrences:** 3486. **Events:** 618. **Locations:** 45.
+- **Phenotyping:** 2001. **Multimedia:** 2869 (incl. field-form images).
+
+## July 14 2026 — EO8 loc 27 + loc 28 (loaded 2026-07-20); new loc 47 deferred
+
+Second EO8 day: the crew completed **loc 28** (continuing from July 13), completed **loc 27**, and opened a **new location 47**. **55 samples loaded** (loc 28 = 40, loc 27 = 15); **0-orphan, 55/55 imaged + phenotyped.** 85 boards imaged in-field 07-14 (JCN_1433–1524); 57 Peggy HEIC forms → JPG imaged 07-15.
+
+- **Stage A:** loc 27 revisit (first 2026 location sheet) + loc 28 continuation; **+28 Events** (592–619, all CODE128-decoded, no gaps); **+55 Occurrences** (3506–3560, contiguous from the July-13 max 3505); +57 form images.
+- **Stage B:** +55 Multimedia + 55 Phenotyping (image scale cross-checked the field-written board H/W to ~±1 cm; size class 24 medium / 21 small / 10 large).
+- **Board-driven load; forms + boards reconciled on all 28 events.**
+
+**New location 47 (30 plants, occ 3561–3590, events 620–628) deferred to the July-15 load.** loc 47 was boarded in-field Tuesday (boards JCN_1495–1524, already ingested to `Multimedia_main`) but its **event/location forms were not in this batch** — loc 47 completes on Wednesday (07-15) and all its forms were imaged together with the 15th. Loading loc 47 whole on July 15 keeps Stage A/B consistent. Ian's reported "87 (or 84)" samples = 55 loaded + 30 deferred = 85 boarded.
+
+### Corrections recorded (settled by the plant boards)
+- **loc 29 visited, not sampled:** Ian reported reaching loc 29 (Rye Grass Rd) but all plants had dropped their seeds → **0 seed samples, no event/occurrence records by design** (the boards carry only loc 28 and loc 27).
+- **event 602 location:** form location-barcode OCR read "0029"; the form itself reads **0028**, its GPS sits in the loc-28 cluster, and all three of its boards say loc 28 → event 602 = **loc 28** (there is no loc-29 event — this was the "loc 29" phantom).
+- **event 604 occurrences:** form p2 OCR read 3552/3553/3554 (colliding with event 614's genuine 3552/3553); the boards read **3532/3533/3534**, which makes the whole day contiguous 3506–3560 with no gaps or duplicates. Board values used.
+- **taxonomy:** event 609's "sandburgs bluegrass" = a misspelling of Sandberg's bluegrass (taxonID 12); homogenized via the lexicon, no new `Taxonomy` rows. No candidate taxa for Teo this day.
+- **EOID consistency:** the loader stages EO8 occurrences with `EOID='?'` because `locationCode` "EO8" ≠ `EOs.EOCode` "EO08". July-14 EO8 occurrences were set to the correct **EOID 15**, and the 123 July-13 loc-28 occurrences ('?' → 15) were swept in the same load so all EO8 occurrences now carry EOID 15 (`Occurrences.locationID` → `Locations.EOID` remains the authoritative join regardless).
 
 ## July 13 2026 — EO8 Hammett Hills, loc 28 (loaded 2026-07-16): first eastern-population load
 

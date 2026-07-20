@@ -399,3 +399,18 @@
 
 ## 20260716-205119 — stageB_load --apply
 - linked 123 2026 plant images to occurrences (Multimedia tableID 13) + 123 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260716-205119`.
+
+## 20260720-100812 — field_forms_ocr --load forms0714fw_LOAD.json
+- staged 2 locations (2 revisit / 0 new), 28 events, 55 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260720-100935 — field_forms_ocr --commit --apply
+- inserted 0 Locations, 28 Events, 55 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260720-100935`.
+
+## 20260720-101047 — field_forms_ocr --forms-mm --apply
+- linked 57 field-form images to Multimedia (1 Location tableID 9, 56 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260720-101047`.
+
+## 20260720-101539 — stageB_load --apply
+- linked 55 2026 plant images to occurrences (Multimedia tableID 13) + 55 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260720-101539`.
+
+## 20260720-1020 — manual EOID cleanup (EO8 occurrences)
+- The Stage-A loader stages EO8 occurrences with `EOID='?'` (locationCode "EO8" ≠ EOs.EOCode "EO08"). Set July-14 EO8 occurrences (3506–3560) to the correct EOID 15 in staging, and ran `UPDATE Occurrences SET EOID='15' WHERE locationID IN (27,28,29) AND EOID='?'` to sweep the 123 July-13 loc-28 occurrences (3383–3505) in the same load. Backup `LEPA_SQL.db.bak-eoidfix-20260720-*`. All EO8 occurrences now carry EOID 15; `Occurrences.locationID → Locations.EOID` remains the authoritative join.
