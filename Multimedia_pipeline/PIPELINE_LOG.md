@@ -414,3 +414,26 @@
 
 ## 20260720-1020 — manual EOID cleanup (EO8 occurrences)
 - The Stage-A loader stages EO8 occurrences with `EOID='?'` (locationCode "EO8" ≠ EOs.EOCode "EO08"). Set July-14 EO8 occurrences (3506–3560) to the correct EOID 15 in staging, and ran `UPDATE Occurrences SET EOID='15' WHERE locationID IN (27,28,29) AND EOID='?'` to sweep the 123 July-13 loc-28 occurrences (3383–3505) in the same load. Backup `LEPA_SQL.db.bak-eoidfix-20260720-*`. All EO8 occurrences now carry EOID 15; `Occurrences.locationID → Locations.EOID` remains the authoritative join.
+
+## 20260720-1030 — manual GPS corrections (Teo, manilla-verified)
+- Corrected the event GPS on 12 events flagged by Teo while map-making and cross-checked against the field manilla envelopes (and prior-year points): events 242, 249, 255, 256, 258, 259, 260, 272, 293, 431, 432, 454. Each was a single- or two-field transcription slip (a wrong leading digit, a transposed digit, or a dropped sign). Backup `LEPA_SQL.db.bak-teo-gpsfix-20260720-*`. Values live in the DB only.
+
+## 20260720-111440 — field_forms_ocr --load forms0715fw_LOAD.json
+- staged 3 locations (2 revisit / 1 new), 40 events, 138 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260720-111828 — field_forms_ocr --load forms0715fw_LOAD.json
+- staged 3 locations (2 revisit / 1 new), 40 events, 138 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260720-111920 — field_forms_ocr --commit --apply
+- inserted 1 Locations, 40 Events, 138 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260720-111920`.
+
+## 20260720-112011 — field_forms_ocr --forms-mm --apply
+- linked 82 field-form images to Multimedia (3 Location tableID 9, 79 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260720-112011`.
+
+## 20260720-112207 — 01_ingest_register --apply
+- source `/Users/sven/Documents/Current_projects/LEPA_fieldwork_protocol/SQL_DB/Multimedia_images` years ['2025', '2026']; copied 108 new files into `Multimedia_main/` (2228 unique, 0 duplicate bytes)
+- Multimedia identifiers migrated to `LEPA_<YYYY-MM-DD>_<sha8>.jpg`: 2046; new registered: 154; ambiguous: 28
+- DB backup `LEPA_SQL.db.bak-ingest-20260720-112207`; registry `Multimedia_main/file_registry.csv`
+
+## 20260720-112659 — stageB_load --apply
+- linked 138 2026 plant images to occurrences (Multimedia tableID 13) + 138 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260720-112659`.

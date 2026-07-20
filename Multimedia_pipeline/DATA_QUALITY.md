@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
 Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-20**
-(July-14 EO8 loc 27 + loc 28 loaded + verified; new loc 47 deferred to the July-15 load).
+(July-14 & July-15 loaded + verified — EO8 complete, EO26 loc 31/32 done; a batch of manilla-verified event-GPS corrections also applied).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,25 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3486. **Events:** 618. **Locations:** 45.
-- **Phenotyping:** 2001. **Multimedia:** 2869 (incl. field-form images).
+- **Occurrences:** 3624. **Events:** 658. **Locations:** 46.
+- **Phenotyping:** 2139. **Multimedia:** 3089 (incl. field-form images).
+
+## Manilla-verified event-GPS corrections (Teo, applied 2026-07-20)
+
+Teo found bad event coordinates while map-making and cross-checked each against the field manilla envelopes (and prior-year points). **12 events corrected** — 242, 249, 255, 256, 258, 259, 260, 272, 293, 431, 432, 454 — each a single- or two-field transcription slip (wrong leading digit, transposed digit, or dropped sign). Every DB value matched Teo's reported "current" value before the change (sanity-checked). Coordinates live in the DB only; see `PIPELINE_LOG.md` for the qualitative log.
+
+## July 15 2026 — EO8 loc 47 (new, completed) + EO26 loc 31 & 32 (loaded 2026-07-20)
+
+The crew completed **EO8** by finishing the new **location 47** (started 07-14) and moved to **EO26 (Glenns Ferry)**. **138 occurrences loaded** — 30 deferred loc-47 boards from 07-14 + 108 from 07-15. **0-orphan, 138/138 imaged + phenotyped.** Heavily board-driven: the loc-47 forms were captured badly out of order (an orphan/crossed-out page-2, one event with no page-2), so occurrences came from the boards and all 40 events reconciled.
+
+- **Stage A:** **+1 new location 47** (EO8, EOID 15, GPS from its sheet) + loc 31 & 32 (EO26-3) revisits; **+40 Events** (620–659, barcode-decoded); **+138 Occurrences** (3561–3699 — contiguous except occ **3608 skipped by the crew**, confirmed by both boards and form event 635 which lists 3606/3607/**3609**). +82 form images.
+- **Stage B:** +138 Multimedia + 138 Phenotyping (image scale cross-checked the field-written board H/W; size class 65 small / 52 medium / 21 large).
+- **loc 47 spanned two field days** (events 620–628 = 07-14, 30 plants; events 629–646 = 07-15, 64 plants) — loaded whole today to keep Stage A/B consistent. loc 47 total = 94 plants.
+
+### Corrections recorded
+- **loc 30 (EO26-1) visited, not sampled:** all plants too far gone → **0 records by design** (like loc 29 on 07-14). No loc-30 form or boards.
+- **event 634 & event 636 latitude** (both loc 47): the field-recorded latitudes sit ~9 km north of every sibling event (longitude fine) — set to a provisional loc-47 cluster latitude with an `eventRemarks` note; longitude as recorded. Event 626's "7/4" date slip corrected to 07-14.
+- **New candidate taxa flagged for Teo** (held out of `Taxonomy`, verbatim kept): **ephedra** (*Ephedra* / Mormon tea, event 629), **hedgehog cactus** (event 643). Other OCR "unknowns" were spelling variants of known taxa (Sandberg, sagebrush, Sisymbrium, burr buttercup, L. perfoliatum, crested wheatgrass, green rabbitbrush, crust, and **bottlebrush squirreltail = Elymus elymoides, taxonID 36**) — added to the lexicon.
 
 ## July 14 2026 — EO8 loc 27 + loc 28 (loaded 2026-07-20); new loc 47 deferred
 

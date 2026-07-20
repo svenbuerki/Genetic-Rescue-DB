@@ -5,7 +5,7 @@
 **Pipeline:** two stages — **A: forms → records**, then **B: plant images → multimedia + phenotyping**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
 
-*Last refreshed: 2026-07-20 (through the July 14 EO8 loc 27 + loc 28 load; new loc 47 deferred to the July-15 load).*
+*Last refreshed: 2026-07-20 (through the July 15 load — EO8 complete incl. new loc 47; EO26 loc 31/32 done. Plus a batch of manilla-verified event-GPS corrections from Teo.)*
 
 ---
 
@@ -13,10 +13,10 @@
 
 | | 2026 total | Notes |
 |---|---|---|
-| **Occurrences** (field-collected) | **1,270** | across 15 EOs (below) |
-| **Events** (slick spots) | **381** | each with GPS + habitat/condition + associated taxa |
-| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) + **EO27-1** (45, 46) | six genuinely new sites this season; the rest are revisits (link, no insert). New loc 47 (EO8) is loaded with the July-15 batch. |
-| **Plant images** phenotyped | **1,260 / 1,270 (99%)** | each has a linked board image; measured height/crown/size class |
+| **Occurrences** (field-collected) | **1,408** | across 16 EOs (below) |
+| **Events** (slick spots) | **421** | each with GPS + habitat/condition + associated taxa |
+| **Locations** | revisits + **EO69** (41) + **EO30-2** (42) + **EO27-5** (43) + **EO27** (44) + **EO27-1** (45, 46) + **EO8** (47) | seven genuinely new sites this season; the rest are revisits (link, no insert). |
+| **Plant images** phenotyped | **1,398 / 1,408 (99%)** | each has a linked board image; measured height/crown/size class |
 
 **By Element Occurrence:**
 
@@ -25,13 +25,14 @@
 | **EO27** (Red Tie South 11/12/45/46, 27-5, Figgins, PV, new site) | 418 | EO38 | 37 |
 | **EO18** (7 & 8) | 239 | EO118 | 25 |
 | **EO32** (10 Mile Creek) | 137 | EO68 | 10 |
-| **EO8** (Hammett Hills, loc 27/28 — eastern) | 178 | EO76 | 8 |
+| **EO8** (Hammett Hills, loc 27/28/47 — eastern) | 272 | EO76 | 8 |
+| **EO26** (Glenns Ferry, loc 31/32) | 44 | | |
 | **EO25** (A & B) | 106 | EO69 | 7 |
 | **EO30** (Simco Rd, 1 & 2) | 50 | EO67 | 6 |
 | EO70 | 42 | EO24 | 6 |
 | | | EO52 | 1 |
 
-The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots), and then a sustained week-long push through the **EO27 complex** (Red Tie, EO27-5, Figgins, Pleasant Valley and a new site) that made EO27 the season's largest EO at 418 plants (Red Tie South, EO27-5, Figgins, Pleasant Valley, plus new locations 44/45/46), finishing 2026-07-10 with a Range-Fire-burned wrap-up (loc 45/46) and a brief EO67 revisit. The crew then moved to the **eastern populations**, starting 2026-07-13 with a big single-day haul at **EO8 (Hammett Hills, loc 28 — 123 plants across 54 slick spots)**, and continuing 2026-07-14 by completing **loc 28 and loc 27** (55 more plants) and opening a **new location 47** (its 30 plants load with the July-15 batch, since loc 47 finishes on the 15th). loc 29 was visited the same day but its plants had all dropped seed — nothing to sample. Recurring theme: cheatgrass inundation of slick spots — and, at the OCTC, the 2025 Range Fire.
+The 2026 story from the field (Ian Robertson's reports): the **New Plymouth EOs** (70/68/69, late June), **EO118** near Firebird Raceway, then the large **EO18 complex** (EO18-7 severely cheatgrass/harvester-ant degraded; EO18-8 productive), **EO25** (Melba Butte, EO25-B badly cheatgrass-invaded) and **EO24** (Kuna Butte, very low) in early July, **EO32** ("10 Mile Creek", July 3 — 137 plants across 36 slick spots), and then a sustained week-long push through the **EO27 complex** (Red Tie, EO27-5, Figgins, Pleasant Valley and a new site) that made EO27 the season's largest EO at 418 plants (Red Tie South, EO27-5, Figgins, Pleasant Valley, plus new locations 44/45/46), finishing 2026-07-10 with a Range-Fire-burned wrap-up (loc 45/46) and a brief EO67 revisit. The crew then moved to the **eastern populations**, starting 2026-07-13 with a big single-day haul at **EO8 (Hammett Hills, loc 28 — 123 plants across 54 slick spots)**, continuing 2026-07-14 by completing **loc 28 and loc 27** (55 more plants) and opening a **new location 47**, and finishing **EO8** on 2026-07-15 by completing loc 47 (94 plants total, spanning both days) before moving to **EO26 (Glenns Ferry)** — loc 30 was visited but its plants had all dropped seed (nothing to sample), while loc 31 and loc 32 yielded 44 plants. loc 29 (07-14) was likewise visited-but-not-sampled. Recurring theme: cheatgrass inundation of slick spots — and, at the OCTC, the 2025 Range Fire.
 
 ## 2. Stage A — field forms → Locations / Events / Occurrences
 
@@ -68,6 +69,6 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — **Locations 45, Events 618, Occurrences 3,486, Multimedia 2,869, Phenotyping 2,001** (incl. all prior-year data + the 2026 season + the genotyping integration).
+- `LEPA_SQL.db` — **Locations 46, Events 658, Occurrences 3,624, Multimedia 3,089, Phenotyping 2,139** (incl. all prior-year data + the 2026 season + the genotyping integration).
 - `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
 - Scripts: `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).
