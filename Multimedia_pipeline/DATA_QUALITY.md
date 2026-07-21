@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
-Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-20**
-(July-14 & July-15 loaded + verified — EO8 complete, EO26 loc 31/32 done; a batch of manilla-verified event-GPS corrections also applied).
+Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-21**
+(July-16/17/20 loaded + verified — EO26 complete, EO27 loc 37/50, EO61 loc 38 + EO29 loc 8; the 2026 collection season is essentially complete).
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,25 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3624. **Events:** 658. **Locations:** 46.
-- **Phenotyping:** 2139. **Multimedia:** 3089 (incl. field-form images).
+- **Occurrences:** 3767. **Events:** 714. **Locations:** 49.
+- **Phenotyping:** 2282. **Multimedia:** 3352 (incl. field-form images).
+
+## July 16 / 17 / 20 2026 — EO26 complete + EO27 (loc 37/50) + EO61/EO29 (loaded 2026-07-21)
+
+Three field days loaded together (forms all imaged 07-21; boards day-foldered). **143 occurrences (3700–3842, fully contiguous), 0-orphan, 143/143 imaged + phenotyped. 56 events (660–715), 3 new locations.** Heavily board-driven (noisy forms); all 56 events reconciled.
+
+- **Stage A:** loc **33, 34** (EO26-3) + loc **37** (EO27-1) revisits; **+3 new locations** — **48, 49** (EO26) and **50** (EO27); **+56 Events** (barcode-decoded) incl. 4 data-only events with 0 occurrences (below); **+143 Occurrences** (3700–3842). +120 form images.
+- **Stage B:** +143 Multimedia + 143 Phenotyping (size class 49 small / 65 medium / 29 large).
+- **By day:** 07-16 EO26 Rabbit Creek (loc 33/34/48/49, 54 plants) — EO26 completed; 07-17 EO27 "Region 3" (new loc 50 + loc 37, 55 plants); 07-20 Mountain Home (loc 38 EO61 + loc 8 EO29, 34 plants).
+
+### Corrections / notes
+- **EO61 (loc 38) data-only slick spots:** events **709, 710, 711, 713** carry full slick-spot data (area, coverage, fruiting/rosette counts, GPS, associated veg) but **0 seed collections** — intentional, for effective-population-size analysis (Sam's protocol). Loaded as events with no occurrences.
+- **event 691:** OCR read it on the loc-48 sheet, but its sticker **barcode decodes to 681** (loc 48); 691 is a genuine separate loc-37 event. No real reuse.
+- **occurrence 3753:** its board was mis-labeled event 686 (a July-17 loc-50 event) → corrected to event **685** (loc 49) per the form and the off-by-one board write.
+- **loc-50 event latitudes (687/688/689):** field-recording errors (~9–110 km off the loc-50 cluster) → set to a provisional cluster latitude with an `eventRemarks` note; longitude as recorded.
+- **loc 36 (EO26-4) & loc 35:** visited-but-not-sampled / not-visited on 07-16 → **0 records by design** (matches Ian's email).
+- **New candidate taxa flagged for Teo** (held out of `Taxonomy`, verbatim kept): **horsebrush** (*Tetradymia*), **sand dropseed** (*Sporobolus*), **bluebunch wheatgrass** ("bluebun", *Pseudoroegneria*). Resolved to known taxa via the lexicon: *Tragopogon dubius* (48), squirreltail (36), basin wild rye (13), mustard (27).
+- **July 17 had no field email** — the day's records were reconstructed from the forms + boards and loaded cleanly (EO27, new loc 50 + loc 37).
 
 ## Manilla-verified event-GPS corrections (Teo, applied 2026-07-20)
 
