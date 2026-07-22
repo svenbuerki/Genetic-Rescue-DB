@@ -1,7 +1,7 @@
 # LEPA database — data-quality status
 
 Single source of truth for the data-quality state of `LEPA_SQL.db`. Last QA pass: **2026-07-21**
-(July-16/17/20 loaded + verified — EO26 complete, EO27 loc 37/50, EO61 loc 38 + EO29 loc 8; the 2026 collection season is essentially complete).
+(FINAL July-21 load verified — EO30 Simco Rd loc 51/52 + a new 2026 population loc 53, 30 plants. **The 2026 collection season is COMPLETE: 20 field days, 1,581 occurrences, 19 EOs, 13 new locations.**)
 Tracked issues live on GitHub (**svenbuerki/Genetic-Rescue-DB**); each item below links to its issue.
 
 ## Integrity — clean ✅
@@ -22,8 +22,22 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3767. **Events:** 714. **Locations:** 49.
-- **Phenotyping:** 2282. **Multimedia:** 3352 (incl. field-form images).
+- **Occurrences:** 3797. **Events:** 722. **Locations:** 52.
+- **Phenotyping:** 2312. **Multimedia:** 3401 (incl. field-form images).
+
+## July 21 2026 — EO30 Simco Rd (loc 51/52) + a new 2026 population (loc 53) — FINAL day (loaded 2026-07-21)
+
+The last collection day of 2026. **30 occurrences (3843–3872, fully contiguous), 30/30 imaged + phenotyped. 8 events (716–724), 3 new locations.** Board-driven reconciliation confirmed the load.
+
+- **Stage A:** **+3 new locations** — **51 (EO30-3)**, **52 (EO30-4)** under existing EO30 (EOID 10), and **53** a new 2026 population; **+8 Events** (716–724, all barcode-decoded); **+30 Occurrences** (3843–3872). +19 form images.
+- **Stage B:** +30 Multimedia + 30 Phenotyping (size class 14 small / 12 medium / 4 large; all boards carry field-written h/w + the blue 24 cm scale → `measurementMethod = image scale`).
+- **New provisional EO:** loc 53 has **no official EO** (Ian's form: "No EO – new slickspot 2026"; nearest EO112 held no Lepa in 2026 or 2013). Databased under **EOID 21 / `EO_NEW2026`** so its 7 plants (3866–3872) are fully attributed — rename the EOCode when IDFG assigns an official number.
+
+### Corrections / notes
+- **occurrence 3851 recovered from the plant board (JCN_1798):** the paper section-4 list for event 719 omitted it; the board carries it (event 719, loc 51). Added → the day's serials are contiguous 3843–3872 (30 = Ian's reported count = 30 boards).
+- **Stray form dropped:** a loc-46 (EO27-1) Location sheet (barcode 0046, an OCTC site) was mixed into the July-21 form batch and excluded — loc 46 was already loaded 2026-07-10; no records affected.
+- **Event 718 (loc 51) not loaded — missing page-1 image:** an occupied but **seedless** slick spot; only its form page 2 was imaged, so its GPS/size/condition are unavailable and it can't be entered as a data-only event. **Tracked as [#19](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/19)** (page-1 image to be located/retaken).
+- All event stickers 716–724 were **CODE128-decoded** and matched the OCR exactly; all associated taxa homogenized to the lexicon with **0 unknowns**.
 
 ## July 16 / 17 / 20 2026 — EO26 complete + EO27 (loc 37/50) + EO61/EO29 (loaded 2026-07-21)
 
