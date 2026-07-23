@@ -483,3 +483,6 @@
 
 ## 20260723-172646 — field_forms_ocr --forms-mm --apply
 - linked 2 field-form images to Multimedia (0 Location tableID 9, 2 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260723-172646`.
+
+## 20260723-175040 — DB correction: loc-50 event latitudes finalized (issue #18)
+- Events 687/688/689 (EO27 loc 50) latitudes reviewed by Sven against the field forms/manilla. 687 & 688 confirmed correct (values unchanged); 689 corrected from its earlier provisional value (single-digit field-transcription error on the latitude). Longitudes unchanged throughout. eventRemarks promoted from 'provisional' to 'verified'. Backups `LEPA_SQL.db.bak-ev689lat-*`, `LEPA_SQL.db.bak-ev687-8verify-*`. Closes #18.

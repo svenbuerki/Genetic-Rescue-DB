@@ -113,9 +113,7 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 - **#10** — 57 tissue samples missing a weight (lab to supply or confirm blank).
 - **#11** — 6 tissue-sample cell errors in the master sheet (lab to correct online).
 - **#13** — 5 impossible negative tissue weights + missing who/when/experiment metadata.
-- **#18** — EO27 loc 50: three event latitudes provisional (field-recording errors) — verify vs manilla.
-- **#19** — July-21 EO30-3 (loc 51): one seedless slick-spot event (718) missing its page-1 form image — page-1 to be located/retaken so it can be entered as a data-only event.
-- *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse).
+- *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse), **#18** (loc-50 event latitudes finalized against the manilla), **#19** (event 718 page-1 recovered → loaded as a data-only event).
 
 ## 7. Data products
 
@@ -206,7 +204,7 @@ The single authoritative roster for the season — reproduced from Ian's *2026 C
 | Ø | 26-4 (Alkali Creek) | 0036 | | map |
 
 **Reconciliation notes (checklist vs. the loaded DB):**
-- The checklist groups **location 50 under EO27-1 (Red Tie area OCTC)**, whereas the July-17 load labelled loc 50 as EO27 "Region 3" (reconstructed with no field email). Ian's roster is the authoritative sub-EO assignment — relevant when finalizing GitHub **#18** (loc 50 provisional latitudes).
+- The checklist groups **location 50 under EO27-1 (Red Tie area OCTC)**, whereas the July-17 load labelled loc 50 as EO27 "Region 3" (reconstructed with no field email). Ian's roster is the authoritative sub-EO assignment. *(The loc-50 event latitudes flagged in GitHub **#18** were finalized against the manilla 2026-07-23 — 687/688 confirmed, 689 corrected; #18 resolved.)*
 - **Location 44** is resolved by the checklist as **EO27-? "between Figgins and Pleasant Valley"** (previously flagged as within EO27 but outside any official sub-EO boundary).
 - **EO48 (loc 7)** and **EO26-2 (loc 35)** are confirmed **DNV** (time-skipped, both low-prospect) — matching Ian's July-21 email.
 - **EO30-3 (loc 51)**, **EO30-4 (loc 52)**, and the **New-2026 BLM-found population (loc 53)** are the July-21 final-day additions (30 plants, occ 3843–3872), now loaded; **EO112 was visited but held no Lepa** (Ø).
