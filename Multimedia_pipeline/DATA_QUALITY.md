@@ -22,12 +22,12 @@ A full audit (2026-06-27) found no structural problems:
 
 ## Coverage
 
-- **Occurrences:** 3797. **Events:** 722. **Locations:** 52.
-- **Phenotyping:** 2312. **Multimedia:** 3401 (incl. field-form images).
+- **Occurrences:** 3797. **Events:** 723. **Locations:** 52.
+- **Phenotyping:** 2312. **Multimedia:** 3403 (incl. field-form images).
 
 ## July 21 2026 — EO30 Simco Rd (loc 51/52) + a new 2026 population (loc 53) — FINAL day (loaded 2026-07-21)
 
-The last collection day of 2026. **30 occurrences (3843–3872, fully contiguous), 30/30 imaged + phenotyped. 8 events (716–724), 3 new locations.** Board-driven reconciliation confirmed the load.
+The last collection day of 2026. **30 occurrences (3843–3872, fully contiguous), 30/30 imaged + phenotyped. 9 events (716–724), 3 new locations.** Board-driven reconciliation confirmed the load.
 
 - **Stage A:** **+3 new locations** — **51 (EO30-3)**, **52 (EO30-4)** under existing EO30 (EOID 10), and **53** a new 2026 population; **+8 Events** (716–724, all barcode-decoded); **+30 Occurrences** (3843–3872). +19 form images.
 - **Stage B:** +30 Multimedia + 30 Phenotyping (size class 14 small / 12 medium / 4 large; all boards carry field-written h/w + the blue 24 cm scale → `measurementMethod = image scale`).
@@ -36,8 +36,9 @@ The last collection day of 2026. **30 occurrences (3843–3872, fully contiguous
 ### Corrections / notes
 - **occurrence 3851 recovered from the plant board (JCN_1798):** the paper section-4 list for event 719 omitted it; the board carries it (event 719, loc 51). Added → the day's serials are contiguous 3843–3872 (30 = Ian's reported count = 30 boards).
 - **Stray form dropped:** a loc-46 (EO27-1) Location sheet (barcode 0046, an OCTC site) was mixed into the July-21 form batch and excluded — loc 46 was already loaded 2026-07-10; no records affected.
-- **Event 718 (loc 51) not loaded — missing page-1 image:** an occupied but **seedless** slick spot; only its form page 2 was imaged, so its GPS/size/condition are unavailable and it can't be entered as a data-only event. **Tracked as [#19](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/19)** (page-1 image to be located/retaken).
+- **Event 718 (loc 51) — data-only slick spot, now loaded:** an occupied but **seedless** slick spot (62 fruiting individuals, 25 rosettes, condition 2.5, 0 seed collections). Initially unrecordable (only page 2 imaged); Peggy supplied the missing page 1 (barcode-verified 718) on 2026-07-22, so it is loaded as a data-only event (0 occurrences) matching the EO61 effective-population-size cases. **[#19](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/19) resolved.**
 - All event stickers 716–724 were **CODE128-decoded** and matched the OCR exactly; all associated taxa homogenized to the lexicon with **0 unknowns**.
+- **Checklist-vs-data discrepancy (to confirm with Ian):** his end-of-season site-visit checklist marks **loc 15 (EO18-7) and loc 30 (EO26-1) as seeds-collected (✓)**, but both have **0 2026 records** in the database — consistent with his contemporaneous field emails (loc 15, June 29: "found no plants to sample"; loc 30, July 15: seeds already dropped). The per-location tally in the campaign report (43 locations with 2026 records) reflects the database; the checklist appears to over-mark these two.
 
 ## July 16 / 17 / 20 2026 — EO26 complete + EO27 (loc 37/50) + EO61/EO29 (loaded 2026-07-21)
 

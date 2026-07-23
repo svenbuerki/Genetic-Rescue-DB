@@ -474,3 +474,12 @@
 
 ## 20260722-003246 — stageB_load --apply
 - linked 30 2026 plant images to occurrences (Multimedia tableID 13) + 30 Phenotyping rows. Backup `LEPA_SQL.db.bak-stageB-20260722-003246`.
+
+## 20260723-172619 — field_forms_ocr --load forms0721_ev718.json
+- staged 1 locations (1 revisit / 0 new), 1 events, 0 occurrences; occ collisions 0. Table-only cols auto-filled (EOID, taxonID, basisOfRecord, reproductiveCondition, provenance, eventSizeUnit, stateProvince, country, locationCode/subEOID). Review staging_2026/.
+
+## 20260723-172646 — field_forms_ocr --commit --apply
+- inserted 0 Locations, 1 Events, 0 Occurrences from Stage A staging. Backup `LEPA_SQL.db.bak-formsload-20260723-172646`.
+
+## 20260723-172646 — field_forms_ocr --forms-mm --apply
+- linked 2 field-form images to Multimedia (0 Location tableID 9, 2 Event tableID 11); copied to Multimedia_main. Backup `LEPA_SQL.db.bak-formsmm-20260723-172646`.
