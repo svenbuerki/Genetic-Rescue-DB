@@ -23,7 +23,29 @@ A full audit (2026-06-27) found no structural problems:
 ## Coverage
 
 - **Occurrences:** 3797. **Events:** 723. **Locations:** 52.
-- **Phenotyping:** 2312. **Multimedia:** 3403 (incl. field-form images).
+- **Phenotyping:** 2312. **Multimedia:** 3513 (incl. field-form and seed-sheet images). **Germplasm:** 1083 (785 from 2025 + 298 from 2026).
+
+## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (loaded 2026-10-04)
+
+The germplasmID and seed weight hand-written on each event envelope (sheet page 2) were loaded with
+`germplasm_seeds.py` (see the Stage C section of the guide). **298 accessions** (germplasmIDs 1012–1353,
+54.2 g, ≈127,000 seeds by the 1000-seed-weight equation) across 9 locations: 28 (122), 11 (113), 42 (34),
+10, 52, 53 (7 each), 39 (6), 3 and 19 (1 each). Integrity: 0 germplasmIDs used twice, 0 occurrences with
+more than one accession, all seed estimates match the equation. Seven ambiguous cells (overwritten digits)
+were held and then settled against the physical envelopes; the decisions are recorded in
+`staging_2026/germplasm_overrides.csv`. Seed-quality notes on the sheets were appended to
+`Events.eventRemarks` (events 242, 493, 494, 521, 524, 554, 557).
+
+### Open
+- **acquisitionDate / initials:** most sheets carry no processing date, so `acquisitionDate` is the
+  sheet-photo date (a proxy) for 287 of 298 rows. The protocol change asking for a date **and** initials on
+  every envelope is **[#20](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/20)**.
+- **occ 3412 (loc 28, event 546):** seed weight 0.1314 g but no germplasmID on the envelope → held,
+  **[#21](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/21)**.
+- **Location 11:** only 29 of 32 event envelopes exist; events 504, 516 and 523 (12 plants) have no seed
+  accession yet → **[#22](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/22)**.
+- **Not yet imaged:** location 28's July 14 events 592–610 (40 plants), and the other 2026 locations.
+  `germplasm_seeds.py --report` lists the remaining events per location.
 
 ## July 21 2026 — EO30 Simco Rd (loc 51/52) + a new 2026 population (loc 53) — FINAL day (loaded 2026-07-21)
 

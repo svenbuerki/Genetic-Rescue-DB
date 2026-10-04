@@ -34,14 +34,14 @@ one system library. On a fresh machine:
 | Python | 3.14 (3.9+) | run the scripts |
 | SQLite | 3.51 (bundled with Python) | the database (`LEPA_SQL.db`) |
 | Pillow | ≥ 10 | image IO |
-| pyzbar + zbar | 0.1.9 / 0.23 | decode CODE128 Event-sticker barcodes |
+| pyzbar + zbar | 0.1.9 / 0.23 | decode CODE128 Event-sticker barcodes (Stage A only; Stage C seed sheets carry no sticker) |
 | git / gh | 2.39 / 2.89 | repo sync |
 
 Run every script from the **`SQL_DB/`** directory (all paths are relative to it).
 
 ---
 
-## The full pipeline — two stages (run in order)
+## The full pipeline — three stages (run in order)
 
 **Stage A — Field forms → core records.** OCR the paper field sheets (one Location form, then
 Event forms — each over two photos) to create the `Locations`, `Events`, and `Occurrences`
@@ -50,6 +50,11 @@ records, *with GPS*. This is the authoritative source for the occurrence hierarc
 **Stage B — Plant images → multimedia + phenotyping.** Ingest/rename the whiteboard plant photos,
 link each to the occurrence its board number names, and measure the plant. The occurrences already
 exist (from Stage A), so the board number is just a lookup.
+
+**Stage C — Seed sheets → `Germplasm`.** After seed processing, the back of each event sheet lists
+the event's occurrenceIDs with the **germplasmID** and **seed weight (g)** for each plant. Each value
+becomes a `Germplasm` row linked to its plant via the FK `Germplasm.occurrenceID → Occurrences`.
+Runs after Stage A (the occurrences must exist). See [Stage C](#stage-c--seed-sheets--germplasm-germplasm_seedspy).
 
 ---
 
@@ -297,6 +302,98 @@ python3 02_ocr.py --load work/ocr_results.csv     # -> staging_2026/ for human r
 python3 03_phenotype.py --worklist       # -> work/phenotype_worklist.csv (then run the measure sweep)
 python3 03_phenotype.py --load work/phenotype_results.csv --apply   # insert Phenotyping (backs up DB)
 ```
+
+## Stage C — Seed sheets → Germplasm (`germplasm_seeds.py`)
+
+**What the image carries.** The event sheet's page 2 (Section 4, "Fruiting Plants Collection Details")
+is re-photographed after seed processing. Next to each plant barcode (occurrenceID) it now has two
+hand-written columns: **Germ** (the germplasmID) and **Weight (g)**. Page 2 has **no event sticker**,
+so the eventID and locationID come from the occurrences in the DB. The sheet's event is the event most
+of its listed plants belong to, and any plant from another event is flagged.
+
+**Storage.** These are form pages, so they go **flat in `Field_forms/<year>/`** with every other form
+photo (for example `PXL_20261004_*.jpg`), **not** in `Multimedia_images/`. That folder is scanned by the
+plant-image ingest. Scope each batch with `--glob`. Stage A must not re-load these pages as new
+occurrence lists.
+
+**Location form first (rule since 2026-10-04).** Each location in a batch starts with a photo of its
+**Location form**, followed by that location's seed sheets. `--load` holds (FLAG) any row whose location
+has no location-form photo in the batch, and any sheet whose plants belong to a different location than
+the form photographed before it, which catches envelopes filed under the wrong location. The location-form
+photos are copied, renamed and linked to their Location by `--sheets-mm` (`Multimedia` tableID 9). Only the
+location barcode is transcribed from these forms, never coordinates. `--allow-missing-location-form` waives
+the rule only for the first pilot batch (location 28), which was imaged before the rule existed.
+
+**Seed-quality notes.** When a sheet carries a note about the seeds (for example "many too late" or
+"Germplasm 1266 has large seeds"), the sweep transcribes it verbatim as `seed_notes`. `--commit` then
+**appends** it to `Events.eventRemarks` of the sheet's event as `Seed processing (<date>): <note>`. It
+never overwrites existing remarks and never appends the same note twice.
+
+**germplasmID order.** IDs continue from the previous season but are assigned as envelopes are
+processed, so they are **not in sheet order**. Gaps and out-of-order IDs are reported for information
+only. Duplicates and IDs already in the DB are flagged.
+
+**Acquisition date** (`Germplasm.acquisitionDate` = the seed processing date, not the field date).
+The priority order is: an override, then a date written on the sheet, then the **sheet photo's capture
+date**. The photo date is a proxy: staging marks those rows `acq_source=photo`, and the log counts them.
+[Issue #20](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/20) asks whoever assigns
+germplasmIDs to write the date (and their initials) on the envelope.
+
+**One `Germplasm` row per occurrence**, following the 2025 convention (785 rows, none with two accessions).
+
+| `Germplasm` column | Source |
+|---|---|
+| `germplasmID` | sheet (as written; must be new and unique) |
+| `occurrenceID` (FK) | sheet; must exist in `Occurrences` |
+| `eventID`, `locationID` | **taken from the occurrence's DB record**; checked for consistency within the sheet and against `--locations` |
+| `germplasmWeight` / `germplasmWeightUnit` | sheet (g; every decimal kept) / `gr.` |
+| `germplasmQuantityEstimate`, `…Low`, `…Upr` | derived from weight via the 1000-seed-weight regression ([LEPA_DB_Documentation.md](../Documentation/LEPA_DB_Documentation.md)) |
+| `acquisitionDate` | override, then the date written on the sheet, then the photo capture date (proxy, issue #20) |
+| `biologicalStatus`, `storageCondition`, `germplasmStorageLocation`, `taxonID` | 2025 defaults `Wild`, `Fresh`, `Fridge_lab205`, `1` |
+
+No new columns are needed: every field already exists in `Germplasm` and is registered in `Terms`.
+
+**Commands** (each DB write is dry-run until `--apply`, backs up the DB, and logs to `PIPELINE_LOG.md`):
+
+```bash
+python3 Multimedia_pipeline/germplasm_seeds.py --worklist --glob "PXL_20261004_*"   # work/germplasm_worklist.csv
+#   in-session READ-ONLY agent sweep over image_path -> work/germplasm_results.json
+python3 Multimedia_pipeline/germplasm_seeds.py --load work/germplasm_results.json --locations 11,28,52,53
+python3 Multimedia_pipeline/germplasm_seeds.py --commit [--apply]
+python3 Multimedia_pipeline/germplasm_seeds.py --sheets-mm [--apply]   # sheet image -> Multimedia (Event, tableID 11, 'seed sheet')
+```
+
+**Results JSON (one object per sheet):** `{file, idx, acquisition_date, confidence, rows: [{occurrenceID,
+germplasmID, seedWeight, note}]}`. Transcribe exactly what is written. A blank cell or a dash means
+no seeds were collected, so record `null`. Never infer a value, carry one down, or round a weight.
+
+**Validation at `--load`.** Each row is staged with a status:
+
+- **OK**: passed every check; inserted by `--commit`.
+- **FLAG**: held, with the reason. Checks:
+  - the occurrence is missing from the DB, or belongs to a different event than the sheet;
+  - the occurrence's location is not in `--locations`;
+  - the germplasmID already exists in the DB or is duplicated in the batch;
+  - the occurrence already has a germplasm row;
+  - the weight is missing, unparseable, or outside 0.0001–3 g (the 2025 maximum was 2.42 g);
+  - only one of the two cells is filled.
+- **NO_SEED**: both cells blank; nothing is inserted.
+- **LOADED**: already in the DB with identical values. This makes re-runs idempotent.
+- **SKIP**: dropped by an override.
+
+Two batch-level checks are also printed: **event completeness** (the event's occurrences that are in
+the DB but missing from its sheet, usually a cut-off photo or a second page) and **gaps in the
+germplasmID sequence** (an unread or skipped envelope).
+
+**Corrections:** edit `staging_2026/germplasm_overrides.csv` (`occurrenceID,correctedOccurrenceID,germplasmID,seedWeight,acquisitionDate,note`; keyed by the occurrenceID as read; `correctedOccurrenceID` fixes a mis-written barcode),
+never the generated staging CSV. Any non-blank column replaces the OCR value, and `germplasmID=SKIP` drops
+the row.
+Then re-run `--load`.
+
+**OCR risks to watch.** These are the known handwriting digit errors (looped 9→4, 2→1) plus a new one
+specific to weights: **a misplaced decimal point** (0.52 vs 5.2 vs 0.052). The range check catches the
+extremes. For values that pass the range check but look implausible, compare against the plant's size
+class in `Phenotyping` before accepting them.
 
 ## Provenance & safety
 

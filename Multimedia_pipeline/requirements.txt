@@ -1,6 +1,6 @@
 # LEPA Multimedia pipeline — Python dependencies  (pip install -r requirements.txt)
 # Python 3.9+  (developed on 3.14).  sqlite3 is in the standard library.
-Pillow>=10            # image IO for form/board photos
+Pillow>=10            # image IO for form/board/seed-sheet photos (the only dependency of Stage C, germplasm_seeds.py)
 pyzbar>=0.1.9         # decode CODE128 Event-sticker barcodes (needs the zbar SYSTEM lib — see setup)
 #
 # Standard library (no install needed): sqlite3, csv, json, re, argparse, shutil, hashlib, pathlib, datetime, os, sys
