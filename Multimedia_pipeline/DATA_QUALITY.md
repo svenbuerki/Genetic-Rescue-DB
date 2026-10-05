@@ -56,7 +56,7 @@ have placeholder profiles until they are identified. 60 accessions carry initial
 - **Seeds not yet cleaned**, by location: loc 18 event 328 (occ 2596–2597) →
   **[#23](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/23)**.
 - **Not yet imaged:** loc 17 (cleaned, envelopes not yet photographed), location 28's July 14 events 592–610
-  (40 plants), and 26 other 2026 locations. `germplasm_seeds.py --report` lists the remaining events per
+  (40 plants), and 27 other 2026 locations (1,008 plants). `germplasm_seeds.py --report` lists the remaining events per
   location.
 - **Event 718 remark:** the envelope reads "cows have come through" while `eventRemarks` says "Lewisia";
   to be confirmed.
