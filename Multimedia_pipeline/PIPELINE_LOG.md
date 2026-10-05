@@ -706,3 +706,6 @@
 - Report: added Fertile plants column (Events.organismQuantityFertile) to the per-location events/occurrences tally and to the cleaning-priority table (Sven, 2026-10-04).
 - Report: occurrence tally now separates Fertile plants (counted, all plants per event) from Occurrences (sampled) and adds % sampled (Sven).
 - Report: per-location tally gains Completion (accessions/occurrences) and Priority (rank by fertile plants counted; done / finish / image only / blocked); cleaning-priority list re-ordered by size with Phase 5 gap as supporting info (Sven: prioritise large locations).
+
+## 20261005 — Multimedia.type renamed
+- 140 Stage C envelope-page images: type "seed sheet" -> "germplasm sheet" (Sven). Terms 44 (Multimedia.type) now documents "field form" and "germplasm sheet". germplasm_seeds.py --sheets-mm writes "germplasm sheet" from now on.

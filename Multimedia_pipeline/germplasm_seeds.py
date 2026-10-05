@@ -20,7 +20,7 @@ FLOW (each DB-writing step is dry-run by default, backs up LEPA_SQL.db, appends 
                          (status OK / FLAG / NO_SEED / LOADED / SKIP, with reasons). NO DB writes.
   --commit [--apply]     insert the OK rows into Germplasm (+ derived seed-count estimates). FLAG rows are
                          HELD — fix them in staging_2026/germplasm_overrides.csv and re-run --load.
-  --sheets-mm [--apply]  link the sheet images to their Event in Multimedia (tableID 11, type 'seed sheet').
+  --sheets-mm [--apply]  link the sheet images to their Event in Multimedia (tableID 11, type 'germplasm sheet').
   --report               germplasmID REGISTRY check across all batches + DB: duplicate IDs, occurrences with >1 ID,
                          numbers not yet seen, and per-location coverage of 2026 events/occurrences.
 
@@ -493,7 +493,7 @@ def sheets_multimedia(db, apply):   # sheet image -> Multimedia evidence row on 
         cur.execute("""INSERT INTO Multimedia (multimediaID,identifier,type,format,createDate,title,multimediaStorage,
                        tableID,eventID,locationID,remarks,originalFilename,fileYear,folderDate,captureTimestamp,sha256)
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (maxmm, name, "seed sheet" if tid == 11 else "field form", "jpeg", cd, title, "Google Drive", tid,
+                    (maxmm, name, "germplasm sheet" if tid == 11 else "field form", "jpeg", cd, title, "Google Drive", tid,
                      fk if tid == 11 else None, fk if tid == 9 else None,
                      "evidence for the Germplasm rows of this event" if tid == 11 else "location form photographed with the seed sheets",
                      p.name, iso[:4], iso, cd, h))

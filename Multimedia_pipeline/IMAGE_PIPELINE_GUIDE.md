@@ -361,7 +361,7 @@ python3 Multimedia_pipeline/germplasm_seeds.py --worklist --glob "PXL_20261004_*
 #   in-session READ-ONLY agent sweep over image_path -> work/germplasm_results.json
 python3 Multimedia_pipeline/germplasm_seeds.py --load work/germplasm_results.json --locations 11,28,52,53
 python3 Multimedia_pipeline/germplasm_seeds.py --commit [--apply]
-python3 Multimedia_pipeline/germplasm_seeds.py --sheets-mm [--apply]   # sheet image -> Multimedia (Event, tableID 11, 'seed sheet')
+python3 Multimedia_pipeline/germplasm_seeds.py --sheets-mm [--apply]   # sheet image -> Multimedia (Event, tableID 11, 'germplasm sheet')
 ```
 
 **Results JSON (one object per sheet):** `{file, idx, acquisition_date, confidence, rows: [{occurrenceID,
