@@ -36,7 +36,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 |  | loc 47 (EO8) | 27 | 1,494 | 94 | 6% | — | 0% | **1** |
 | | *EO8 subtotal — 3 locations* | **109** | **2,214** | **272** | **12%** | **137** | **50%** | |
 | **EO18** | loc 16 (EO18-7) | 25 | 365 | 76 | 21% | — | 0% | **8** |
-|  | loc 17 (EO18-7) | 32 | 409 | 103 | 25% | — | 0% | **7** (cleaned — image only) |
+|  | loc 17 (EO18-7) | 32 | 409 | 103 | 25% | — | 0% | **7** (cleaned — not yet imaged) |
 |  | loc 18 (EO18-8) | 18 | 264 | 59 | 22% | 57 | 97% | **11** (finish) |
 |  | loc 19 (EO18-7) | 1 | 2 | 1 | 50% | 1 | 100% | done |
 | | *EO18 subtotal — 4 locations* | **76** | **1,040** | **239** | **23%** | **58** | **24%** | |
@@ -83,7 +83,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 | **EO_NEW2026** | loc 53 (EO_NEW2026) | 1 | 27 | 7 | 26% | 7 | 100% | done |
 | | **TOTAL — 43 locations across 19 EOs** | **486** | **≥ 9,969*** | **1581** | **≤ 16%*** | **410** | **26%** | |
 
-*Completion* = seed accessions ÷ occurrences: the share of sampled plants whose seeds are cleaned, weighed and loaded with a germplasmID (Stage C). *Priority* = cleaning order for the locations still to finish, **ranked by fertile plants counted** (1 = largest population), so large locations come first. "done" = all sampled plants have a seed accession. "finish" = partly loaded, with the rest actionable. "image only" = seeds already cleaned (loc 17), just not yet photographed. "blocked (#22)" = what remains needs envelopes that are missing.
+*Completion* = seed accessions ÷ occurrences: the share of sampled plants whose seeds are cleaned, weighed and loaded with a germplasmID (Stage C). *Priority* = cleaning order for the locations still to finish, **ranked by fertile plants counted** (1 = largest population), so large locations come first. "done" = all sampled plants have a seed accession. "finish" = partly loaded, with the rest actionable. "cleaned — not yet imaged" = seeds already cleaned (loc 17), but the envelopes have not been photographed yet, so nothing is loaded. "blocked (#22)" = what remains needs envelopes that are missing.
 
 **Two different numbers.** *Fertile plants (counted)* = **every** fertile (flowering/fruiting) plant counted at the event, summed per location (`Events.organismQuantityFertile`). This is the local census of potential mothers and pollen donors. *Occurrences (sampled)* = the plants we actually **sampled** (barcoded, photographed and seed-collected), one row each in `Occurrences`. *% sampled* = occurrences ÷ fertile plants: the share of the breeding population we hold seed from. ≥ = one event recorded as ">200" (loc 20, event 356), counted as 200. \* = total excludes events with no fertile count on the form (loc 11: events 503, 504, 520, 521; loc 12: event 424). Their sampled plants are still counted, so % sampled for \* rows is an **overestimate**. For ≥ rows, % sampled is an upper bound. Free-text counts were read from their leading number (loc 26, e.g. "98 - 17 failed, 81 fruited" → 98).
 
@@ -175,7 +175,7 @@ The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com
 | **4** | loc 28 (EO8) | 681 | 41 | 5 | July-14 events 592–610 (119 fertile); plus occ 3412 (#21) |
 | **5** | loc 38 (EO61) | 523 | 25 | — |  |
 | **6** | loc 12 (EO27RT) | 455* | 126 | 7 | One of the six locations Phase 5 names as short |
-| **7** | loc 17 (EO18-7) | 409 | 103 | — | Seeds already cleaned: photograph the envelopes |
+| **7** | loc 17 (EO18-7) | 409 | 103 | — | Seeds already cleaned (Sven); envelopes not yet photographed — next step is imaging |
 | **8** | loc 16 (EO18-7) | 365 | 76 | 1 |  |
 | **9** | loc 26 (EO70) | 334 | 42 | — | EO70 validation site: observed pollen compatibility below prediction |
 | **10** | loc 9 (EO27) | 301 | 79 | 1 |  |
