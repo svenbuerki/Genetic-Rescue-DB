@@ -54,6 +54,8 @@ have placeholder profiles until they are identified. 87 accessions carry initial
 by several people (e.g. "SB/TG", "SB/TG/IC") are not yet assigned.
 
 ### Resolved
+- **Event 718 remark:** the envelope reads "cows (cattle) have come through"; `eventRemarks` previously said
+  "Lewisia". Corrected 2026-10-05 (Sven).
 - **#22 — missing event envelopes** (loc 11: events 504, 516, 523; loc 51: event 719): all four were found by
   Peggy and loaded, with germplasmIDs exactly matching the gaps in the sequence. Closed 2026-10-05.
 
@@ -67,8 +69,6 @@ by several people (e.g. "SB/TG", "SB/TG/IC") are not yet assigned.
   **[#23](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/23)**.
 - **Not yet imaged:** location 28's July 14 events 592–610 (40 plants) and 27 other 2026 locations (1,008
   plants). `germplasm_seeds.py --report` lists the remaining events per location.
-- **Event 718 remark:** the envelope reads "cows have come through" while `eventRemarks` says "Lewisia";
-  to be confirmed.
 
 ## July 21 2026 — EO30 Simco Rd (loc 51/52) + a new 2026 population (loc 53) — FINAL day (loaded 2026-07-21)
 

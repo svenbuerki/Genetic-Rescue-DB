@@ -765,3 +765,15 @@
 - Location 17 (EO18-7): 33 photos (location form + 32 sheets) = all 32 events / 103 plants; loaded 103 (9 held cells settled by Sven, incl. 2486 → 1505 after a registry clash with 1509 = occ 2600). Seed notes → events 272 ("seed predation"), 284 ("~19 seeds"). Sheets initialled "SB/TG" and "SB/TG/IC" left unassigned (personID).
 - Peggy's photos IMG_7463–7466 = the four missing envelopes of #22 (events 504, 516, 523 at loc 11; 719 at loc 51); germplasmIDs matched the sequence-gap leads. 17 rows loaded (3 event-516 cells settled by Sven: 3290 → 1020/0.0511, 3291 → 0.1418, 3289 → 1024/0.0921). No EXIF date on Peggy's copies → acquisitionDate 10-05-2026 (proxy). Occ 3851 confirmed in event 719 via board JCN_1798. #22 closed.
 - 2026 Germplasm = 530 (16 locations, 14 complete). overrides CSV re-written with proper quoting (13 lines had spilled columns).
+
+## 20261005-233447 — germplasm_seeds --load germplasm_results_20261005a.json
+- staged 103 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 103, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261005-233511 — germplasm_seeds --load germplasm_results_20261005a.json
+- staged 103 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 103, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261005 — Sven's answers: cleaners, seed count, old photos, event 718
+- **One cleaner per germplasm** (germplasm = all seeds of one mother plant; an envelope/event may have several cleaners). germplasm_seeds.py now records envelope-level multi-initials ("SB/TG") as "envelope: …" and leaves personID empty (no placeholder Persons). 9 germplasm unassigned (1393–1397 "SB/TG/IC", 1458–1461 "SB/TG") → asked on #20, with TG/IC/JY/AS identities.
+- germplasm 1437 (occ 2469): germplasmQuantityCount = 19 (envelope note "~19 seeds"; weight-based estimate 8.8 — the 1000-seed equation undercounts very light lots).
+- Event 718 eventRemarks: "Lewisia" corrected to "cows (cattle)" per the envelope (Sven).
+- Registered in Multimedia: IMG_6969.jpg (event 646 page 2, missed in the July-16 load), IMG_7194.jpg (2nd photo of the loc-46 Location form; form GPS matches DB), PXL_20260628_191919988.jpg (burst duplicate, event 250), PXL_20261004_195355721.jpg (burst duplicate, event 558). Every photo in Field_forms/2026 is now in Multimedia.

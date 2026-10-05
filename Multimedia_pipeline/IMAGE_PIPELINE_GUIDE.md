@@ -349,7 +349,7 @@ germplasmIDs to write the date (and their initials) on the envelope.
 | `germplasmWeight` / `germplasmWeightUnit` | sheet (g; every decimal kept) / `gr.` |
 | `germplasmQuantityEstimate`, `…Low`, `…Upr` | derived from weight via the 1000-seed-weight regression ([LEPA_DB_Documentation.md](../Documentation/LEPA_DB_Documentation.md)) |
 | `acquisitionDate` | override, then the date written on the sheet, then the photo capture date (proxy, issue #20) |
-| `personID` (FK `Persons`) | who cleaned the seeds / assigned the germplasmID: the **initials** written on the envelope (per row, or for the whole sheet), resolved via `staging_2026/initials_persons.csv`; unknown initials get a placeholder `Persons` row at `--commit --apply`, for the team to identify. `--commit` also backfills who and when onto rows already loaded. |
+| `personID` (FK `Persons`) | who cleaned the seeds / assigned the germplasmID: the **initials** written on the envelope (per row, or for the whole sheet), resolved via `staging_2026/initials_persons.csv`; unknown initials get a placeholder `Persons` row at `--commit --apply`, for the team to identify. **One cleaner per germplasm:** a germplasm is all the seeds of one mother plant, so it has exactly one cleaner, while an envelope can have several. Several initials written once for a whole envelope (e.g. "SB/TG") leave `personID` empty until the lab says who cleaned which plant. `--commit` also backfills who and when onto rows already loaded. |
 | `biologicalStatus`, `storageCondition`, `germplasmStorageLocation`, `taxonID` | 2025 defaults `Wild`, `Fresh`, `Fridge_lab205`, `1` |
 
 No new columns are needed: every field already exists in `Germplasm` and is registered in `Terms`.

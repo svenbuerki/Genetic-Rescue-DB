@@ -41,7 +41,10 @@ FLAGged (held). --allow-missing-location-form exempts batches imaged before the 
 
 WHO + WHEN (Sven, 2026-10-04). Initials written next to the Germ | Weight columns identify who cleaned the
 seeds / assigned the germplasmID → Germplasm.personID, resolved through staging_2026/initials_persons.csv.
-Initials not in that file get a PLACEHOLDER Persons row at --commit --apply (firstName = initials,
+ONE CLEANER PER GERMPLASM (Sven 2026-10-05): a germplasm = all seeds of one mother plant, so it has exactly one
+cleaner, while an envelope (event) can have several. Several initials written once for a whole envelope (e.g.
+"SB/TG") are recorded as "envelope: SB/TG" in staging and leave personID empty until the lab says who cleaned
+which plant. Initials not in that file get a PLACEHOLDER Persons row at --commit --apply (firstName = initials,
 lastName "[unidentified - seed cleaning <year>]") for the team to identify later. Dates are American
 (MM/DD/YY) and become acquisitionDate. Both can be per row (rows[].initials / rows[].acquisition_date) or
 per sheet (sheet-level initials / acquisition_date); the row value wins. --commit also BACKFILLS personID and
@@ -216,13 +219,19 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
             row_date = norm_date(r.get("acquisition_date")) or sheet_date
             acq, src = ((norm_date(ov["acquisitionDate"]), "override") if norm_date(ov.get("acquisitionDate"))
                         else (row_date, "sheet") if row_date else (photo_date, "photo"))
-            ini = str(r.get("initials") or it.get("initials") or "").strip().upper()
+            row_ini = str(r.get("initials") or "").strip().upper()
+            sheet_ini = str(it.get("initials") or "").strip().upper()
+            # one cleaner per germplasm (Sven 2026-10-05): several initials written once for the whole envelope
+            # (e.g. "SB/TG") name the envelope's cleaners, not this plant's -> leave unassigned, never a placeholder
+            multi = lambda x: bool(re.search(r"[/,&+]|\s", x))
+            ini = row_ini if row_ini and not multi(row_ini) else (sheet_ini if sheet_ini and not multi(sheet_ini) and not row_ini else "")
+            envelope_cleaners = sheet_ini if multi(sheet_ini) else ""
             pid = ini_map.get(ini) if ini else None
             if ini and pid is None: unknown_ini.add(ini)
             row = dict(file=f, sheet_eventID=sheet_ev, occurrenceID=occ, occurrenceID_raw=r.get("occurrenceID"),
                        germplasmID_raw=r.get("germplasmID"), seedWeight_raw=r.get("seedWeight"),
                        germplasmID=None, seedWeight=None, eventID=None, locationID=None,
-                       acquisitionDate=acq, acq_source=src, initials=ini, personID=pid,
+                       acquisitionDate=acq, acq_source=src, initials=ini or (("envelope: " + envelope_cleaners) if envelope_cleaners else ""), personID=pid,
                        override="yes" if ov else "", ocr_note=r.get("note") or "", confidence=it.get("confidence"))
             if str(g_raw).strip().upper() == "SKIP":
                 out.append({**row, "status": "SKIP", "flags": "override SKIP"}); continue
@@ -414,7 +423,8 @@ def commit(db, apply):
     if not apply: print("\nDRY-RUN. Re-run with --commit --apply to write (DB backed up first)."); con.close(); return
     bak = backup(db, "germplasm")
     # placeholder Persons for initials not yet in initials_persons.csv
-    new_people = sorted({r["initials"] for r in rows if r.get("initials") and not r.get("personID")})
+    new_people = sorted({r["initials"] for r in rows if r.get("initials") and not r.get("personID")
+                         and not r["initials"].startswith("envelope:")})
     if new_people:
         with open(INITIALS, "a", newline="") as fh:
             w = csv.writer(fh)
@@ -423,7 +433,7 @@ def commit(db, apply):
                             (f"[unidentified - seed cleaning {datetime.now().year}]", ini, "Boise State"))
                 w.writerow([ini, cur.lastrowid, "placeholder", "Created automatically by germplasm_seeds --commit; identify with Peggy."])
     ini_map = read_initials()
-    pid_of = lambda r: ini_map.get(r["initials"]) if r.get("initials") else None
+    pid_of = lambda r: ini_map.get(r["initials"]) if r.get("initials") and not r["initials"].startswith("envelope:") else None
     for r in ok:
         wt = float(r["seedWeight"])
         rec = dict(germplasmID=int(r["germplasmID"]), occurrenceID=int(r["occurrenceID"]), eventID=int(r["eventID"]),
