@@ -23,41 +23,50 @@ A full audit (2026-06-27) found no structural problems:
 ## Coverage
 
 - **Occurrences:** 3797. **Events:** 723. **Locations:** 52.
-- **Phenotyping:** 2312. **Multimedia:** 3558 (incl. field-form and seed-sheet images). **Germplasm:** 1195 (785 from 2025 + 410 from 2026).
+- **Phenotyping:** 2312. **Multimedia:** 3595 (incl. field-form and germplasm-sheet images). **Germplasm:** 1315 (785 from 2025 + 530 from 2026).
 
-## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (loaded 2026-10-04)
+## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (updated 2026-10-05)
 
-The germplasmID and seed weight hand-written on each event envelope (sheet page 2) were loaded with
-`germplasm_seeds.py` (see the Stage C section of the guide). **410 accessions** (germplasmIDs 1012–1578,
-73.0 g, ≈171,000 seeds by the 1000-seed-weight equation) across **15 locations**. 11 locations are complete
-(3, 10, 13, 19, 21, 24, 27, 39, 42, 52, 53) and 4 partial (11, 18, 28, 51). The per-location tally,
-completion and size-ranked cleaning priorities are in
+The germplasmID and seed weight hand-written on each event envelope (sheet page 2) are loaded with
+`germplasm_seeds.py` (see the Stage C section of the guide). **530 accessions** (germplasmIDs 1012–1578,
+99.5 g, ≈233,000 seeds by the 1000-seed-weight equation) across **16 locations**.
+- **14 complete:** 3, 10, 11, 13, 17, 19, 21, 24, 27, 39, 42, 51, 52, 53.
+- **2 partial:** 18 and 28.
+
+The per-location tally, completion and size-ranked cleaning priorities are in
 [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md) §1.
 
 **Integrity:** 0 germplasmIDs used twice, 0 occurrences with more than one accession, and all seed estimates
-match the equation. Eleven ambiguous cells (overwritten digits) were held and then settled against the
-physical envelopes; the decisions are recorded in `staging_2026/germplasm_overrides.csv`.
+match the equation. Ambiguous or overwritten cells are held and then settled against the physical envelopes
+(23 so far); every decision is recorded in `staging_2026/germplasm_overrides.csv`. One clash was caught by
+the registry and fixed this way: occ 2486 read as 1509, a number already belonging to occ 2600; the
+envelope showed it is 1505.
 
-**Seed-quality notes** on the sheets were appended to `Events.eventRemarks` (events 242, 493, 494, 521, 524,
-554, 557).
+**Photos:** envelope-page photos are registered in `Multimedia` as **`germplasm sheet`**, linked to their
+event; location forms photographed with them are `field form`.
+
+**Seed-quality notes** on the sheets are appended to `Events.eventRemarks` (events 242, 272, 284, 493, 494,
+521, 524, 554, 557).
 
 **Who cleaned:** the initials written on an envelope go to `Germplasm.personID` (FK `Persons`), via
 `staging_2026/initials_persons.csv`. SB = Sam Billingsley; PM = Peggy Martinez; IR = Ian Robertson. JY and AS
-have placeholder profiles until they are identified. 60 accessions carry initials so far.
+have placeholder profiles until they are identified. 87 accessions carry initials so far. Sheets initialled
+by several people (e.g. "SB/TG", "SB/TG/IC") are not yet assigned.
+
+### Resolved
+- **#22 — missing event envelopes** (loc 11: events 504, 516, 523; loc 51: event 719): all four were found by
+  Peggy and loaded, with germplasmIDs exactly matching the gaps in the sequence. Closed 2026-10-05.
 
 ### Open
 - **acquisitionDate / initials:** most sheets carry no processing date, so `acquisitionDate` is the
-  sheet-photo date (a proxy) for 382 of 410 rows. The protocol change asking for a date **and** initials on
+  sheet-photo date (a proxy) for 472 of 530 rows. The protocol change asking for a date **and** initials on
   every envelope is **[#20](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/20)**.
 - **occ 3412 (loc 28, event 546):** seed weight 0.1314 g but no germplasmID on the envelope → held,
   **[#21](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/21)**.
-- **Missing event envelopes**, by location: loc 11 (events 504, 516, 523; 12 plants) and loc 51 (event 719;
-  5 plants) → **[#22](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/22)**.
 - **Seeds not yet cleaned**, by location: loc 18 event 328 (occ 2596–2597) →
   **[#23](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/23)**.
-- **Not yet imaged:** loc 17 (cleaned, envelopes not yet photographed), location 28's July 14 events 592–610
-  (40 plants), and 27 other 2026 locations (1,008 plants). `germplasm_seeds.py --report` lists the remaining events per
-  location.
+- **Not yet imaged:** location 28's July 14 events 592–610 (40 plants) and 27 other 2026 locations (1,008
+  plants). `germplasm_seeds.py --report` lists the remaining events per location.
 - **Event 718 remark:** the envelope reads "cows have come through" while `eventRemarks` says "Lewisia";
   to be confirmed.
 
