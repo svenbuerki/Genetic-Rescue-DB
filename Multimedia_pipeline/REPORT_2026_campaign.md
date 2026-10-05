@@ -55,7 +55,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 | | *EO26 subtotal — 6 locations* | **39** | **420** | **98** | **23%** | **0** | **0%** | |
 | **EO27** | loc 9 (EO27) | 24 | 301 | 79 | 26% | — | 0% | **10** |
 |  | loc 10 (EO27-3) | 2 | 44 | 7 | 16% | 7 | 100% | done |
-|  | loc 11 (EO27-1) | 32 | 784* | 125 | 16%* | 113 | 90% | blocked (#22) |
+|  | loc 11 (EO27-1) | 32 | 784* | 125 | 16%* | 113 | 90% | envelopes missing (#22) |
 |  | loc 12 (EO27RT) | 34 | 455* | 126 | 28%* | — | 0% | **6** |
 |  | loc 37 (EO27-1) | 17 | 191 | 38 | 20% | — | 0% | **14** |
 |  | loc 43 (EO27-5) | 9 | 173 | 33 | 19% | — | 0% | **15** |
@@ -67,7 +67,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 | **EO29** | loc 8 (EO29) | 1 | 167 | 9 | 5% | — | 0% | **16** |
 | **EO30** | loc 13 (EO30-1) | 2 | 154 | 16 | 10% | 16 | 100% | done |
 |  | loc 42 (EO30-2) | 9 | 138 | 34 | 25% | 34 | 100% | done |
-|  | loc 51 (EO30-3) | 6 | 152 | 16 | 11% | 11 | 69% | blocked (#22) |
+|  | loc 51 (EO30-3) | 6 | 152 | 16 | 11% | 11 | 69% | envelopes missing (#22) |
 |  | loc 52 (EO30-4) | 2 | 27 | 7 | 26% | 7 | 100% | done |
 | | *EO30 subtotal — 4 locations* | **19** | **471** | **73** | **15%** | **68** | **93%** | |
 | **EO32** | loc 6 (EO32) | 36 | 1,285 | 137 | 11% | — | 0% | **2** |
@@ -83,7 +83,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 | **EO_NEW2026** | loc 53 (EO_NEW2026) | 1 | 27 | 7 | 26% | 7 | 100% | done |
 | | **TOTAL — 43 locations across 19 EOs** | **486** | **≥ 9,969*** | **1581** | **≤ 16%*** | **410** | **26%** | |
 
-*Completion* = seed accessions ÷ occurrences: the share of sampled plants whose seeds are cleaned, weighed and loaded with a germplasmID (Stage C). *Priority* = cleaning order for the locations still to finish, **ranked by fertile plants counted** (1 = largest population), so large locations come first. "done" = all sampled plants have a seed accession. "finish" = partly loaded, with the rest actionable. "cleaned — not yet imaged" = seeds already cleaned (loc 17), but the envelopes have not been photographed yet, so nothing is loaded. "blocked (#22)" = what remains needs envelopes that are missing.
+*Completion* = seed accessions ÷ occurrences: the share of sampled plants whose seeds are cleaned, weighed and loaded with a germplasmID (Stage C). *Priority* = cleaning order for the locations still to finish, **ranked by fertile plants counted** (1 = largest population), so large locations come first. "done" = all sampled plants have a seed accession. "finish" = partly loaded, with the rest actionable. "cleaned — not yet imaged" = seeds already cleaned (loc 17), but the envelopes have not been photographed yet, so nothing is loaded. "envelopes missing (#22)" = the remaining plants' event envelopes are not in hand, so there is nothing to clean or image until they are found.
 
 **Two different numbers.** *Fertile plants (counted)* = **every** fertile (flowering/fruiting) plant counted at the event, summed per location (`Events.organismQuantityFertile`). This is the local census of potential mothers and pollen donors. *Occurrences (sampled)* = the plants we actually **sampled** (barcoded, photographed and seed-collected), one row each in `Occurrences`. *% sampled* = occurrences ÷ fertile plants: the share of the breeding population we hold seed from. ≥ = one event recorded as ">200" (loc 20, event 356), counted as 200. \* = total excludes events with no fertile count on the form (loc 11: events 503, 504, 520, 521; loc 12: event 424). Their sampled plants are still counted, so % sampled for \* rows is an **overestimate**. For ≥ rows, % sampled is an upper bound. Free-text counts were read from their leading number (loc 26, e.g. "98 - 17 failed, 81 fruited" → 98).
 
@@ -199,7 +199,7 @@ The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com
 | **28** | loc 33 (EO26-3) | 14 | 11 | — |  |
 | **29** | loc 31 (EO26-3) | 12 | 7 | — |  |
 | **30** | loc 23 (EO24-2) | 2 | 1 | — |  |
-| — | loc 11 (EO27-1), loc 51 (EO30-3) | 784* / 152 | 12 / 5 | 5 / — | Blocked: envelopes missing (#22) |
+| — | loc 11 (EO27-1), loc 51 (EO30-3) | 784* / 152 | 12 / 5 | 5 / — | Envelopes missing (#22) |
 | — | loc 35 (EO26-2, pilot partner **B1**), loc 29, loc 30 | — | 0 | 5 / 2 / 2 | **No 2026 collection** (loc 35 not visited; 29 and 30 had no seed). B1 still relies on its 8 mothers from 2025 |
 
 *Phase 5 gap "—" = no shortfall, or a location not in Phase 5's 2025 list (new 2026 locations 41–53).*
