@@ -606,3 +606,103 @@
 ## 20261004 — occ 3412 weight confirmed; issue #21 image
 - occ 3412 weight = 0.1314 g (Sven, envelope); still HELD (no germplasmID). Seed-sheet photo (EXIF/GPS stripped, rotated) posted to issue #21 via branch `issue-assets` (not main).
 - germplasm_seeds --load now resolves sheets of earlier batches directly from Field_forms/<year>/ (re-running an old results file no longer drops its rows from the registry).
+
+## 20261004 — Germplasm.personID + seed-cleaner initials
+- Added Germplasm.personID (FK Persons; Terms 141). Placeholder Persons JY (6), AS (7). SB = Sam Billingsley (Persons 4, Sven confirmed); fixed swapped first/last name on Persons 4. Mapping in staging_2026/initials_persons.csv (PM->2, IR->3 assumed).
+
+## 20261004-224541 — germplasm_seeds --load germplasm_results_20261004d.json
+- staged 40 rows (OK 39, FLAG 1, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 12, 'photo': 28}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-224630 — germplasm_seeds --commit --apply
+- inserted 39 Germplasm rows (seed sheets → occurrenceID FK); 1 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 27 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-224630`.
+
+## 20261004-224630 — germplasm_seeds --sheets-mm --apply
+- linked 15 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261004-224630`.
+
+## 20261004-224712 — germplasm_seeds --load germplasm_results_20261004d.json
+- staged 40 rows (OK 0, FLAG 1, NO_SEED 0, LOADED 39, SKIP 0); acquisitionDate sources {'photo': 1}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-224712 — germplasm_seeds --sheets-mm --apply
+- linked 1 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261004-224712`.
+
+## 20261004-224956 — germplasm_seeds --load germplasm_results_20261004.json
+- staged 123 rows (OK 0, FLAG 1, NO_SEED 0, LOADED 122, SKIP 0); acquisitionDate sources {'photo': 1}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-224956 — germplasm_seeds --commit --apply
+- inserted 0 Germplasm rows (seed sheets → occurrenceID FK); 1 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 16 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-224956`.
+
+## 20261004-224956 — germplasm_seeds --load germplasm_results_20261004b.json
+- staged 49 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 49, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-224956 — germplasm_seeds --commit --apply
+- inserted 0 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 11 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-224956`.
+
+## 20261004-224956 — germplasm_seeds --load germplasm_results_20261004c.json
+- staged 127 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 127, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-224956 — germplasm_seeds --commit --apply
+- inserted 0 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 12 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-224956`.
+
+## 20261004 — Stage C batch 4 (locs 13/21/24/51) + who/when backfill
+- Batch 4 (PXL_20261004_2135–2138): 4 location forms + 12 sheets; +39 Germplasm (IDs 1166–1369); held occ 3003 (0.1064 vs 0.0064 g). Loc 51 event 719 (occ 3847–3851) has no envelope (ID gap 1358–1362). Event 718 sheet (no plants) linked to its event; its note reads "cows", eventRemarks says "Lewisia" — asked Sven.
+- Dedicated initials/date re-read of the 101 earlier sheets → 39 rows backfilled with personID (Sam Billingsley 30 incl. new batch, JY 16, PM 4, AS 1) and written dates. JY written after barcodes on PXL_20261004_194041304 (occ 3297–3300) left unassigned (collector or cleaner? asked Sven).
+- 2026 Germplasm = 337; 0 duplicate IDs; 0 bad personID FKs; all estimates match the equation.
+
+## 20261004-231107 — germplasm_seeds --load germplasm_results_20261004c.json
+- staged 127 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 127, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-231107 — germplasm_seeds --commit --apply
+- inserted 0 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 4 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-231107`.
+
+## 20261004 — initials confirmed
+- PM = Peggy Martinez, IR = Ian Robertson (Sven confirmed). JY = cleaner for occ 3297–3300 (Sven) -> backfilled personID 6.
+
+## 20261004-231149 — germplasm_seeds --load germplasm_results_20261004d.json
+- staged 40 rows (OK 1, FLAG 0, NO_SEED 0, LOADED 39, SKIP 0); acquisitionDate sources {'photo': 1}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-231149 — germplasm_seeds --commit --apply
+- inserted 1 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 1 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-231149`.
+- occ 3003 = 0.1064 g (Sven); loaded.
+
+## 20261004-231515 — germplasm_seeds --load germplasm_results_20261004e.json
+- staged 59 rows (OK 57, FLAG 0, NO_SEED 2, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 5, 'photo': 52}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-231558 — germplasm_seeds --load germplasm_results_20261004e.json
+- staged 59 rows (OK 54, FLAG 3, NO_SEED 2, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 5, 'photo': 52}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-231558 — germplasm_seeds --commit --apply
+- inserted 54 Germplasm rows (seed sheets → occurrenceID FK); 3 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 49 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-231558`.
+
+## 20261004-231558 — germplasm_seeds --sheets-mm --apply
+- linked 19 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261004-231558`.
+
+## 20261004 — Stage C location 18 (EO18) — LOADED
+- 19 photos (1 location form + 18 sheets = all 18 events / 59 plants). +54 Germplasm (IDs 1507–1578); SB-dated sheets 09/24 and 09/25/2026 (Sam Billingsley).
+- Event 328 (occ 2596, 2597): envelope in hand but seeds NOT cleaned (no Germ/Weight) → new issue #23 (general: uncleaned events by location).
+- Held (HOLD): occ 2611 (0.0325 vs 0.6325), 2612 (0.1379 vs 0.379), 2604 (0.8210 vs 0.8240).
+- Issue #22 generalised to missing envelopes by location (+ loc 51 event 719). 2026 Germplasm = 392.
+
+## 20261004-233859 — germplasm_seeds --load germplasm_results_20261004e.json
+- staged 59 rows (OK 3, FLAG 0, NO_SEED 2, LOADED 54, SKIP 0); acquisitionDate sources {'photo': 3}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-233859 — germplasm_seeds --commit --apply
+- inserted 3 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 3 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-233859`.
+- Loc 18 holds resolved (Sven): 2604 = 0.8210 g, 2611 = 0.0325 g, 2612 = 0.1379 g; loaded.
+
+## 20261004-234003 — germplasm_seeds --load germplasm_results_20261004f.json
+- staged 15 rows (OK 15, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'photo': 15}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261004-234003 — germplasm_seeds --commit --apply
+- inserted 15 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 15 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261004-234003`.
+
+## 20261004-234003 — germplasm_seeds --sheets-mm --apply
+- linked 10 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261004-234003`.
+
+## 20261004 — Stage C location 27 (EO8) — LOADED
+- 10 photos (1 location form + 9 sheets = all 9 events / 15 plants). +15 Germplasm (IDs 1523–1537), no holds, no initials/dates on sheets. 2026 Germplasm = 410.
+
+## 20261004 — REPORT_2026_campaign.md updated
+- Added Stage C: per-location seed-accession tally (cleaned 410 / remaining 1,171; loc 17 cleaned-not-imaged per Sven), cleaning priorities from SRK_bioinformatics Phase 5 (76-mother gap across 35 demes; pilot B1 anchor loc 8), §3b method, open issues #20–#23, data-product counts.
+- Report: added Fertile plants column (Events.organismQuantityFertile) to the per-location events/occurrences tally and to the cleaning-priority table (Sven, 2026-10-04).
+- Report: occurrence tally now separates Fertile plants (counted, all plants per event) from Occurrences (sampled) and adds % sampled (Sven).
+- Report: per-location tally gains Completion (accessions/occurrences) and Priority (rank by fertile plants counted; done / finish / image only / blocked); cleaning-priority list re-ordered by size with Phase 5 gap as supporting info (Sven: prioritise large locations).

@@ -349,6 +349,7 @@ germplasmIDs to write the date (and their initials) on the envelope.
 | `germplasmWeight` / `germplasmWeightUnit` | sheet (g; every decimal kept) / `gr.` |
 | `germplasmQuantityEstimate`, `…Low`, `…Upr` | derived from weight via the 1000-seed-weight regression ([LEPA_DB_Documentation.md](../Documentation/LEPA_DB_Documentation.md)) |
 | `acquisitionDate` | override, then the date written on the sheet, then the photo capture date (proxy, issue #20) |
+| `personID` (FK `Persons`) | who cleaned the seeds / assigned the germplasmID: the **initials** written on the envelope (per row, or for the whole sheet), resolved via `staging_2026/initials_persons.csv`; unknown initials get a placeholder `Persons` row at `--commit --apply`, for the team to identify. `--commit` also backfills who and when onto rows already loaded. |
 | `biologicalStatus`, `storageCondition`, `germplasmStorageLocation`, `taxonID` | 2025 defaults `Wild`, `Fresh`, `Fridge_lab205`, `1` |
 
 No new columns are needed: every field already exists in `Germplasm` and is registered in `Terms`.
@@ -386,9 +387,16 @@ the DB but missing from its sheet, usually a cut-off photo or a second page) and
 germplasmID sequence** (an unread or skipped envelope).
 
 **Corrections:** edit `staging_2026/germplasm_overrides.csv` (`occurrenceID,correctedOccurrenceID,germplasmID,seedWeight,acquisitionDate,note`; keyed by the occurrenceID as read; `correctedOccurrenceID` fixes a mis-written barcode),
-never the generated staging CSV. Any non-blank column replaces the OCR value, and `germplasmID=SKIP` drops
-the row.
-Then re-run `--load`.
+never the generated staging CSV. Any non-blank column replaces the OCR value. `germplasmID=SKIP` drops
+the row. **`germplasmID=HOLD`** keeps the read values but holds the row until someone checks the physical
+envelope; use it for any overwritten or ambiguous digit, rather than guessing. Then re-run `--load`.
+
+A sheet with **no plant rows** (e.g. a seedless event whose envelope only carries a note) gets a sheet-level
+`event_id` in the results JSON, so its photo is still linked to the right event.
+
+**Batch report:** `--report` lists, for every 2026 location, the events and plants read, the accessions loaded,
+and what is still missing. The campaign report's per-location tally (completion and size-ranked priority) is
+built from the same DB and registry.
 
 **OCR risks to watch.** These are the known handwriting digit errors (looped 9→4, 2→1) plus a new one
 specific to weights: **a misplaced decimal point** (0.52 vs 5.2 vs 0.052). The range check catches the

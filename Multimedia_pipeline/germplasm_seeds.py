@@ -30,14 +30,22 @@ occurrence that turns up again on a sheet imaged days later is caught even if ne
 
 RESULTS JSON (list; one object per image, in capture order) expected by --load:
   location form:  {file, idx, page_type: "location_form", location_id (barcode / written locationID), confidence}
-  seed sheet:     {file, idx, page_type: "seed_sheet", acquisition_date (as written, else null), confidence,
+  seed sheet:     {file, idx, page_type: "seed_sheet", acquisition_date (as written, else null), initials, confidence,
                    seed_notes (seed-quality remark written on the sheet, verbatim, else null),
-                   rows: [{occurrenceID, germplasmID, seedWeight, note}]}
+                   rows: [{occurrenceID, germplasmID, seedWeight, initials, acquisition_date, note}]}
 
 LOCATION FORM RULE (Sven, 2026-10-04). Each location in a batch is introduced by a photo of its Location form;
 every seed sheet photographed after it must belong to that location. Rows of a location with no location-form
 photo in the batch, or of a sheet whose plants belong to a different location than the preceding form, are
 FLAGged (held). --allow-missing-location-form exempts batches imaged before the rule (the 2026-10-04 pilot).
+
+WHO + WHEN (Sven, 2026-10-04). Initials written next to the Germ | Weight columns identify who cleaned the
+seeds / assigned the germplasmID → Germplasm.personID, resolved through staging_2026/initials_persons.csv.
+Initials not in that file get a PLACEHOLDER Persons row at --commit --apply (firstName = initials,
+lastName "[unidentified - seed cleaning <year>]") for the team to identify later. Dates are American
+(MM/DD/YY) and become acquisitionDate. Both can be per row (rows[].initials / rows[].acquisition_date) or
+per sheet (sheet-level initials / acquisition_date); the row value wins. --commit also BACKFILLS personID and
+a written acquisitionDate onto rows already in the DB (status LOADED) when they are newly read.
 
 SEED-QUALITY NOTES. Notes on the sheet about seed quality (e.g. "many too late", "germplasm 1266 has large
 seeds") are transcribed into seed_notes and, at --commit, APPENDED to Events.eventRemarks of the sheet's event
@@ -83,10 +91,12 @@ LOG = ROOT / "Multimedia_pipeline" / "PIPELINE_LOG.md"
 WORKLIST = WORK / "germplasm_worklist.csv"
 STAGING = STAGE / "germplasm_staging.csv"
 NOTES = STAGE / "germplasm_event_notes.csv"     # seed-quality notes → Events.eventRemarks
-LOCFORMS = STAGE / "germplasm_location_forms.csv"   # location-form photos of the batch → Multimedia (tableID 9)
+LOCFORMS = STAGE / "germplasm_location_forms.csv"
+SHEETS = STAGE / "germplasm_sheets.csv"             # every seed sheet of the batch -> its event (incl. sheets with no plant rows)
+INITIALS = STAGE / "initials_persons.csv"           # seed-cleaner initials -> Persons.personID (Sven-curated)   # location-form photos of the batch → Multimedia (tableID 9)
 OVERRIDES = STAGE / "germplasm_overrides.csv"
 REGISTRY = STAGE / "germplasm_registry.csv"   # cumulative list of every germplasmID read, across ALL batches
-REG_COLS = ["germplasmID", "occurrenceID", "eventID", "locationID", "seedWeight", "acquisitionDate", "acq_source",
+REG_COLS = ["germplasmID", "occurrenceID", "eventID", "locationID", "seedWeight", "acquisitionDate", "acq_source", "initials",
             "status", "flags", "file", "batch"]
 FIRST_NEW_ID = 871                            # 2026 IDs continue after the last 2025 accession in the DB
 
@@ -143,6 +153,9 @@ def worklist(year, pattern):
     print("  Next: in-session READ-ONLY OCR sweep over image_path → results JSON, then --load it.")
 
 # ---------------------------------------------------------------------------------------------------
+def read_initials():
+    return {r["initials"].strip().upper(): as_int(r["personID"]) for r in csv.DictReader(open(INITIALS))} if INITIALS.exists() else {}
+
 def read_overrides():
     if not OVERRIDES.exists():
         with open(OVERRIDES, "w", newline="") as fh:
@@ -164,6 +177,7 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
     ev_occs = {}
     for o, (e, _) in occ_db.items(): ev_occs.setdefault(e, set()).add(o)
     occ_ov = read_overrides()
+    ini_map = read_initials(); unknown_ini = set()
     batch_files = {it.get("file") for it in items}
     prior = [r for r in read_registry() if r["file"] not in batch_files]   # other batches / sheets
     prior_g, prior_occ = {}, {}
@@ -173,7 +187,7 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
             prior_occ.setdefault(as_int(r["occurrenceID"]), []).append(r)
 
     out, seen_germ, seen_occ, sheet_events = [], {}, {}, {}
-    loc_forms, cur_form, sheet_form, notes = {}, None, {}, []
+    loc_forms, cur_form, sheet_form, notes, sheet_list = {}, None, {}, [], []
     for it in items:
         f = it.get("file")
         if f not in wl:                                   # results from an earlier batch: resolve the file directly
@@ -188,8 +202,8 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
         fix = lambda o: as_int(occ_ov.get(o, {}).get("correctedOccurrenceID")) or o
         evs = Counter(occ_db[fix(as_int(r.get("occurrenceID")))][0] for r in it.get("rows", [])
                       if fix(as_int(r.get("occurrenceID"))) in occ_db)
-        sheet_ev = evs.most_common(1)[0][0] if evs else None
-        sheet_events.setdefault(sheet_ev, set())
+        sheet_ev = as_int(it.get("event_id")) or (evs.most_common(1)[0][0] if evs else None)   # event_id: sheets with no plant rows
+        sheet_events.setdefault(sheet_ev, set()); sheet_list.append((f, sheet_ev))
         if (it.get("seed_notes") or "").strip():
             notes.append(dict(eventID=sheet_ev, file=f, note=it["seed_notes"].strip(),
                               date=sheet_date or photo_date))
@@ -199,12 +213,16 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
                 occ = as_int(ov["correctedOccurrenceID"])
             g_raw = ov.get("germplasmID") or r.get("germplasmID")
             w_raw = ov.get("seedWeight") if (ov.get("seedWeight") or "").strip() else r.get("seedWeight")
+            row_date = norm_date(r.get("acquisition_date")) or sheet_date
             acq, src = ((norm_date(ov["acquisitionDate"]), "override") if norm_date(ov.get("acquisitionDate"))
-                        else (sheet_date, "sheet") if sheet_date else (photo_date, "photo"))
+                        else (row_date, "sheet") if row_date else (photo_date, "photo"))
+            ini = str(r.get("initials") or it.get("initials") or "").strip().upper()
+            pid = ini_map.get(ini) if ini else None
+            if ini and pid is None: unknown_ini.add(ini)
             row = dict(file=f, sheet_eventID=sheet_ev, occurrenceID=occ, occurrenceID_raw=r.get("occurrenceID"),
                        germplasmID_raw=r.get("germplasmID"), seedWeight_raw=r.get("seedWeight"),
                        germplasmID=None, seedWeight=None, eventID=None, locationID=None,
-                       acquisitionDate=acq, acq_source=src,
+                       acquisitionDate=acq, acq_source=src, initials=ini, personID=pid,
                        override="yes" if ov else "", ocr_note=r.get("note") or "", confidence=it.get("confidence"))
             if str(g_raw).strip().upper() == "SKIP":
                 out.append({**row, "status": "SKIP", "flags": "override SKIP"}); continue
@@ -254,12 +272,14 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
             out.append({**row, "status": "FLAG" if flags else "OK", "flags": "; ".join(flags)})
 
     cols = ["status", "flags", "file", "sheet_eventID", "occurrenceID", "germplasmID", "seedWeight", "eventID",
-            "locationID", "acquisitionDate", "acq_source", "occurrenceID_raw", "germplasmID_raw", "seedWeight_raw", "override",
+            "locationID", "acquisitionDate", "acq_source", "initials", "personID", "occurrenceID_raw", "germplasmID_raw", "seedWeight_raw", "override",
             "ocr_note", "confidence"]
     with open(STAGING, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore"); w.writeheader(); w.writerows(out)
 
     write_registry(prior + [{**r, "batch": Path(results).name} for r in out])
+    with open(SHEETS, "w", newline="") as fh:
+        w = csv.writer(fh); w.writerow(["file", "eventID"]); w.writerows(sheet_list)
     with open(LOCFORMS, "w", newline="") as fh:
         w = csv.writer(fh); w.writerow(["file", "locationID"])
         w.writerows([[it["file"], as_int(it.get("location_id"))] for it in items if it.get("page_type") == "location_form"])
@@ -267,6 +287,9 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
         w = csv.DictWriter(fh, fieldnames=["eventID", "file", "date", "note"]); w.writeheader(); w.writerows(notes)
     print(f"  location forms in batch: {sorted(x for x in loc_forms_all if x is not None) or 'NONE'}"
           + ("  (rule waived: --allow-missing-location-form)" if allow_no_form else ""))
+    ini_n = Counter(r["initials"] or "—" for r in out if r["status"] in ("OK", "FLAG", "LOADED"))
+    print("  initials (who cleaned): " + ", ".join(f"{k} {v}" for k, v in sorted(ini_n.items())))
+    if unknown_ini: print(f"  new initials → placeholder Persons rows will be created at --commit --apply: {sorted(unknown_ini)}")
     for n_ in notes: print(f"  seed-quality note → event {n_['eventID']}: \"{n_['note']}\"")
     n = {s: sum(r["status"] == s for r in out) for s in ("OK", "FLAG", "NO_SEED", "LOADED", "SKIP")}
     print(f"Stage C staged {len(out)} rows from {len(items)} sheets -> {STAGING}")
@@ -386,16 +409,39 @@ def commit(db, apply):
     if clash: print(f"  ⚠ germplasmIDs now in DB (re-run --load): {clash[:10]}"); con.close(); return
     nts = list(csv.DictReader(open(NOTES))) if NOTES.exists() else []
     if nts: print(f"  seed-quality notes to append to Events.eventRemarks: {len(nts)} (events {sorted({n['eventID'] for n in nts})})")
+    lr = [r for r in rows if r["status"] == "LOADED" and (r.get("initials") or r["acq_source"] in ("sheet", "override"))]
+    if lr: print(f"  loaded rows with who/when to backfill (if different in DB): {len(lr)}")
     if not apply: print("\nDRY-RUN. Re-run with --commit --apply to write (DB backed up first)."); con.close(); return
     bak = backup(db, "germplasm")
+    # placeholder Persons for initials not yet in initials_persons.csv
+    new_people = sorted({r["initials"] for r in rows if r.get("initials") and not r.get("personID")})
+    if new_people:
+        with open(INITIALS, "a", newline="") as fh:
+            w = csv.writer(fh)
+            for ini in new_people:
+                cur.execute("INSERT INTO Persons (lastName, firstName, institution) VALUES (?,?,?)",
+                            (f"[unidentified - seed cleaning {datetime.now().year}]", ini, "Boise State"))
+                w.writerow([ini, cur.lastrowid, "placeholder", "Created automatically by germplasm_seeds --commit; identify with Peggy."])
+    ini_map = read_initials()
+    pid_of = lambda r: ini_map.get(r["initials"]) if r.get("initials") else None
     for r in ok:
         wt = float(r["seedWeight"])
         rec = dict(germplasmID=int(r["germplasmID"]), occurrenceID=int(r["occurrenceID"]), eventID=int(r["eventID"]),
                    locationID=int(r["locationID"]), germplasmWeight=wt, acquisitionDate=r["acquisitionDate"],
                    germplasmQuantityEstimate=round((wt - REG_A) / REG_B, 2),
                    germplasmQuantityEstimateLow=round((wt - REG_PI - REG_A) / REG_B, 2),
-                   germplasmQuantityEstimateUpr=round((wt + REG_PI - REG_A) / REG_B, 2), **GERM_DEFAULTS)
+                   germplasmQuantityEstimateUpr=round((wt + REG_PI - REG_A) / REG_B, 2), personID=pid_of(r), **GERM_DEFAULTS)
         cur.execute(f"INSERT INTO Germplasm ({','.join(rec)}) VALUES ({','.join('?' * len(rec))})", list(rec.values()))
+    n_back = 0                                            # backfill who/when onto rows already in the DB
+    for r in [r for r in rows if r["status"] == "LOADED"]:
+        g = int(r["germplasmID"]); pid = pid_of(r)
+        dbp, dbd = cur.execute("SELECT personID, acquisitionDate FROM Germplasm WHERE germplasmID=?", (g,)).fetchone()
+        sets = {}
+        if pid and pid != dbp: sets["personID"] = pid
+        if r["acq_source"] in ("sheet", "override") and r["acquisitionDate"] and r["acquisitionDate"] != dbd:
+            sets["acquisitionDate"] = r["acquisitionDate"]
+        if sets:
+            cur.execute(f"UPDATE Germplasm SET {', '.join(k + '=?' for k in sets)} WHERE germplasmID=?", [*sets.values(), g]); n_back += 1
     n_notes = 0
     for nt in (list(csv.DictReader(open(NOTES))) if NOTES.exists() else []):
         if not nt["eventID"]: continue
@@ -407,16 +453,20 @@ def commit(db, apply):
     con.commit(); con.close()
     log("germplasm_seeds --commit --apply",
         f"inserted {len(ok)} Germplasm rows (seed sheets → occurrenceID FK); {len(held)} held as FLAG; "
-        f"{n_notes} seed-quality notes appended to Events.eventRemarks; "
+        f"{n_notes} seed-quality notes appended to Events.eventRemarks; {n_back} loaded rows backfilled (personID/acquisitionDate); "
+        f"new placeholder Persons {new_people or 'none'}; "
         f"acquisitionDate = photo-date proxy for {proxy} rows (issue #20). Backup `{bak.name}`.")
-    print(f"APPLIED: +{len(ok)} Germplasm, {n_notes} event remarks. {len(held)} held. Backup {bak.name}. Logged.")
+    print(f"APPLIED: +{len(ok)} Germplasm, {n_back} backfilled, {n_notes} event remarks, new Persons {new_people or 'none'}. "
+          f"{len(held)} held. Backup {bak.name}. Logged.")
 
 def sheets_multimedia(db, apply):   # sheet image -> Multimedia evidence row on its Event (tableID 11)
     rows = list(csv.DictReader(open(STAGING)))
     jobs = {}                                          # file -> (tableID, fk value, title)
-    for r in rows:
-        if r["sheet_eventID"] and r["file"] not in jobs:
-            ev = int(r["sheet_eventID"])
+    sheet_rows = list(csv.DictReader(open(SHEETS))) if SHEETS.exists() else [
+        {"file": r["file"], "eventID": r["sheet_eventID"]} for r in rows]
+    for r in sheet_rows:
+        if r["eventID"] and r["file"] not in jobs:
+            ev = int(r["eventID"])
             jobs[r["file"]] = (11, ev, f"Seed-collection sheet, event page 2 with germplasmIDs + seed weights — event {ev}")
     for lf in (list(csv.DictReader(open(LOCFORMS))) if LOCFORMS.exists() else []):
         if lf["locationID"]:

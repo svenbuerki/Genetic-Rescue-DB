@@ -199,7 +199,7 @@ This database is the integrative hub of a small ecosystem of repositories. Two c
 
 | Repository | Feeds module | Role |
 |------------|--------------|------|
-| **[SRK_bioinformatics](https://github.com/svenbuerki/SRK_bioinformatics)** | **Genetics** | S-locus receptor kinase (**SRK**) genotyping pipeline. Consumes the sequencing outputs tracked in `Sequencing`/`GenotypingStatus` and produces the per-individual SRK genotypes that will populate the planned `Genotyping` table, each linked to an `occurrenceID` — the genetic-diversity basis for informed breeding. |
+| **[SRK_bioinformatics](https://github.com/svenbuerki/SRK_bioinformatics)** | **Genetics** | S-locus receptor kinase (**SRK**) genotyping pipeline. Consumes the sequencing outputs tracked in `Sequencing`/`GenotypingStatus` and produces the per-individual SRK genotypes that will populate the planned `Genotyping` table, each linked to an `occurrenceID` — the genetic-diversity basis for informed breeding. Its **[Phase 5](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md)** (mate limitation and fragmentation) uses the seed accessions in `Germplasm` and sets the 2026 seed-cleaning priorities ([`REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md)). |
 | **[LEPA_EO_spatial_clustering](https://github.com/svenbuerki/LEPA_EO_spatial_clustering)** | **Environment** | Spatial clustering of Element Occurrences (EOs) to define seed-transfer zones. Informs the `EOs`, `Locations`, and `EORankings` tables and the choice of source populations for translocation. |
 
 Together they implement steps 1 (genetic diversity / seed zones) and 5 (informed breeding) of the genetic-rescue pipeline, with this database as the shared record.
