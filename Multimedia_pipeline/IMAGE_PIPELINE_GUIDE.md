@@ -355,7 +355,7 @@ germplasmIDs to write the date (and their initials) on the envelope.
 - `germplasm_seeds.py --cleaner-worksheet DIR` writes `staging_2026/cleaner_assignment.csv`, with one numbered row per envelope that still has germplasm without a cleaner, and numbered contact sheets of those envelopes.
 - Fill `assign_initials`, by hand or from a **handwriting comparison**: read-only agents compare the unassigned envelopes with a confirmed sample of one person's envelopes. Use whole envelopes written by that person alone, because on shared envelopes one person often writes all the numbers. The candidate matches are confirmed by the PI.
 - `germplasm_seeds.py --assign-cleaners --apply` then records them, with a backup. It only fills germplasm that have no cleaner yet.
-- `seed_cleaners_report.py` regenerates the leaderboard (`SEED_CLEANERS_<year>.md`, kept local). `--commit` also backfills who and when onto rows already loaded. |
+- `seed_cleaners_report.py` regenerates the leaderboard ([`SEED_CLEANERS_2026.md`](SEED_CLEANERS_2026.md)); regenerate and push it after each batch. `--commit` also backfills who and when onto rows already loaded. |
 | `biologicalStatus`, `storageCondition`, `germplasmStorageLocation`, `taxonID` | 2025 defaults `Wild`, `Fresh`, `Fridge_lab205`, `1` |
 
 No new columns are needed: every field already exists in `Germplasm` and is registered in `Terms`.

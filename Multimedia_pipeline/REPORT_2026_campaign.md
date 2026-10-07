@@ -3,7 +3,7 @@
 **Prepared for:** Buerki Lab team
 **Subject:** Digitizing the 2026 field sheets, plant photos, and genotyping data into `LEPA_SQL.db`
 **Pipeline:** three stages — **A: forms → records**, **B: plant images → multimedia + phenotyping**, then **C: seed sheets → seed accessions (`Germplasm`)**
-(full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md))
+(full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md); **seed-cleaner leaderboard: [`SEED_CLEANERS_2026.md`](SEED_CLEANERS_2026.md)**)
 
 **Companion project — SRK genotyping & mate limitation:** [`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics) analyses the self-incompatibility (SRK) genotypes of the plants recorded here. Its **Phase 5** uses this database's occurrences and seed accessions to test **fragmentation → genetic drift → mate limitation**. Start with the [Phase 5 summary for colleagues](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md); full method in [Phase 5 — sampling and prediction](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_sampling_and_prediction.md). The seed-cleaning priorities in §1 are linked to that design.
 
@@ -19,7 +19,7 @@
 | **Events** (slick spots) | **486** | each with GPS + habitat/condition + associated taxa (incl. a few data-only, seedless slick spots at EO61 and EO30-3) |
 | **Locations** | revisits + 13 new: EO69 (41), EO30-2 (42), EO27-5 (43), EO27 (44), EO27-1 (45, 46), EO8 (47), EO26 (48, 49), EO27 (50), EO30-3 (51), EO30-4 (52), new 2026 population (53) | thirteen genuinely new sites this season; the rest are revisits (link, no insert). |
 | **Plant images** phenotyped | **1,571 / 1,581 (99%)** | each has a linked board image; measured height/crown/size class |
-| **Seed accessions** (`Germplasm`) | **611 / 1,581 (39%)** | seeds cleaned, weighed and given a germplasmID; 125.2 g ≈ 294,000 seeds. 19 of 43 locations imaged so far (15 complete). Tally and priorities: below. |
+| **Seed accessions** (`Germplasm`) | **611 / 1,581 (39%)** | seeds cleaned, weighed and given a germplasmID; 125.2 g ≈ 294,000 seeds. 19 of 43 locations imaged so far (15 complete). Tally and priorities: below; who cleaned what: [leaderboard](SEED_CLEANERS_2026.md). |
 
 The **1,581 occurrences span 19 EOs**; the full per-EO yield, together with every site the crew visited or skipped and its location number, is in the single season-coverage roster in **§8** (Ian's 2026 checklist, with the occurrence counts folded in). The season's largest EO was **EO27** (Red Tie South, EO27-5, Figgins, Pleasant Valley, Region 3 loc 37/50, and new sites); the eastern **EO8** (Hammett Hills) was next. The 19th EO is a **new 2026 population (loc 53)** with no official EO number yet — databased under a provisional code (`EO_NEW2026`).
 
@@ -158,7 +158,7 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
   - **loc 26:** 3 cells held for an envelope check.
   - **loc 18:** event 328 not yet cleaned (2 plants, #23).
 - **24 locations not yet imaged** (919 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **344 of 611** have one so far: Ian Robertson 179, Sam Billingsley 70, Jaden Yun 39, Peggy Martinez 25, Alex Scott 17, Isaac Carretero 14.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **344 of 611** have one so far: Ian Robertson 179, Sam Billingsley 70, Jaden Yun 39, Peggy Martinez 25, Alex Scott 17, Isaac Carretero 14. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
   - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
   - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. Both were confirmed by Sven.
   - **The remaining 267** (69 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.

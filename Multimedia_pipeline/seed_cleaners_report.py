@@ -66,8 +66,12 @@ def main():
             "light lots are counted as 0).",
             "- *Dates written on envelopes* covers only envelopes where the cleaner wrote a date. Photo or posting "
             "dates used as stand-ins are excluded (see issue #20).",
+            "- Germplasm without initials were attributed from **handwriting samples** where possible (Ian Robertson; "
+            "Peggy Martinez for location 27), and each match was confirmed by the PI. The rest are tracked in "
+            "[issue #24](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/24).",
             "- To assign the remaining germplasm, fill in `staging_2026/cleaner_assignment.csv` (one row per "
-            "envelope) and run `germplasm_seeds.py --assign-cleaners`."]
+            "envelope) and run `germplasm_seeds.py --assign-cleaners`.",
+            "- Campaign context: [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md)."]
     dst = ROOT / "Multimedia_pipeline" / f"SEED_CLEANERS_{a.year}.md"
     dst.write_text("\n".join(out) + "\n")
     print(f"wrote {dst}  ({total} germplasm, {assigned} assigned, {len(ranked)} cleaners)")

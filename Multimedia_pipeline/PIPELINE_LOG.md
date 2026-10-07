@@ -809,3 +809,4 @@
 - assigned a cleaner to 15 germplasm from 76 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261007-014208`.
 - Sven assigned location 27 (9 envelopes, events 611–619, 15 germplasm; one consistent hand: blue germ / red weight, no headings) to Peggy Martinez.
 - Issue #24 opened: assign cleaners to 69 envelopes / 267 germplasm without initials (by location, style groups A–E).
+- Leaderboard SEED_CLEANERS_2026.md published (Sven) and linked from the campaign report (header, seed-accessions row, "Who cleaned" stats), the guide and DATA_QUALITY.
