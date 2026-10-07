@@ -57,6 +57,7 @@ Occurrence ──▶ TissueBank ──▶ MolecularBank (DNA) ──▶ Sequenci
 | [`Multimedia_pipeline/REPORT_2026_campaign.md`](Multimedia_pipeline/REPORT_2026_campaign.md) | 2026 field-campaign results | Review the latest season |
 | [`Multimedia_pipeline/REPORT_2025_measurement.md`](Multimedia_pipeline/REPORT_2025_measurement.md) · [`REPORT_2026_pipeline_dryrun.md`](Multimedia_pipeline/REPORT_2026_pipeline_dryrun.md) | Image-measurement validation + blind dry-run | See how well the method works |
 | [`Multimedia_pipeline/PIPELINE_LOG.md`](Multimedia_pipeline/PIPELINE_LOG.md) | Running log of every applied load | Trace what changed and when |
+| [`Analyses/size_seed/REPORT_size_yield_analysis.md`](Analyses/size_seed/REPORT_size_yield_analysis.md) | Plant size vs seed production, 2025 and 2026: which populations set less seed than their size predicts | See the reproductive-shortfall results |
 
 ---
 
@@ -97,11 +98,13 @@ Genetic_Rescue_DB/
     ├── germplasm_seeds.py              # Stage C: seed sheets (germplasmID + seed weight) → Germplasm
     ├── REPORT_2026_campaign.md, REPORT_2026_pipeline_dryrun.md, REPORT_2025_measurement.md, ISSUE_filename_collision.md
     └── legacy_2025/                    # archived 2025 pipeline scripts
+└── Analyses/
+    └── size_seed/                      # plant size vs seed production (2025 + 2026): report, scripts, figures
 ```
 
 > Field imagery, intermediate CSVs, and the working database are **not** versioned
-> (ESA-protected locations) — only the `Multimedia_pipeline/` code and documentation are
-> published. See [Data Sensitivity](#data-sensitivity).
+> (ESA-protected locations) — only the `Multimedia_pipeline/` and `Analyses/` code,
+> documentation and summary figures are published. See [Data Sensitivity](#data-sensitivity).
 
 | Resource | Description |
 |----------|-------------|
@@ -111,6 +114,7 @@ Genetic_Rescue_DB/
 | [02_Event_fieldwork.docx](Protocols/02_Event_fieldwork.docx) | Fieldwork data-entry form — Events and individual plants |
 | [Genetic_Rescue_SQL.db](Genetic_Rescue_SQL.db) | SQLite3 database (schema + `Terms` + `TableModules`) |
 | [Multimedia_pipeline/](Multimedia_pipeline/) | Code + docs to link field photos to occurrences and derive plant size from them |
+| [Analyses/size_seed/](Analyses/size_seed/) | Size → seed-production analysis (report, scripts, figures) |
 
 ---
 
