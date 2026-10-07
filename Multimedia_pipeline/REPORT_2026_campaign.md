@@ -7,7 +7,7 @@
 
 **Companion project — SRK genotyping & mate limitation:** [`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics) analyses the self-incompatibility (SRK) genotypes of the plants recorded here. Its **Phase 5** uses this database's occurrences and seed accessions to test **fragmentation → genetic drift → mate limitation**. Start with the [Phase 5 summary for colleagues](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md); full method in [Phase 5 — sampling and prediction](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_sampling_and_prediction.md). The seed-cleaning priorities in §1 are linked to that design.
 
-*Last refreshed: 2026-10-05 — **seed processing (Stage C)**: 530 of the 1,581 plants now have a seed accession; the cleaned-vs-remaining tally and the Phase 5 (SRK) cleaning priorities are below. Field-season figures unchanged since 2026-07-21 (through the FINAL July-21 load — EO30 Simco Rd loc 51/52 + a new 2026 population loc 53, 30 plants. The 2026 collection season is COMPLETE: 20 field days, 1,581 occurrences, 19 EOs, 13 new locations. §8 has Ian's full 2026 site-visit checklist with occurrence yields folded in.)*
+*Last refreshed: 2026-10-06 — **seed processing (Stage C)**: 611 of the 1,581 plants now have a seed accession; the cleaned-vs-remaining tally and the Phase 5 (SRK) cleaning priorities are below. Field-season figures unchanged since 2026-07-21 (through the FINAL July-21 load — EO30 Simco Rd loc 51/52 + a new 2026 population loc 53, 30 plants. The 2026 collection season is COMPLETE: 20 field days, 1,581 occurrences, 19 EOs, 13 new locations. §8 has Ian's full 2026 site-visit checklist with occurrence yields folded in.)*
 
 ---
 
@@ -19,7 +19,7 @@
 | **Events** (slick spots) | **486** | each with GPS + habitat/condition + associated taxa (incl. a few data-only, seedless slick spots at EO61 and EO30-3) |
 | **Locations** | revisits + 13 new: EO69 (41), EO30-2 (42), EO27-5 (43), EO27 (44), EO27-1 (45, 46), EO8 (47), EO26 (48, 49), EO27 (50), EO30-3 (51), EO30-4 (52), new 2026 population (53) | thirteen genuinely new sites this season; the rest are revisits (link, no insert). |
 | **Plant images** phenotyped | **1,571 / 1,581 (99%)** | each has a linked board image; measured height/crown/size class |
-| **Seed accessions** (`Germplasm`) | **530 / 1,581 (34%)** | seeds cleaned, weighed and given a germplasmID; 99.5 g ≈ 233,000 seeds. 16 of 43 locations imaged so far (14 complete). Tally and priorities: below. |
+| **Seed accessions** (`Germplasm`) | **611 / 1,581 (39%)** | seeds cleaned, weighed and given a germplasmID; 125.2 g ≈ 294,000 seeds. 19 of 43 locations imaged so far (15 complete). Tally and priorities: below. |
 
 The **1,581 occurrences span 19 EOs**; the full per-EO yield, together with every site the crew visited or skipped and its location number, is in the single season-coverage roster in **§8** (Ian's 2026 checklist, with the occurrence counts folded in). The season's largest EO was **EO27** (Red Tie South, EO27-5, Figgins, Pleasant Valley, Region 3 loc 37/50, and new sites); the eastern **EO8** (Hammett Hills) was next. The 19th EO is a **new 2026 population (loc 53)** with no official EO number yet — databased under a provisional code (`EO_NEW2026`).
 
@@ -40,18 +40,18 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 |  | loc 18 (EO18-8) | 18 | 264 | 59 | 22% | 57 | 97% | **10** (finish) |
 |  | loc 19 (EO18-7) | 1 | 2 | 1 | 50% | 1 | 100% | done |
 | | *EO18 subtotal — 4 locations* | **76** | **1,040** | **239** | **23%** | **161** | **67%** | |
-| **EO24** | loc 23 (EO24-2) | 1 | 2 | 1 | 50% | — | 0% | **29** |
+| **EO24** | loc 23 (EO24-2) | 1 | 2 | 1 | 50% | — | 0% | **28** |
 |  | loc 24 (EO24) | 2 | 27 | 5 | 19% | 5 | 100% | done |
 | | *EO24 subtotal — 2 locations* | **3** | **29** | **6** | **21%** | **5** | **83%** | |
 | **EO25** | loc 20 (EO25-A) | 20 | ≥ 887 | 98 | ≤ 11% | — | 0% | **3** |
 |  | loc 21 (EO25-B) | 3 | 16 | 8 | 50% | 8 | 100% | done |
 | | *EO25 subtotal — 2 locations* | **23** | **≥ 903** | **106** | **≤ 12%** | **8** | **8%** | |
-| **EO26** | loc 31 (EO26-3) | 4 | 12 | 7 | 58% | — | 0% | **28** |
+| **EO26** | loc 31 (EO26-3) | 4 | 12 | 7 | 58% | — | 0% | **27** |
 |  | loc 32 (EO26-3) | 9 | 258 | 37 | 14% | — | 0% | **11** |
-|  | loc 33 (EO26-3) | 5 | 14 | 11 | 79% | — | 0% | **27** |
+|  | loc 33 (EO26-3) | 5 | 14 | 11 | 79% | — | 0% | **26** |
 |  | loc 34 (EO26-3) | 7 | 82 | 18 | 22% | — | 0% | **17** |
 |  | loc 48 (EO26) | 10 | 35 | 18 | 51% | — | 0% | **22** |
-|  | loc 49 (EO26) | 4 | 19 | 7 | 37% | — | 0% | **25** |
+|  | loc 49 (EO26) | 4 | 19 | 7 | 37% | — | 0% | **24** |
 | | *EO26 subtotal — 6 locations* | **39** | **420** | **98** | **23%** | **0** | **0%** | |
 | **EO27** | loc 9 (EO27) | 24 | 301 | 79 | 26% | — | 0% | **9** |
 |  | loc 10 (EO27-3) | 2 | 44 | 7 | 16% | 7 | 100% | done |
@@ -71,17 +71,17 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 |  | loc 52 (EO30-4) | 2 | 27 | 7 | 26% | 7 | 100% | done |
 | | *EO30 subtotal — 4 locations* | **19** | **471** | **73** | **15%** | **73** | **100%** | |
 | **EO32** | loc 6 (EO32) | 36 | 1,285 | 137 | 11% | — | 0% | **2** |
-| **EO38** | loc 1 (EO38) | 15 | 254 | 37 | 15% | — | 0% | **12** |
+| **EO38** | loc 1 (EO38) | 15 | 254 | 37 | 15% | 32 | 86% | **12** (finish — held cells to check) |
 | **EO52** | loc 3 (EO52) | 1 | 3 | 1 | 33% | 1 | 100% | done |
 | **EO61** | loc 38 (EO61) | 8 | 523 | 25 | 5% | — | 0% | **5** |
 | **EO67** | loc 39 (EO67) | 2 | 12 | 6 | 50% | 6 | 100% | done |
-| **EO68** | loc 5 (EO68-3) | 2 | 23 | 10 | 43% | — | 0% | **24** |
+| **EO68** | loc 5 (EO68-3) | 2 | 23 | 10 | 43% | 10 | 100% | done |
 | **EO69** | loc 41 (EO69) | 1 | 26 | 7 | 27% | — | 0% | **23** |
-| **EO70** | loc 26 (EO70) | 6 | 334 | 42 | 13% | — | 0% | **8** |
-| **EO76** | loc 2 (EO76) | 2 | 16 | 8 | 50% | — | 0% | **26** |
+| **EO70** | loc 26 (EO70) | 6 | 334 | 42 | 13% | 39 | 93% | **8** (finish — held cells to check) |
+| **EO76** | loc 2 (EO76) | 2 | 16 | 8 | 50% | — | 0% | **25** |
 | **EO118** | loc 4 (EO118) | 5 | 50 | 25 | 50% | — | 0% | **19** |
 | **EO_NEW2026** | loc 53 (EO_NEW2026) | 1 | 27 | 7 | 26% | 7 | 100% | done |
-| | **TOTAL — 43 locations across 19 EOs** | **486** | **≥ 9,969*** | **1581** | **≤ 16%*** | **530** | **34%** | |
+| | **TOTAL — 43 locations across 19 EOs** | **486** | **≥ 9,969*** | **1581** | **≤ 16%*** | **611** | **39%** | |
 
 *Completion* = seed accessions ÷ occurrences: the share of sampled plants whose seeds are cleaned, weighed and loaded with a germplasmID (Stage C). *Priority* = cleaning order for the locations still to finish, **ranked by fertile plants counted** (1 = largest population), so large locations come first. "done" = all sampled plants have a seed accession. "finish" = partly loaded, with the rest actionable. "cleaned — not yet imaged" = seeds already cleaned (loc 17), but the envelopes have not been photographed yet, so nothing is loaded. "envelopes missing" = the remaining plants' event envelopes are not in hand, so there is nothing to clean or image until they are found (none at present; see #22).
 
@@ -135,28 +135,33 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
 |  | loc 52 (EO30-4) | 7 | 7 | 0 | 0.79 | complete |  |
 | | *EO30 subtotal — 4 locations* | **73** | **73** | **0** | **11.73** | | |
 | **EO32** | loc 6 (EO32) | 137 | — | 137 | — | not yet imaged | 6 |
-| **EO38** | loc 1 (EO38) | 37 | — | 37 | — | not yet imaged | 2 |
+| **EO38** | loc 1 (EO38) | 37 | 32 | 5 | 15.90 | partial — 5 cells held for envelope check | 2 |
 | **EO52** | loc 3 (EO52) | 1 | 1 | 0 | 0.25 | complete |  |
 | **EO61** | loc 38 (EO61) | 25 | — | 25 | — | not yet imaged |  |
 | **EO67** | loc 39 (EO67) | 6 | 6 | 0 | 0.53 | complete | 2 |
-| **EO68** | loc 5 (EO68-3) | 10 | — | 10 | — | not yet imaged |  |
+| **EO68** | loc 5 (EO68-3) | 10 | 10 | 0 | 3.10 | complete |  |
 | **EO69** | loc 41 (EO69) | 7 | — | 7 | — | not yet imaged |  |
-| **EO70** | loc 26 (EO70) | 42 | — | 42 | — | not yet imaged |  |
+| **EO70** | loc 26 (EO70) | 42 | 39 | 3 | 6.78 | partial — 3 cells held for envelope check |  |
 | **EO76** | loc 2 (EO76) | 8 | — | 8 | — | not yet imaged | 10 |
 | **EO118** | loc 4 (EO118) | 25 | — | 25 | — | not yet imaged |  |
 | **EO_NEW2026** | loc 53 (EO_NEW2026) | 7 | 7 | 0 | 0.61 | complete |  |
-| | **TOTAL — 43 locations** | **1581** | **530** | **1051** | **99.46** | | **76** |
+| | **TOTAL — 43 locations** | **1581** | **611** | **970** | **125.24** | | **76** |
 
 *Phase 5 gap total (76) also counts locations with no 2026 records: loc 35 (EO26-2, 5), loc 29 (EO8, 2), loc 30 (EO26-1, 2).*
 
-**Status at a glance (2026-10-05):**
-- **530 plants cleaned and loaded, 1,051 remaining.**
-- **14 locations complete:** loc 3, 10, 11, 13, 17, 19, 21, 24, 27, 39, 42, 51, 52, 53. The missing envelopes for loc 11 and loc 51 were found by Peggy and loaded (#22, closed).
-- **2 partial** (43 plants), each with a known reason:
+**Status at a glance (2026-10-06):**
+- **611 plants cleaned and loaded, 970 remaining.**
+- **15 locations complete:** loc 3, 5, 10, 11, 13, 17, 19, 21, 24, 27, 39, 42, 51, 52, 53.
+- **4 partial** (51 plants), each with a known reason:
   - **loc 28:** July-14 events 592–610 (40 plants) not yet imaged, plus occ 3412, which has a weight but no germplasmID (#21).
+  - **loc 1:** 5 cells held for an envelope check.
+  - **loc 26:** 3 cells held for an envelope check.
   - **loc 18:** event 328 not yet cleaned (2 plants, #23).
-- **27 other locations:** not yet imaged (1,008 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** the cleaner's initials are recorded wherever they're written on the envelope (87 accessions so far: Sam Billingsley 56, JY 26, Peggy Martinez 4, AS 1). Sheets initialled by more than one person (e.g. "SB/TG") are left unassigned for now. This is part of the protocol change in #20.
+- **24 locations not yet imaged** (919 plants). Whether their seeds have been cleaned is not yet recorded.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **344 of 611** have one so far: Ian Robertson 179, Sam Billingsley 70, Jaden Yun 39, Peggy Martinez 25, Alex Scott 17, Isaac Carretero 14.
+  - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
+  - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. Both were confirmed by Sven.
+  - **The remaining 267** (69 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.
 
 ### Where to clean next — priorities from the SRK Phase 5 design
 
@@ -173,11 +178,11 @@ The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com
 | **5** | loc 38 (EO61) | 523 | 25 | — |  |
 | **6** | loc 12 (EO27RT) | 455* | 126 | 7 | One of the six locations Phase 5 names as short |
 | **7** | loc 16 (EO18-7) | 365 | 76 | 1 |  |
-| **8** | loc 26 (EO70) | 334 | 42 | — | EO70 validation site: observed pollen compatibility below prediction |
+| **8** | loc 26 (EO70) | 334 | 3 | — | Cells held for envelope check |
 | **9** | loc 9 (EO27) | 301 | 79 | 1 |  |
 | **10** | loc 18 (EO18-8) | 264 | 2 | 2 | Event 328 not yet cleaned (#23) |
 | **11** | loc 32 (EO26-3) | 258 | 37 | 7 | Same EO as pilot partner B2 (loc 34) |
-| **12** | loc 1 (EO38) | 254 | 37 | 2 |  |
+| **12** | loc 1 (EO38) | 254 | 5 | 2 | Cells held for envelope check |
 | **13** | loc 37 (EO27-1) | 191 | 38 | 14 | Largest Phase 5 gap (14 mothers, 4 demes) |
 | **14** | loc 43 (EO27-5) | 173 | 33 | — |  |
 | **15** | loc 8 (EO29) | 167 | 9 | — | Anchor of recommended pilot B1 (417 adults in one deme) |
@@ -189,12 +194,11 @@ The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com
 | **21** | loc 50 (EO27) | 42 | 17 | — |  |
 | **22** | loc 48 (EO26) | 35 | 18 | — |  |
 | **23** | loc 41 (EO69) | 26 | 7 | — |  |
-| **24** | loc 5 (EO68-3) | 23 | 10 | — |  |
-| **25** | loc 49 (EO26) | 19 | 7 | — |  |
-| **26** | loc 2 (EO76) | 16 | 8 | 10 | EO76 validation site; only 16 fertile plants in 2026, so the gap can't close this year |
-| **27** | loc 33 (EO26-3) | 14 | 11 | — |  |
-| **28** | loc 31 (EO26-3) | 12 | 7 | — |  |
-| **29** | loc 23 (EO24-2) | 2 | 1 | — |  |
+| **24** | loc 49 (EO26) | 19 | 7 | — |  |
+| **25** | loc 2 (EO76) | 16 | 8 | 10 | EO76 validation site; only 16 fertile plants in 2026, so the gap can't close this year |
+| **26** | loc 33 (EO26-3) | 14 | 11 | — |  |
+| **27** | loc 31 (EO26-3) | 12 | 7 | — |  |
+| **28** | loc 23 (EO24-2) | 2 | 1 | — |  |
 | — | loc 35 (EO26-2, pilot partner **B1**), loc 29, loc 30 | — | 0 | 5 / 2 / 2 | **No 2026 collection** (loc 35 not visited; 29 and 30 had no seed). B1 still relies on its 8 mothers from 2025 |
 
 *Phase 5 gap "—" = no shortfall, or a location not in Phase 5's 2025 list (new 2026 locations 41–53).*
@@ -249,14 +253,15 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 - **#20** — seed processing protocol: write the **date and initials** on every envelope (most 2026 envelopes carry neither, so the photo date stands in as the acquisition date).
 - **#21** — occ 3412 (loc 28): seed weight recorded but **no germplasmID**.
 - **#22** — missing event envelopes (loc 11: events 504, 516, 523; loc 51: event 719): **all found by Peggy and loaded; closed 2026-10-05.**
+- **#24** — **cleaners to assign** for 267 germplasm (69 envelopes) without usable initials, by location, with handwriting groups. Ian's and Peggy's envelopes were resolved from handwriting samples.
 - **#23** — events whose **seeds are not yet cleaned**, by location (loc 18: event 328).
 - *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse), **#18** (loc-50 event latitudes finalized against the manilla), **#19** (event 718 page-1 recovered → loaded as a data-only event).
 
 ## 7. Data products
 
-- `LEPA_SQL.db` — **Locations 52, Events 723, Occurrences 3,797, Multimedia 3,595, Phenotyping 2,312, Germplasm 1,315** (785 from 2025 + 530 from 2026), including all prior-year data, the full 2026 season, the genotyping integration and the 2026 seed accessions so far.
+- `LEPA_SQL.db` — **Locations 52, Events 723, Occurrences 3,797, Multimedia 3,625, Phenotyping 2,312, Germplasm 1,396** (785 from 2025 + 611 from 2026), including all prior-year data, the full 2026 season, the genotyping integration and the 2026 seed accessions so far.
 - `staging_2026/` — reviewed staging + the 3 override files + `stageB_*` staging.
-- Scripts: `germplasm_seeds.py` (Stage C, seed sheets → `Germplasm`, with registry and `--report`), `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).
+- Scripts: `germplasm_seeds.py` (Stage C, seed sheets → `Germplasm`, with registry, `--report`, and `--cleaner-worksheet` / `--assign-cleaners` for cleaner attribution), `seed_cleaners_report.py` (cleaner leaderboard), `field_forms_ocr.py` (Stage A), `stageB_load.py` (Stage B linking — the forms-first loader), `verify_event_barcodes.py` (event barcode ground-truthing), `01_ingest_register.py` (image ingest).
 
 ## 8. 2026 season coverage & collections (Ian Robertson's checklist)
 

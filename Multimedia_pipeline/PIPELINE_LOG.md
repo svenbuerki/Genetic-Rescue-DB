@@ -777,3 +777,35 @@
 - germplasm 1437 (occ 2469): germplasmQuantityCount = 19 (envelope note "~19 seeds"; weight-based estimate 8.8 — the 1000-seed equation undercounts very light lots).
 - Event 718 eventRemarks: "Lewisia" corrected to "cows (cattle)" per the envelope (Sven).
 - Registered in Multimedia: IMG_6969.jpg (event 646 page 2, missed in the July-16 load), IMG_7194.jpg (2nd photo of the loc-46 Location form; form GPS matches DB), PXL_20260628_191919988.jpg (burst duplicate, event 250), PXL_20261004_195355721.jpg (burst duplicate, event 558). Every photo in Field_forms/2026 is now in Multimedia.
+
+## 20261006 — Cleaner identities (Peggy, #20)
+- Persons: JY=Jaden Yun (6), AS=Alex Scott (7) (placeholders filled); new TG=Teo Geisler (8), IC=Isaac Carretero (9), AZ=Ashley Zahurak (10). initials_persons.csv all confirmed. Lizzie initials pending. Loc-17 envelope photos (EXIF stripped) posted to #20 via issue-assets for per-germplasm cleaner assignment (1393–1397, 1458–1461).
+
+## 20261007-002339 — germplasm_seeds --load germplasm_results_20261006a.json
+- staged 89 rows (OK 89, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'photo': 89}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261007-002411 — germplasm_seeds --load germplasm_results_20261006a.json
+- staged 89 rows (OK 81, FLAG 8, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'photo': 89}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261007-002411 — germplasm_seeds --commit --apply
+- inserted 81 Germplasm rows (seed sheets → occurrenceID FK); 8 held as FLAG; 4 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 81 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261007-002411`.
+
+## 20261007-002411 — germplasm_seeds --sheets-mm --apply
+- linked 26 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261007-002411`.
+
+## 20261006 — Stage C locations 1, 5, 26 + cleaner tools
+- 26 photos (3 location forms + 23 sheets = all 23 events / 89 plants); +81 Germplasm (IDs 923–1011, no gaps), 8 cells held. All 89 have a per-row/same-ink cleaner. Arrow-implied barcodes (2370–2372, 2375–2377, 2354–2357) matched DB events. Seed notes → events 246, 261, 263, 264. AS "7/21" (no year) on occ 2288 kept as photo-date proxy (asked Sven).
+- Rule (Sven): single sheet-level initials go to all rows only if all entries share one pen colour (rows[].ink).
+- New: seed_cleaners_report.py → SEED_CLEANERS_2026.md (leaderboard); germplasm_seeds.py --cleaner-worksheet / --assign-cleaners (staging_2026/cleaner_assignment.csv). 145 envelopes / 443 germplasm without a cleaner.
+
+## 20261007-013233 — germplasm_seeds --assign-cleaners --apply
+- assigned a cleaner to 41 germplasm from 12 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261007-013233`.
+
+## 20261007-013901 — germplasm_seeds --assign-cleaners --apply
+- assigned a cleaner to 120 germplasm from 67 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261007-013901`.
+- Sven confirmed 55 envelopes as IR from a handwriting comparison against his page-01 reference (pages 02–13 judged by 4 read-only agents: 55 IR-likely, 28 IR-possible, 48 not-IR, 2 unclear).
+
+## 20261007-014208 — germplasm_seeds --assign-cleaners --apply
+- assigned a cleaner to 15 germplasm from 76 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261007-014208`.
+- Sven assigned location 27 (9 envelopes, events 611–619, 15 germplasm; one consistent hand: blue germ / red weight, no headings) to Peggy Martinez.
+- Issue #24 opened: assign cleaners to 69 envelopes / 267 germplasm without initials (by location, style groups A–E).

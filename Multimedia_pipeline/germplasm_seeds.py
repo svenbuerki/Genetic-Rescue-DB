@@ -44,7 +44,9 @@ seeds / assigned the germplasmID → Germplasm.personID, resolved through stagin
 ONE CLEANER PER GERMPLASM (Sven 2026-10-05): a germplasm = all seeds of one mother plant, so it has exactly one
 cleaner, while an envelope (event) can have several. Several initials written once for a whole envelope (e.g.
 "SB/TG") are recorded as "envelope: SB/TG" in staging and leave personID empty until the lab says who cleaned
-which plant. Initials not in that file get a PLACEHOLDER Persons row at --commit --apply (firstName = initials,
+which plant. A SINGLE set of sheet-level initials is given to every row only when all rows are in the same
+pen colour (rows[].ink); with mixed inks it is staged as "envelope (mixed ink): XX" and left unassigned.
+Initials not in that file get a PLACEHOLDER Persons row at --commit --apply (firstName = initials,
 lastName "[unidentified - seed cleaning <year>]") for the team to identify later. Dates are American
 (MM/DD/YY) and become acquisitionDate. Both can be per row (rows[].initials / rows[].acquisition_date) or
 per sheet (sheet-level initials / acquisition_date); the row value wins. --commit also BACKFILLS personID and
@@ -224,14 +226,22 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
             # one cleaner per germplasm (Sven 2026-10-05): several initials written once for the whole envelope
             # (e.g. "SB/TG") name the envelope's cleaners, not this plant's -> leave unassigned, never a placeholder
             multi = lambda x: bool(re.search(r"[/,&+]|\s", x))
-            ini = row_ini if row_ini and not multi(row_ini) else (sheet_ini if sheet_ini and not multi(sheet_ini) and not row_ini else "")
+            # single sheet-level initials cover every row only if all entries share one pen colour (Sven 2026-10-06);
+            # sheets read before ink was recorded (no "ink" field) keep the earlier behaviour
+            inks = {str(x.get("ink") or "").strip().lower() for x in it.get("rows", []) if x.get("ink")}
+            ink_ok = len(inks) <= 1 and not any("/" in i for i in inks)
+            ini = row_ini if row_ini and not multi(row_ini) else (sheet_ini if sheet_ini and not multi(sheet_ini) and not row_ini and ink_ok else "")
+            if sheet_ini and not multi(sheet_ini) and not row_ini and not ink_ok: envelope_cleaners_ink = sheet_ini
+            else: envelope_cleaners_ink = ""
             envelope_cleaners = sheet_ini if multi(sheet_ini) else ""
             pid = ini_map.get(ini) if ini else None
             if ini and pid is None: unknown_ini.add(ini)
             row = dict(file=f, sheet_eventID=sheet_ev, occurrenceID=occ, occurrenceID_raw=r.get("occurrenceID"),
                        germplasmID_raw=r.get("germplasmID"), seedWeight_raw=r.get("seedWeight"),
                        germplasmID=None, seedWeight=None, eventID=None, locationID=None,
-                       acquisitionDate=acq, acq_source=src, initials=ini or (("envelope: " + envelope_cleaners) if envelope_cleaners else ""), personID=pid,
+                       acquisitionDate=acq, acq_source=src,
+                       initials=ini or (("envelope: " + envelope_cleaners) if envelope_cleaners else (("envelope (mixed ink): " + envelope_cleaners_ink) if envelope_cleaners_ink else "")),
+                       personID=pid,
                        override="yes" if ov else "", ocr_note=r.get("note") or "", confidence=it.get("confidence"))
             if str(g_raw).strip().upper() == "SKIP":
                 out.append({**row, "status": "SKIP", "flags": "override SKIP"}); continue
@@ -424,7 +434,7 @@ def commit(db, apply):
     bak = backup(db, "germplasm")
     # placeholder Persons for initials not yet in initials_persons.csv
     new_people = sorted({r["initials"] for r in rows if r.get("initials") and not r.get("personID")
-                         and not r["initials"].startswith("envelope:")})
+                         and not r["initials"].startswith("envelope")})
     if new_people:
         with open(INITIALS, "a", newline="") as fh:
             w = csv.writer(fh)
@@ -433,7 +443,7 @@ def commit(db, apply):
                             (f"[unidentified - seed cleaning {datetime.now().year}]", ini, "Boise State"))
                 w.writerow([ini, cur.lastrowid, "placeholder", "Created automatically by germplasm_seeds --commit; identify with Peggy."])
     ini_map = read_initials()
-    pid_of = lambda r: ini_map.get(r["initials"]) if r.get("initials") and not r["initials"].startswith("envelope:") else None
+    pid_of = lambda r: ini_map.get(r["initials"]) if r.get("initials") and not r["initials"].startswith("envelope") else None
     for r in ok:
         wt = float(r["seedWeight"])
         rec = dict(germplasmID=int(r["germplasmID"]), occurrenceID=int(r["occurrenceID"]), eventID=int(r["eventID"]),
@@ -511,6 +521,68 @@ def sheets_multimedia(db, apply):   # sheet image -> Multimedia evidence row on 
     log("germplasm_seeds --sheets-mm --apply", f"linked {len(plan)} seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `{bak.name}`.")
     print(f"APPLIED: linked {len(plan)} seed-sheet images. Backup {bak.name}. Logged.")
 
+# ---------------------------------------------------------------------------------------------------
+ASSIGN = STAGE / "cleaner_assignment.csv"
+
+def cleaner_worksheet(db, outdir):
+    """One row per envelope (sheet photo) that still has germplasm without a cleaner + numbered contact sheets."""
+    from PIL import Image, ImageOps, ImageDraw
+    con = sqlite3.connect(db); cur = con.cursor()
+    reg = read_registry()
+    missing = {g for (g,) in cur.execute("SELECT germplasmID FROM Germplasm WHERE personID IS NULL")}
+    sheets = {}
+    for r in reg:
+        g = as_int(r.get("germplasmID"))
+        if g in missing and r["file"]:
+            d = sheets.setdefault(r["file"], dict(loc=r["locationID"], ev=r["eventID"], occ=[], germ=[], ini=r.get("initials") or ""))
+            d["occ"].append(as_int(r["occurrenceID"])); d["germ"].append(g)
+    files = sorted(sheets, key=lambda f: (as_int(sheets[f]["loc"]) or 0, as_int(sheets[f]["ev"]) or 0))
+    with open(ASSIGN, "w", newline="") as fh:
+        w = csv.writer(fh); w.writerow(["sheet_no", "file", "locationID", "eventID", "occurrenceIDs", "germplasmIDs",
+                                        "initials_on_envelope", "assign_initials", "note"])
+        for i, f in enumerate(files, 1):
+            d = sheets[f]
+            w.writerow([i, f, d["loc"], d["ev"], " ".join(map(str, sorted(d["occ"]))), " ".join(map(str, sorted(d["germ"]))),
+                        d["ini"], "", ""])
+    # numbered contact sheets, 12 envelopes per page, upright crop of the Section 4 table
+    outdir = Path(outdir); outdir.mkdir(parents=True, exist_ok=True)
+    tw, th, cols, per = 520, 330, 3, 12
+    for page in range(0, len(files), per):
+        chunk = files[page:page + per]; rows_ = -(-len(chunk) // cols)
+        sheet = Image.new("RGB", (cols * tw, rows_ * (th + 30)), "white"); dr = ImageDraw.Draw(sheet)
+        for j, f in enumerate(chunk):
+            im = ImageOps.exif_transpose(Image.open(FORMS / "2026" / f))
+            if im.size[0] > im.size[1]: im = im.rotate(90, expand=True)     # most phone shots are sideways
+            W, H = im.size; im = im.crop((0, int(H * .1), W, int(H * .5))); im.thumbnail((tw, th))
+            x, y = (j % cols) * tw, (j // cols) * (th + 30); sheet.paste(im, (x, y + 28))
+            n = page + j + 1; d = sheets[f]
+            dr.rectangle((x, y, x + tw - 4, y + 26), fill="yellow")
+            dr.text((x + 6, y + 6), f"#{n}  loc {d['loc']}  event {d['ev']}  occ {min(d['occ'])}-{max(d['occ'])}", fill="black")
+        sheet.save(outdir / f"cleaners_to_assign_{page // per + 1:02d}.jpg", quality=88)
+    con.close()
+    print(f"{len(files)} envelopes with {sum(len(sheets[f]['germ']) for f in files)} germplasm without a cleaner")
+    print(f"  fill-in table: {ASSIGN}  (column assign_initials, one set of initials per envelope or per row)")
+    print(f"  contact sheets: {outdir} ({-(-len(files) // per)} pages)")
+
+def assign_cleaners(db, apply):
+    rows = [r for r in csv.DictReader(open(ASSIGN)) if (r.get("assign_initials") or "").strip()]
+    ini_map = read_initials(); con = sqlite3.connect(db); cur = con.cursor(); plan, bad = [], []
+    for r in rows:
+        ini = r["assign_initials"].strip().upper()
+        if re.search(r"[/,&+]|\s", ini) or ini not in ini_map: bad.append((r["sheet_no"], ini)); continue
+        for g in map(int, r["germplasmIDs"].split()):
+            plan.append((ini_map[ini], g, ini, r["sheet_no"]))
+    print(f"assign cleaners: {len(plan)} germplasm from {len(rows)} envelopes; problems: {bad or 'none'}")
+    if bad or not apply:
+        if not apply: print("DRY-RUN. Re-run with --assign-cleaners --apply.")
+        con.close(); return
+    bak = backup(db, "cleaners"); n = 0
+    for pid, g, ini, sn in plan:
+        n += cur.execute("UPDATE Germplasm SET personID=? WHERE germplasmID=? AND personID IS NULL", (pid, g)).rowcount
+    con.commit(); con.close()
+    log("germplasm_seeds --assign-cleaners --apply", f"assigned a cleaner to {n} germplasm from {len(rows)} envelopes (cleaner_assignment.csv, Sven). Backup `{bak.name}`.")
+    print(f"APPLIED: {n} germplasm assigned. Backup {bak.name}. Logged.")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default=str(ROOT / "LEPA_SQL.db"))
@@ -522,6 +594,8 @@ def main():
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--sheets-mm", dest="sheets_mm", action="store_true")
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--cleaner-worksheet", dest="cleaner_ws", metavar="OUTDIR", help="table + contact sheets of envelopes with unassigned germplasm")
+    ap.add_argument("--assign-cleaners", dest="assign", action="store_true", help="apply staging_2026/cleaner_assignment.csv")
     ap.add_argument("--allow-missing-location-form", dest="allow_no_form", action="store_true",
                     help="waive the location-form rule (only for batches imaged before it, e.g. the 2026-10-04 pilot)")
     ap.add_argument("--apply", action="store_true")
@@ -532,6 +606,8 @@ def main():
     elif a.commit: commit(a.db, a.apply)
     elif a.sheets_mm: sheets_multimedia(a.db, a.apply)
     elif a.report: report(a.db, a.year)
+    elif a.cleaner_ws: cleaner_worksheet(a.db, a.cleaner_ws)
+    elif a.assign: assign_cleaners(a.db, a.apply)
     else: ap.print_help()
 
 if __name__ == "__main__":
