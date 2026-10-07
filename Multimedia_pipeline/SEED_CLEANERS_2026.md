@@ -41,6 +41,6 @@
 **Notes**
 - *Est. seeds* comes from seed weight via the 1000-seed-weight equation (negative estimates for very light lots are counted as 0).
 - *Dates written on envelopes* covers only envelopes where the cleaner wrote a date. Photo or posting dates used as stand-ins are excluded (see issue #20).
-- Germplasm without initials were attributed from **handwriting samples** where possible (Ian Robertson; Peggy Martinez for location 27), and each match was confirmed by the PI. The rest are tracked in [issue #24](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/24).
+- Germplasm without initials were attributed from **handwriting samples** where possible (Ian; Peggy for location 27), and each match was confirmed by Sven. The rest are tracked in [issue #24](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/24).
 - To assign the remaining germplasm, fill in `staging_2026/cleaner_assignment.csv` (one row per envelope) and run `germplasm_seeds.py --assign-cleaners`.
 - Campaign context: [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md).
