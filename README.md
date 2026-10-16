@@ -2,6 +2,12 @@
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
+> **Related repositories.** This database supplies the field + lab data that feed two companion repositories:
+> - [`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics) — Phases 1 – 4 of the SRK pipeline (Nanopore amplicons → per-individual S-allele genotypes → self-incompatibility status → cross plan).
+> - [`svenbuerki/LEPA_mate_limitation`](https://github.com/svenbuerki/LEPA_mate_limitation) — Phase 5 of the SRK pipeline for *Lepidium papilliferum*: populations, demes, Bottleneck Lineages, pollen-compatibility predictions, and the behavioural seed-yield test that classifies populations as *mate-limited* vs *buffered* for conservation prioritisation.
+>
+> The three repos are cross-linked by README reference only — no submodules, no DOI coupling. Each tracks its own publication timeline.
+
 ---
 
 ## Overview
