@@ -810,3 +810,15 @@
 - Sven assigned location 27 (9 envelopes, events 611–619, 15 germplasm; one consistent hand: blue germ / red weight, no headings) to Peggy Martinez.
 - Issue #24 opened: assign cleaners to 69 envelopes / 267 germplasm without initials (by location, style groups A–E).
 - Leaderboard SEED_CLEANERS_2026.md published (Sven) and linked from the campaign report (header, seed-accessions row, "Who cleaned" stats), the guide and DATA_QUALITY.
+
+## 20261017-224015 — germplasm_seeds --load germplasm_results_20261017a.json
+- staged 2 rows (OK 2, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 2}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261017-224020 — germplasm_seeds --commit --apply
+- inserted 2 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261017-224019`.
+
+## 20261017-224020 — germplasm_seeds --sheets-mm --apply
+- linked 1 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261017-224020`.
+
+## 20261017-224036 — event 328 front (manual, Stage C)
+- registered envelope front event_328_front.jpeg as Multimedia 3627 (LEPA_2026-10-16_3c37f2bf.jpg, field form, event 328); annotated 3541 (pre-cleaning photo, #23).
