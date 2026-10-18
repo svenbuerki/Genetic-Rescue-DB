@@ -253,7 +253,7 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 - **#22** — missing event envelopes (loc 11: events 504, 516, 523; loc 51: event 719): **all found by Peggy and loaded; closed 2026-10-05.**
 - **#24** — **cleaners to assign** for 267 germplasm (69 envelopes) without usable initials, by location, with handwriting groups. Ian's and Peggy's envelopes were resolved from handwriting samples.
 - **#23** — events whose **seeds are not yet cleaned**: loc 18 event 328 was cleaned on 2026-10-15 (Sam and Isaac) and loaded 2026-10-17 (germplasm 1712–1713); **closed**.
-- **#25** — event records to check after the 2026-10-17 data sweep: 1 event without coordinates, 6 same-year pairs at one GPS point (2025), 8 spatial outliers, event 424's fruiting count, 4 events without rosette counts, and the photo-link check for other batches (see § 9).
+- **#25** — event records to check after the 2026-10-17 data sweep (updated 2026-10-18 with count checks): 1 event without coordinates, 6 same-year pairs at one GPS point (2025), 8 spatial outliers, event 424's fruiting count, 4 events without rosette counts, and the photo-link check for other batches (see § 9).
 - *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse), **#18** (loc-50 event latitudes finalized against the manilla), **#19** (event 718 page-1 recovered → loaded as a data-only event).
 
 ## 7. Data products
@@ -393,4 +393,37 @@ need refreshing from its `tables/step29a_event_to_deme.tsv`. The "Phase 5 gap"
 columns in § 1 come from the earlier location-level design and should be
 regenerated from its per-population sampling tables
 (`step29c_sampling_per_population_2025.tsv` / `_2026.tsv`).
+
+### 2026-10-18 — fruiting counts vs plants sampled; population/deme refresh
+
+A second check compared each event's fruiting count with the number of
+plants sampled (a sampled plant must be fruiting). **18 events** had wrong
+counts and were corrected from the envelope photos (previous values in
+`eventRemarks`; backup `SQL_DB/LEPA_SQL.db.bak-20261018-153546`):
+
+| Error | Events |
+|---|---|
+| Fruiting and rosette counts swapped | 266, 272, 280, 291, 297, 384, 443 |
+| Fruiting count entered as 0 or 1 though the sheet shows a number | 269, 287, 290, 299, 305, 318, 412, 434, 632, 672 |
+| Fruiting area (`0.02`) typed into the rosette field | 329 |
+
+Most are EO18-7 / EO18-8 (loc 16–18), the large population used as the
+BIG side of the mate-limitation pilot. Event 269's photo titles were
+corrected ("event 288" → 269).
+
+**Recorded-only slickspots.** Six events have a fruiting count but no
+occurrences: 709, 710, 711, 713 (EO61) and 718 (EO30-3), where the crew
+arrived too late to collect seed, and 59 (EO27, 2025, no remark). The
+mate-limitation pipeline now counts their plants in its demes; they supply
+no seed.
+
+**Population / deme refresh.** `Events.populationID` / `demeID` /
+`eventYear` and the `Populations`, `Demes` and `BottleneckLineages` tables
+were refreshed from `LEPA_mate_limitation` (48 populations, 5 BLs) with the
+updated `Analyses/populations_and_demes/01_create_populations_demes_tables.py`.
+
+**Still open** (issue #25 comment of 2026-10-18): 244 and 306 (sheets show
+fewer fruiting plants than sampled), 9 and 179 (2025, no envelope photos),
+59 (why not sampled), 329 (envelope note about a plant-photo link), 246
+(duplicated remark).
 
