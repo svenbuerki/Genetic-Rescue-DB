@@ -29,17 +29,21 @@ Pipeline
 3.  Create (or keep) the three new tables + indexes:
       BottleneckLineages, Populations, Demes.
 4.  Unless --schema-only, load data:
-      - BottleneckLineages   ← SRK_bioinformatics/tables/EO_BL_summary.csv
+      - Full refresh first: Events.populationID / demeID set to NULL, and
+        Demes, Populations, BottleneckLineages emptied, so no row from an
+        earlier pipeline run survives a renumbering.
+      - BottleneckLineages   ← LEPA_mate_limitation/tables/step30h_bl_definition.tsv
+                                 (population-level BLs from step05, k = 5)
       - Populations          ← LEPA_mate_limitation/tables/
                                     step29a_population_summary.tsv
                                  + step30g_populations_classified.tsv
                                  + step30g_prediction_population_year.tsv
-      - Demes                ← inline 50 m single-linkage clustering on
-                                 Events.eventDecimalLatitude/Longitude
-                                 within each (populationID, eventYear) group.
-      - Events UPDATE        ← populationID + demeID + eventYear from the
-                                 crosswalk + inline clustering, keyed on
-                                 eventID.
+      - Demes                ← step29a_demes_per_population_year.tsv
+      - Events UPDATE        ← populationID + demeID from
+                                 step29a_event_to_deme.tsv (the pipeline's
+                                 event → population → deme table, step07),
+                                 keyed on eventID; eventYear from eventDate
+                                 for every event.
 5.  Clean up Terms / TableModules rows for the removed tables and
     renamed columns, then insert controlled-vocabulary rows for every
     column of every new table + the three new columns on Events.
@@ -53,16 +57,14 @@ Hierarchy produced
                                            Events.demeID + eventYear join to Demes
                                            on (populationID, demeID, year))
 
-Deme assignment note: the mate-limitation pipeline exports only the
-per-deme summary (step29a_demes_per_population_year.tsv), not the
-per-event deme membership. This script re-derives it inline, using 50 m
-haversine single-linkage within each (populationID, eventYear) group on
-the full-precision Events.eventDecimalLatitude/Longitude from the DB.
-In one borderline case (population 39, year 2025) the exported TSV
-splits a single 50 m component into two sub-components via a secondary
-criterion that this DB does not use (eventID is the project-standard
-identifier for a slickspot). The inline single-linkage result is
-authoritative.
+Deme assignment: taken directly from the pipeline's
+`step29a_event_to_deme.tsv`, so demeIDs here are the pipeline's demeIDs.
+(Earlier versions re-derived demes inline from the DB coordinates; the
+pipeline now writes the event → deme table itself, validated against its
+deme table, and treats co-located events as linked.)
+
+Re-run this script after every LEPA_mate_limitation pipeline run that
+changes populations or demes.
 
 Running
 -------
@@ -92,22 +94,16 @@ CURRENT_PROJECTS = REPO_ROOT.parent.parent
 
 DEFAULT_DB = CURRENT_PROJECTS / "LEPA_fieldwork_protocol" / "SQL_DB" / "LEPA_SQL.db"
 DEFAULT_TABLES_DIR = CURRENT_PROJECTS / "LEPA_mate_limitation" / "tables"
-DEFAULT_BL_SUMMARY = (
-    CURRENT_PROJECTS
-    / "SRK_bioinformatics"
-    / "SRK_bioinformatics_GitHub"
-    / "tables"
-    / "EO_BL_summary.csv"
-)
+DEFAULT_BL_DEFINITION = DEFAULT_TABLES_DIR / "step30h_bl_definition.tsv"
 
+# Same colours as LEPA_mate_limitation/Scripts/srk_bl_constants.py
 BL_PALETTE = {
     "BL1": "#984EA3",
     "BL2": "#377EB8",
-    "BL3": "#4DAF4A",
-    "BL4": "#E41A1C",
-    "BL5": "#FF7F00",
+    "BL3": "#E41A1C",
+    "BL4": "#FF7F00",
+    "BL5": "#4DAF4A",
 }
-BL_DISPLAY_ORDER = {"BL4": 1, "BL5": 2, "BL3": 3, "BL1": 4, "BL2": 5}
 
 OBSOLETE_TABLES = ("PopulationEvents", "PopulationLocations", "DemeLocations")
 RENAMED_POP_COLUMNS = (
@@ -499,31 +495,51 @@ def create_schema(conn: sqlite3.Connection, *, dry: bool) -> None:
             conn.execute(stmt)
 
 
-def load_bl(conn: sqlite3.Connection, bl_csv: Path, *, dry: bool) -> dict[str, int]:
-    df = pd.read_csv(bl_csv)
-    log(f"BottleneckLineages: {len(df)} rows from {bl_csv.name}", dry=dry)
+def clear_existing_data(conn: sqlite3.Connection, *, dry: bool) -> None:
+    """Full refresh: drop every population / deme / BL assignment from an
+    earlier run before loading the current one. Order respects the FKs
+    (Events → Demes / Populations → BottleneckLineages)."""
+    for sql, what in [
+        ("UPDATE Events SET populationID = NULL, demeID = NULL", "Events.populationID / demeID → NULL"),
+        ("DELETE FROM Demes", "Demes emptied"),
+        ("DELETE FROM Populations", "Populations emptied"),
+        ("DELETE FROM BottleneckLineages", "BottleneckLineages emptied"),
+    ]:
+        log(f"refresh: {what}", dry=dry)
+        if not dry:
+            conn.execute(sql)
+
+
+def load_bl(conn: sqlite3.Connection, bl_tsv: Path, *, dry: bool) -> dict[str, int]:
+    """Population-level Bottleneck Lineages from step05 (k = 5). BLID =
+    BL rank (BL1 = 1 … BL5 = 5). EO-level fields (nGroups, nLocations,
+    nEOs, meanAreaHa, meanCensusPerGroup, meanDriftIndex) do not apply to
+    population-level BLs and are left NULL."""
+    df = pd.read_csv(bl_tsv, sep="\t").sort_values("BL_rank")
+    log(f"BottleneckLineages: {len(df)} rows from {bl_tsv.name}", dry=dry)
     bl_to_id: dict[str, int] = {}
-    for i, row in enumerate(df.itertuples(index=False), start=1):
-        bl_to_id[row.BL] = i
+    for row in df.itertuples(index=False):
+        bl_id = int(row.BL_rank)
+        bl_to_id[row.BL] = bl_id
         if dry:
             continue
         conn.execute(
             """
-            INSERT OR REPLACE INTO BottleneckLineages
-              (BLID, BLCode, BLDisplayOrder, nGroups, nLocations, nEOs,
-               totalAreaHa, meanAreaHa, totalCensusPopulationSize,
-               meanCensusPerGroup, meanDriftIndex, paletteHex,
-               definitionSource, BLRemarks)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            INSERT INTO BottleneckLineages
+              (BLID, BLCode, BLDisplayOrder, totalAreaHa,
+               totalCensusPopulationSize, paletteHex, definitionSource, BLRemarks)
+            VALUES (?,?,?,?,?,?,?,?)
             """,
             (
-                i, row.BL, BL_DISPLAY_ORDER.get(row.BL),
-                int(row.n_groups), int(row.n_locations), int(row.n_EOs),
-                float(row.total_area_ha), float(row.mean_area_ha),
-                int(row.total_pop_size), int(row.mean_pop_per_group),
-                float(row.mean_drift_index), BL_PALETTE.get(row.BL),
-                "EO_BL_summary.csv (LEPA_EO_spatial_clustering, 2026-05-18)",
-                None,
+                bl_id, row.BL, bl_id,
+                float(row.convex_hull_area_km2) * 100.0 if pd.notna(row.convex_hull_area_km2) else None,
+                int(row.total_N_fert), BL_PALETTE.get(row.BL),
+                "step05_BL_definition.py (LEPA_mate_limitation): Ward's D2 on "
+                "population centroids, k = 5; ordered by convex-hull area then "
+                "within-BL connectivity",
+                f"median within-BL distance {row.median_within_BL_dist_m / 1000:.1f} km; "
+                f"nearest other BL {row.min_between_BL_dist_m / 1000:.1f} km; "
+                f"{row.frac_within_BL_pairs_le_5000m:.0%} of within-BL pairs ≤ 5 km",
             ),
         )
     return bl_to_id
@@ -569,6 +585,9 @@ def load_populations(
     summary = pd.read_csv(tables_dir / "step29a_population_summary.tsv", sep="\t")
     classified = pd.read_csv(tables_dir / "step30g_populations_classified.tsv", sep="\t")
     preds = pd.read_csv(tables_dir / "step30g_prediction_population_year.tsv", sep="\t")
+    # The pipeline now names the 2026 / 2025 fertile ratio ratio_2026_over_2025.
+    if "crash_ratio_nfert" not in classified.columns:
+        classified["crash_ratio_nfert"] = classified["ratio_2026_over_2025"]
 
     pred_wide = preds.pivot_table(
         index="populationID", columns="year",
@@ -673,127 +692,40 @@ def load_populations(
         )
 
 
-def haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    import math
-    R = 6_371_000.0
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlam = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlam / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
-
-
-def assign_demes(events_df: pd.DataFrame, radius_m: float = 50.0) -> pd.DataFrame:
-    """50 m haversine single-linkage per (populationID, eventYear) group.
-    Returns the same frame with an added 1-indexed `demeID` column
-    (components ordered by total n_fertile DESC, tiebreak smallest eventID)."""
-    out = events_df.copy()
-    out["demeID"] = -1
-    for (pid, yr), grp in events_df.groupby(["populationID", "event_year"], sort=False):
-        n = len(grp)
-        if n == 0:
-            continue
-        idx = grp.index.to_numpy()
-        lat = grp["lat"].to_numpy(dtype=float)
-        lon = grp["lon"].to_numpy(dtype=float)
-        nf = grp["n_fertile"].fillna(0).to_numpy(dtype=float)
-        eid = grp["eventID"].to_numpy()
-        parent = list(range(n))
-
-        def find(i: int) -> int:
-            while parent[i] != i:
-                parent[i] = parent[parent[i]]
-                i = parent[i]
-            return i
-
-        for i in range(n):
-            for j in range(i + 1, n):
-                if haversine_m(lat[i], lon[i], lat[j], lon[j]) <= radius_m:
-                    ra, rb = find(i), find(j)
-                    if ra != rb:
-                        parent[ra] = rb
-        roots = [find(i) for i in range(n)]
-        comps: dict[int, list[int]] = {}
-        for i, r in enumerate(roots):
-            comps.setdefault(r, []).append(i)
-        ordered = sorted(
-            comps.values(),
-            key=lambda members: (-float(sum(nf[k] for k in members)), int(min(eid[k] for k in members))),
-        )
-        for d, members in enumerate(ordered, start=1):
-            for k in members:
-                out.at[idx[k], "demeID"] = d
-    return out
-
-
 def load_demes_and_update_events(
     conn: sqlite3.Connection,
     tables_dir: Path,
     *,
     dry: bool,
 ) -> None:
-    crosswalk = pd.read_csv(tables_dir / "step29a_population_crosswalk.tsv", sep="\t")
-    tsv_demes = pd.read_csv(tables_dir / "step29a_demes_per_population_year.tsv", sep="\t")
-
-    # Full-precision coords from the DB (fall back to crosswalk 4-decimal coords on miss).
-    event_ids = crosswalk["eventID"].astype(int).tolist()
-    db_coords = pd.read_sql(
-        f"SELECT eventID, eventDecimalLatitude AS lat_db, eventDecimalLongitude AS lon_db "
-        f"FROM Events WHERE eventID IN ({','.join('?' * len(event_ids))})",
-        conn, params=event_ids,
-    )
-    crosswalk = crosswalk.merge(db_coords, on="eventID", how="left")
-    use_db = crosswalk["lat_db"].notna() & crosswalk["lon_db"].notna()
-    crosswalk.loc[use_db, "lat"] = crosswalk.loc[use_db, "lat_db"]
-    crosswalk.loc[use_db, "lon"] = crosswalk.loc[use_db, "lon_db"]
-    crosswalk = crosswalk.drop(columns=["lat_db", "lon_db"])
-    log(f"Using DB full-precision coords for {int(use_db.sum())}/{len(crosswalk)} events", dry=dry)
-
-    log(f"Deme assignment: 50 m single-linkage on {len(crosswalk)} events", dry=dry)
-    with_demes = assign_demes(crosswalk, radius_m=50.0)
-
-    # Compare against the exported TSV; expected disagreement at P39 2025 (see docstring).
-    mismatches = []
-    for (pid, yr), grp in with_demes.groupby(["populationID", "event_year"]):
-        mine = sorted(grp.groupby("demeID")["n_fertile"].sum().astype(int).tolist(), reverse=True)
-        tsv = sorted(
-            tsv_demes[(tsv_demes["populationID"] == pid) & (tsv_demes["year"] == yr)]["component_N_fertile"].astype(int).tolist(),
-            reverse=True,
-        )
-        if mine != tsv:
-            mismatches.append(f"  population {pid} year {yr}: inline={mine} vs TSV={tsv}")
-    if mismatches:
-        log(f"NOTE: {len(mismatches)} (populationID, year) group(s) disagree with the exported TSV "
-            f"(inline single-linkage on eventID coords is authoritative):", dry=dry)
-        for m in mismatches:
-            print(m)
-
-    # Demes rollup.
-    rollup = (
-        with_demes.groupby(["populationID", "event_year", "demeID"], sort=True)
-        .agg(nEvents=("eventID", "count"), componentNFertile=("n_fertile", "sum"))
-        .reset_index()
-        .rename(columns={"event_year": "year"})
-    )
-    log(f"Demes: {len(rollup)} rows", dry=dry)
-    for row in rollup.itertuples(index=False):
+    """Demes and Events assignments from the pipeline's own tables."""
+    demes = pd.read_csv(tables_dir / "step29a_demes_per_population_year.tsv", sep="\t")
+    e2d = pd.read_csv(tables_dir / "step29a_event_to_deme.tsv", sep="\t")
+    log(f"Demes: {len(demes)} rows from step29a_demes_per_population_year.tsv", dry=dry)
+    for row in demes.itertuples(index=False):
         if dry:
             continue
         conn.execute(
-            "INSERT OR REPLACE INTO Demes (populationID, demeID, year, nEvents, componentNFertile, demeRemarks) "
+            "INSERT INTO Demes (populationID, demeID, year, nEvents, componentNFertile, demeRemarks) "
             "VALUES (?,?,?,?,?,?)",
             (int(row.populationID), int(row.demeID), int(row.year),
-             int(row.nEvents), int(row.componentNFertile), None),
+             int(row.n_events), int(row.component_N_fertile), None),
         )
-
-    # UPDATE Events with populationID / demeID / eventYear.
-    log(f"Events UPDATE: setting populationID/demeID/eventYear on {len(with_demes)} rows", dry=dry)
-    for row in with_demes.itertuples(index=False):
+    log(f"Events UPDATE: populationID / demeID on {len(e2d)} events from step29a_event_to_deme.tsv", dry=dry)
+    for row in e2d.itertuples(index=False):
         if dry:
             continue
-        conn.execute(
+        cur = conn.execute(
             "UPDATE Events SET populationID=?, demeID=?, eventYear=? WHERE eventID=?",
             (int(row.populationID), int(row.demeID), int(row.event_year), int(row.eventID)),
+        )
+        if cur.rowcount != 1:
+            raise RuntimeError(f"eventID {row.eventID} not found in Events")
+    log("Events UPDATE: eventYear from eventDate (MM-DD-YYYY) for every event", dry=dry)
+    if not dry:
+        conn.execute(
+            "UPDATE Events SET eventYear = CAST(substr(eventDate, -4) AS INTEGER) "
+            "WHERE eventDate GLOB '[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]'"
         )
 
 
@@ -1002,7 +934,8 @@ def main() -> int:
     p.add_argument("--db", type=Path, default=DEFAULT_DB,
                    help=f"target SQLite DB (default: {DEFAULT_DB})")
     p.add_argument("--tables-dir", type=Path, default=DEFAULT_TABLES_DIR)
-    p.add_argument("--bl-summary", type=Path, default=DEFAULT_BL_SUMMARY)
+    p.add_argument("--bl-definition", type=Path, default=DEFAULT_BL_DEFINITION,
+                   help="population-level BL table from LEPA_mate_limitation step05")
     p.add_argument("--schema-only", action="store_true",
                    help="create tables + columns + Terms rows only; skip data loads")
     p.add_argument("--apply", action="store_true", help="write to DB (otherwise dry-run)")
@@ -1012,14 +945,15 @@ def main() -> int:
 
     print(f"DB:          {args.db}")
     print(f"Tables dir:  {args.tables_dir}")
-    print(f"BL summary:  {args.bl_summary}")
+    print(f"BL table:    {args.bl_definition}")
     print(f"Schema-only: {args.schema_only}")
     print(f"Mode:        {'DRY-RUN' if dry else 'APPLY'}")
     print()
 
     required = [args.db]
     if not args.schema_only:
-        required += [args.tables_dir, args.bl_summary]
+        required += [args.tables_dir, args.bl_definition,
+                     args.tables_dir / "step29a_event_to_deme.tsv"]
     for pth in required:
         if not pth.exists():
             print(f"ERROR: not found: {pth}", file=sys.stderr)
@@ -1035,7 +969,8 @@ def main() -> int:
         migrate_old_schema(conn, dry=dry)
         create_schema(conn, dry=dry)
         if not args.schema_only:
-            bl_to_id = load_bl(conn, args.bl_summary, dry=dry)
+            clear_existing_data(conn, dry=dry)
+            bl_to_id = load_bl(conn, args.bl_definition, dry=dry)
             load_populations(conn, args.tables_dir, bl_to_id, dry=dry)
             load_demes_and_update_events(conn, args.tables_dir, dry=dry)
             update_bl_from_populations(conn, dry=dry)
