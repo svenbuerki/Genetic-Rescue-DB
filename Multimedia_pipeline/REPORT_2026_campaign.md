@@ -5,9 +5,9 @@
 **Pipeline:** three stages — **A: forms → records**, **B: plant images → multimedia + phenotyping**, then **C: seed sheets → seed accessions (`Germplasm`)**
 (full method: [`IMAGE_PIPELINE_GUIDE.md`](IMAGE_PIPELINE_GUIDE.md); live data-quality status: [`DATA_QUALITY.md`](DATA_QUALITY.md); **seed-cleaner leaderboard: [`SEED_CLEANERS_2026.md`](SEED_CLEANERS_2026.md)**)
 
-**Companion project — SRK genotyping & mate limitation:** [`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics) analyses the self-incompatibility (SRK) genotypes of the plants recorded here. Its **Phase 5** uses this database's occurrences and seed accessions to test **fragmentation → genetic drift → mate limitation**. Start with the [Phase 5 summary for colleagues](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md); full method in [Phase 5 — sampling and prediction](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_sampling_and_prediction.md). The seed-cleaning priorities in §1 are linked to that design.
+**Companion project — SRK genotyping & mate limitation:** [`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics) analyses the self-incompatibility (SRK) genotypes of the plants recorded here. Its **Phase 5** uses this database's occurrences and seed accessions to test **fragmentation → genetic drift → mate limitation**. Start with the [Phase 5 summary for colleagues](https://github.com/svenbuerki/LEPA_mate_limitation/blob/main/Project_outline.md); full method in [Phase 5 — sampling and prediction](https://github.com/svenbuerki/LEPA_mate_limitation/blob/main/archive/Sampling_and_prediction.md). The seed-cleaning priorities in §1 are linked to that design.
 
-*Last refreshed: 2026-10-17 — **seed processing (Stage C)**: 613 of the 1,581 plants (event 328 at loc 18 cleaned and loaded; #23 closed) now have a seed accession; the cleaned-vs-remaining tally and the Phase 5 (SRK) cleaning priorities are below. Field-season figures unchanged since 2026-07-21 (through the FINAL July-21 load — EO30 Simco Rd loc 51/52 + a new 2026 population loc 53, 30 plants. The 2026 collection season is COMPLETE: 20 field days, 1,581 occurrences, 19 EOs, 13 new locations. §8 has Ian's full 2026 site-visit checklist with occurrence yields folded in.)*
+*Last refreshed: 2026-10-17 — **data sweep + corrections** (dates, counts, coordinates, photo links; § 9, issue #25). **seed processing (Stage C)**: 613 of the 1,581 plants (event 328 at loc 18 cleaned and loaded; #23 closed) now have a seed accession; the cleaned-vs-remaining tally and the Phase 5 (SRK) cleaning priorities are below. Field-season figures unchanged since 2026-07-21 (through the FINAL July-21 load — EO30 Simco Rd loc 51/52 + a new 2026 population loc 53, 30 plants. The 2026 collection season is COMPLETE: 20 field days, 1,581 occurrences, 19 EOs, 13 new locations. §8 has Ian's full 2026 site-visit checklist with occurrence yields folded in.)*
 
 ---
 
@@ -91,7 +91,7 @@ Every location with 2026 records, ordered by EO, with its event, fertile-plant a
 
 ### Per-location tally — 2026 seed accessions (cleaned vs remaining)
 
-Seed processing runs after the season: each plant's seeds are cleaned and weighed, given a **germplasmID**, and both are written on the event envelope. The envelope pages are then photographed and loaded (Stage C, §3b). *Seed accessions* = plants with a germplasmID and seed weight in the database. *Remaining* = 2026 plants without one yet. *Phase 5 gap* = mothers still needed at that location under the [SRK Phase 5 design](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md) (next subsection).
+Seed processing runs after the season: each plant's seeds are cleaned and weighed, given a **germplasmID**, and both are written on the event envelope. The envelope pages are then photographed and loaded (Stage C, §3b). *Seed accessions* = plants with a germplasmID and seed weight in the database. *Remaining* = 2026 plants without one yet. *Phase 5 gap* = mothers still needed at that location under the [SRK Phase 5 design](https://github.com/svenbuerki/LEPA_mate_limitation/blob/main/Project_outline.md) (next subsection).
 
 | EO | Location | Occurrences (sampled) | Seed accessions | Remaining | Seed (g) | Status | Phase 5 gap |
 |---|---|---:|---:|---:|---:|---|---:|
@@ -164,7 +164,7 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
 
 ### Where to clean next — priorities from the SRK Phase 5 design
 
-The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics); read the [Phase 5 summary for colleagues](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_summary_for_colleagues.md), or the [full Phase 5 method](https://github.com/svenbuerki/SRK_bioinformatics/blob/main/Phase5_SRK_sampling_and_prediction.md) for formulas and scripts) tests the chain **fragmentation → drift → mate limitation**. Its key outcome regresses **per-mother seed set on predicted pollen compatibility**, within 50 m demes. The design genotypes **15 seedlings per mother** (25 seeds germinated at ~60 %). It needs **505 mothers across 39 locations**. The 2025 seed bank already supplies 431 of them, leaving **76 mothers short across 35 demes**, which Phase 5 flags as the **2026 top-up**.
+The SRK pipeline's Phase 5 ([`svenbuerki/SRK_bioinformatics`](https://github.com/svenbuerki/SRK_bioinformatics); read the [Phase 5 summary for colleagues](https://github.com/svenbuerki/LEPA_mate_limitation/blob/main/Project_outline.md), or the [full Phase 5 method](https://github.com/svenbuerki/LEPA_mate_limitation/blob/main/archive/Sampling_and_prediction.md) for formulas and scripts) tests the chain **fragmentation → drift → mate limitation**. Its key outcome regresses **per-mother seed set on predicted pollen compatibility**, within 50 m demes. The design genotypes **15 seedlings per mother** (25 seeds germinated at ~60 %). It needs **505 mothers across 39 locations**. The 2025 seed bank already supplies 431 of them, leaving **76 mothers short across 35 demes**, which Phase 5 flags as the **2026 top-up**.
 
 **Fertile plants** (from the event forms) is shown alongside, because it is the local census that Phase 5's deme model uses (`component_N_fertile`). Where the 2026 fertile count is small, the gap may not be closable from 2026 alone. Every cleaned 2026 envelope gives exactly the data this analysis needs: a mother (`occurrenceID`), its seed lot (`germplasmID`), and its **seed set**, as weight and estimated seed number. **Cleaning order:** largest locations first, ranked by **fertile plants counted** (the same ranks as the Priority column above). Large populations hold the most mothers and the most of the local SRK allele pool, so each envelope from them adds the most to the seed bank and the Phase 5 analyses. The Phase 5 gap and pilot roles are shown alongside, to break ties or move a location up when a specific analysis needs it (e.g. loc 8 for the B1 pilot).
 
@@ -253,6 +253,7 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 - **#22** — missing event envelopes (loc 11: events 504, 516, 523; loc 51: event 719): **all found by Peggy and loaded; closed 2026-10-05.**
 - **#24** — **cleaners to assign** for 267 germplasm (69 envelopes) without usable initials, by location, with handwriting groups. Ian's and Peggy's envelopes were resolved from handwriting samples.
 - **#23** — events whose **seeds are not yet cleaned**: loc 18 event 328 was cleaned on 2026-10-15 (Sam and Isaac) and loaded 2026-10-17 (germplasm 1712–1713); **closed**.
+- **#25** — event records to check after the 2026-10-17 data sweep: 1 event without coordinates, 6 same-year pairs at one GPS point (2025), 8 spatial outliers, event 424's fruiting count, 4 events without rosette counts, and the photo-link check for other batches (see § 9).
 - *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse), **#18** (loc-50 event latitudes finalized against the manilla), **#19** (event 718 page-1 recovered → loaded as a data-only event).
 
 ## 7. Data products
@@ -351,3 +352,45 @@ The single authoritative roster for the season — reproduced from Ian's *2026 C
 - **EO30-3 (loc 51)**, **EO30-4 (loc 52)**, and the **New-2026 BLM-found population (loc 53)** are the July-21 final-day additions (30 plants, occ 3843–3872), now loaded; **EO112 was visited but held no Lepa** (Ø).
 - **loc 53 has no official EO** (Ian marked "No EO"; nearest EO112 held no Lepa in 2026 or 2013). It is databased under a **provisional EO, EOID 21 / `EO_NEW2026`** so its 7 plants (occ 3866–3872) are fully attributed — rename the EOCode when IDFG assigns an official number.
 - **One seedless slick spot on 2026-07-21 (loc 51, event 718)** was initially unrecordable (only its page 2 had been imaged). Peggy provided the missing page 1 (2026-07-22), and it is now loaded as a **data-only event** — 62 fruiting individuals, 25 rosettes, condition 2.5, 0 seed collections (the EO61-style effective-population-size case). GitHub **#19 resolved**.
+
+## 9. Data-integrity log
+
+### 2026-10-17 — sweep and corrections from the envelope photos
+
+A read-only sweep of all 723 `Events` rows (run from
+[`LEPA_mate_limitation`](https://github.com/svenbuerki/LEPA_mate_limitation),
+which uses these records to build its populations and demes) checked dates,
+fruiting and rosette counts, coordinates and envelope-photo links. Each fix
+was checked against the envelope photo; previous values are kept in the
+record's `eventRemarks` (`Multimedia.remarks` for photos), and a database
+backup was taken before every change (`SQL_DB/LEPA_SQL.db.bak-20261017-*`).
+No coordinates are given here: this repository is public.
+
+| What | Events | Fix |
+|---|---|---|
+| Date without a year (`MM-DD`) | 65 (660 – 724: EO26, EO26-3, EO27, EO27-1, EO29, EO30-3, EO30-4, EO61, EO_NEW2026) | `MM-DD-2026` (photos all dated 2026-07-21). These events were previously left out of every population and deme. |
+| Coordinates malformed or mistyped | 11 (71, 246, 262, 270, 271, 275, 278, 283, 286, 341, 566) | Corrected from the sheets. 283's sheet is itself wrong; set to the nearest-cluster reading (confirmed by S. Buerki). 566 had 565's coordinates copied. |
+| Fruiting count stored as text | 4 (246, 248, 261, 356) | Number kept in `organismQuantityFertile` (`>200` → 200); fruited / failed note moved to remarks. |
+| Fruiting count missing or wrong | 7 (424, 499, 503, 504, 513, 520, 521) | From the sheets. 520, 521 had the count in the rosette column; 499 had the two columns swapped; 424 is overwritten on the sheet (83, possibly 88 — #25). |
+| Rosette count missing or wrong | 15 (281, 499, 505, 509, 513, 514, 516, 519, 520, 521, 526, 528, 531, 532, 533) | From the sheets. "Ø" had been entered as blank → 0; 519 had a dropped digit (210); 281 `30 TINY` → 30. |
+| Envelope photos linked to the wrong event | 42 photos, events 495 – 515 (loc 11) | Photo filed under event N showed event N − 2's barcode (first two: 514, 515). Re-linked to the barcode on the sheet; event 262's photo titles corrected (said "event 282"). |
+
+**After these fixes:** every event has a date with a year and a numeric
+fruiting count; every event except 13 has numeric coordinates; rosette counts
+are complete except 540, 560, 569, 570 (blank or illegible on the sheet).
+
+**Still open (issue #25):** event 13 (no coordinates); 6 same-year pairs at
+one GPS point in 2025 (EO76, EO118, EO70 — no 2025 envelope photos); 8
+events far from the rest of their location; 424's fruiting count; 517's
+rosette count; the four missing rosette counts; a barcode check of the other
+photo batches.
+
+**Downstream.** `LEPA_mate_limitation` re-ran its full pipeline on the
+corrected data. Its populations were renumbered (two EO18-7 populations
+merge once the corrected EO18-7 / EO18-8 events are placed), so
+`Events.populationID` / `demeID` and the `Populations` / `Demes` tables here
+need refreshing from its `tables/step29a_event_to_deme.tsv`. The "Phase 5 gap"
+columns in § 1 come from the earlier location-level design and should be
+regenerated from its per-population sampling tables
+(`step29c_sampling_per_population_2025.tsv` / `_2026.tsv`).
+
