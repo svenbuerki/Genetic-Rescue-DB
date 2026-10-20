@@ -352,7 +352,7 @@ def forms_multimedia(db, apply):   # link the field-form images to their Locatio
         cur.execute("""INSERT INTO Multimedia (multimediaID,identifier,type,format,createDate,title,multimediaStorage,
                        tableID,locationID,eventID,remarks,originalFilename,fileYear,folderDate,captureTimestamp,sha256)
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (maxmm, p["newname"], "field form", "jpeg", p["createDate"], p["title"], "Google Drive", p["tableID"],
+                    (maxmm, p["newname"], "field form", "jpeg", p["createDate"], p["title"], "Local: SQL_DB/Multimedia_main", p["tableID"],
                      p["fkid"] if p["fkcol"] == "locationID" else None, p["fkid"] if p["fkcol"] == "eventID" else None,
                      "2026 field data sheet (evidence for the record)", p["pxl"], "2026", p["fdate"], p["capture"], p["digest"]))
     con.commit(); con.close()

@@ -513,7 +513,7 @@ def sheets_multimedia(db, apply):   # sheet image -> Multimedia evidence row on 
         cur.execute("""INSERT INTO Multimedia (multimediaID,identifier,type,format,createDate,title,multimediaStorage,
                        tableID,eventID,locationID,remarks,originalFilename,fileYear,folderDate,captureTimestamp,sha256)
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (maxmm, name, "germplasm sheet" if tid == 11 else "field form", "jpeg", cd, title, "Google Drive", tid,
+                    (maxmm, name, "germplasm sheet" if tid == 11 else "field form", "jpeg", cd, title, "Local: SQL_DB/Multimedia_main", tid,
                      fk if tid == 11 else None, fk if tid == 9 else None,
                      "evidence for the Germplasm rows of this event" if tid == 11 else "location form photographed with the seed sheets",
                      p.name, iso[:4], iso, cd, h))

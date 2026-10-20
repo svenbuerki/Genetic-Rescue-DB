@@ -822,3 +822,30 @@
 
 ## 20261017-224036 — event 328 front (manual, Stage C)
 - registered envelope front event_328_front.jpeg as Multimedia 3627 (LEPA_2026-10-16_3c37f2bf.jpg, field form, event 328); annotated 3541 (pre-cleaning photo, #23).
+
+## 20261020-132247 — issue #25 answers (Peggy) + 2025 envelope photos
+- Events: coordinates 252/264/466/493/681 corrected; 244 counts swapped back (10/3); 179, 306 fertile → 2; 540/560/569/570 rosettes → 0; remarks for confirmed items (29, 301, 326, 424, 517, 329, 13, 6 same-GPS pairs); 246 duplicate remark removed. Backup `LEPA_SQL.db.bak-issue25-20261020-132247`.
+- Occurrences 226–230 eventID 9 → 59; Germplasm 127–131 eventID 9 → 59, locationID 1 → 9.
+- Multimedia 3628–3743: 116 photos of 2025 envelopes (Field_forms/2025 IMG_7520–7645, HEIC → JPEG, GPS stripped) as `field form` (6 location forms, 55 page 1, 55 page 2). Backup `LEPA_SQL.db.bak-mm2025forms-*`.
+- Full OCR of the 2025 sheets vs DB: all plant barcodes and germplasmIDs match except 9/59; ambiguous values listed for Peggy (events 4, 12, 14 crown/size; area-in-crown-field events) — not changed.
+
+## 20261020-192755 — germplasm_seeds --load germplasm_results_20261020a.json
+- staged 99 rows (OK 99, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 96, 'photo': 3}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261020-192950 — germplasm_seeds --load germplasm_results_20261020a.json
+- staged 99 rows (OK 92, FLAG 7, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 96, 'photo': 3}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261020-192957 — germplasm_seeds --commit --apply
+- inserted 92 Germplasm rows (seed sheets → occurrenceID FK); 7 held as FLAG; 1 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons ['CR', 'EB', 'KS']; acquisitionDate = photo-date proxy for 2 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261020-192957`.
+
+## 20261020-192957 — germplasm_seeds --sheets-mm --apply
+- linked 36 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261020-192957`.
+
+## 20261020-193049 — event page 1 photos (manual, Stage C batch 2026-10-20)
+- registered 34 event page-1 photos photographed with the seed sheets (PXL_20261020_*; barcodes decoded, each matches the following sheet's event) as Multimedia 3780-3813 (field form, page 1).
+
+## 20261020-133703 — issue #25 decisions (Sven)
+- Event 13 coordinates estimated = midpoint of events 12 and 14 (remark flags the estimate); event 301 kept with its location (remark); measurementValuePlantArea (m2) set for events 16, 17, 19, 22, 23, 27, 29, 30, 92 from the area written in the 2025 crown field. Backup `LEPA_SQL.db.bak-issue25decisions-20261020-133703`.
+- Multimedia.multimediaStorage 'Google Drive' → 'Local: SQL_DB/Multimedia_main' for the 3,812 files present there (MM 16 not present, unchanged); stageB_load.py, field_forms_ocr.py, germplasm_seeds.py now write the new value.
+- Barcode check of today's 89 page-1 photos (MM 3628–3743 page 1, 3780–3813): 89 MATCH, 0 mismatch.
+- IMAGE_PIPELINE_GUIDE.md: new "Data-entry checks" subsection (Stage A).

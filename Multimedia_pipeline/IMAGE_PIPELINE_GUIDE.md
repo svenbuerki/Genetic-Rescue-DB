@@ -168,6 +168,26 @@ re-applies every time (so the staging stays reproducible *and* corrected):
   free `eventID` (e.g. a 2026 sticker `0098` that clashes with a 2025 event → `268`); the event and
   its occurrences are remapped to the new ID.
 
+### Data-entry checks (from issue #25)
+
+The 2026-10 sweep of all events (#25) found the same few entry errors again and again. Check
+these on every event before it is loaded, whether typed by hand or read by OCR:
+
+- **Fruiting count ≥ plants sampled.** A sampled plant is a fruiting plant; a lower count means
+  the fruiting and rosette counts were swapped, or a corrected number was entered as 0 or 1.
+- **Fruiting count in `organismQuantityFertile`, rosettes in `organismQuantityVegetative`.**
+  Both are integers. "Ø" or "none" is entered as **0**, never left blank. Text such as
+  "19 (14 fruited)" goes to `eventRemarks`, with the number kept in the count field.
+- **The fruiting-area value goes in `measurementValuePlantArea` (m²)**, not in a count field and
+  not in the crown field (2025 sheets sometimes wrote "1.5 m² total" there).
+- **`eventDate` is `MM-DD-YYYY`**, with the year.
+- **Coordinates are numeric decimal degrees** with a minus sign on the longitude, and fall with
+  the other events of their location. A point far from the rest is usually a one-digit error;
+  two events with identical coordinates usually mean a value was copied.
+- **Event photos carry their own event number**: decode the sticker barcode of the batch just
+  loaded (`verify_event_barcodes.py`, or `zbarimg` on the new files) and check it against the
+  event each photo is linked to.
+
 ### Form images as evidence (`--forms-mm`)
 
 After the records are loaded, `field_forms_ocr.py --forms-mm --apply` files each **field form photo**

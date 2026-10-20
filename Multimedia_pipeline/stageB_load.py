@@ -54,7 +54,7 @@ def main():
         cur.execute("""INSERT INTO Multimedia (multimediaID,identifier,type,format,createDate,title,multimediaStorage,
                        tableID,occurrenceID,remarks,originalFilename,fileYear,folderDate,captureTimestamp,sha256)
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (maxmm, ident, "field image", "jpeg", iso_to_dbdate(rr.get("folderDate")), m["title"], "Google Drive",
+                    (maxmm, ident, "field image", "jpeg", iso_to_dbdate(rr.get("folderDate")), m["title"], "Local: SQL_DB/Multimedia_main",
                      13, occ, "valid; 2026 plant image linked by board#=occurrenceID (Stage B)",
                      rr.get("original_name"), rr.get("year"), rr.get("folderDate"), rr.get("capture") or None, rr.get("sha256")))
         occ_to_mmid.setdefault(occ, maxmm)

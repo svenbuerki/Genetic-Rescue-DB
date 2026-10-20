@@ -1,42 +1,48 @@
 # 2026 seed cleaning — leaderboard
 
-*Generated 2026-10-17 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
+*Generated 2026-10-20 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
 
-**613 germplasm** cleaned and loaded for 2026; **346** have a known cleaner, **267** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
+**705 germplasm** cleaned and loaded for 2026; **437** have a known cleaner, **268** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
 
 | Rank | Cleaner | Germplasm | Share of assigned | Seed (g) | Est. seeds | Locations | Envelopes (events) | Dates written on envelopes |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
-| 1 | Ian Robertson | 179 | 52% | 35.18 | 82,585 | 11 | 70 | — |
-| 2 | Sam Billingsley | 71 | 21% | 7.71 | 18,080 | 10 | 28 | 2026-08-12 → 2026-10-15 |
-| 3 | Jaden Yun | 39 | 11% | 7.44 | 17,464 | 4 | 16 | — |
-| 4 | Peggy Martinez | 25 | 7% | 6.79 | 15,946 | 3 | 12 | — |
-| 5 | Alex Scott | 17 | 5% | 8.98 | 21,108 | 3 | 8 | — |
-| 6 | Isaac Carretero | 15 | 4% | 3.21 | 7,528 | 2 | 4 | 2026-10-15 → 2026-10-15 |
-| — | *— not yet assigned —* | 267 | — | 57.55 | 135,110 | 10 | 69 | — |
+| 1 | Ian Robertson | 179 | 41% | 35.18 | 82,585 | 11 | 70 | — |
+| 2 | Sam Billingsley | 79 | 18% | 9.40 | 22,039 | 12 | 32 | 2026-08-12 → 2026-10-20 |
+| 3 | Jaden Yun | 41 | 9% | 8.17 | 19,174 | 5 | 18 | 2026-10-12 → 2026-10-12 |
+| 4 | Alex Scott | 41 | 9% | 15.61 | 36,663 | 5 | 22 | 2026-10-02 → 2026-10-19 |
+| 5 | Peggy Martinez | 26 | 6% | 6.93 | 16,277 | 4 | 13 | 2026-10-16 → 2026-10-16 |
+| 6 | Ashley Zahurak | 24 | 5% | 10.25 | 24,086 | 2 | 7 | 2026-10-02 → 2026-10-16 |
+| 7 | Isaac Carretero | 17 | 4% | 3.79 | 8,896 | 3 | 5 | 2026-10-15 → 2026-10-15 |
+| 8 | Lizzie Berrier | 17 | 4% | 4.79 | 11,251 | 2 | 7 | 2026-10-02 → 2026-10-16 |
+| 9 | Kylie Stear | 12 | 3% | 2.51 | 5,893 | 2 | 4 | 2026-09-25 → 2026-10-16 |
+| 10 | CR [unidentified - seed cleaning 2026] | 1 | 0% | 0.56 | 1,306 | 1 | 1 | 2026-10-19 → 2026-10-19 |
+| — | *— not yet assigned —* | 268 | — | 57.64 | 135,318 | 11 | 70 | — |
 
 ## By location
 
-| Location | Germplasm | Ian Robertson | Sam Billingsley | Jaden Yun | Peggy Martinez | Alex Scott | Isaac Carretero | Not assigned |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| loc 1 (EO38) | 32 |  | 2 | 13 | 6 | 11 |  |  |
-| loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |
-| loc 5 (EO68-3) | 10 | 1 | 4 |  |  | 5 |  |  |
-| loc 10 (EO27-3) | 7 | 4 | 3 |  |  |  |  |  |
-| loc 11 (EO27-1) | 125 | 50 | 7 | 13 |  |  |  | 55 |
-| loc 13 (EO30-1) | 16 |  |  |  |  |  |  | 16 |
-| loc 17 (EO18-7) | 103 |  | 16 | 2 |  |  |  | 85 |
-| loc 18 (EO18-8) | 59 |  | 6 |  |  |  | 1 | 52 |
-| loc 19 (EO18-7) | 1 | 1 |  |  |  |  |  |  |
-| loc 21 (EO25-B) | 8 | 5 | 1 |  |  |  |  | 2 |
-| loc 24 (EO24) | 5 | 5 |  |  |  |  |  |  |
-| loc 26 (EO70) | 39 | 17 | 8 |  |  |  | 14 |  |
-| loc 27 (EO8) | 15 |  |  |  | 15 |  |  |  |
-| loc 28 (EO8) | 122 | 77 |  | 11 | 4 | 1 |  | 29 |
-| loc 39 (EO67) | 6 |  |  |  |  |  |  | 6 |
-| loc 42 (EO30-2) | 34 | 16 | 8 |  |  |  |  | 10 |
-| loc 51 (EO30-3) | 16 |  | 16 |  |  |  |  |  |
-| loc 52 (EO30-4) | 7 | 2 |  |  |  |  |  | 5 |
-| loc 53 (EO_NEW2026) | 7 |  |  |  |  |  |  | 7 |
+| Location | Germplasm | Ian Robertson | Sam Billingsley | Jaden Yun | Alex Scott | Peggy Martinez | Ashley Zahurak | Isaac Carretero | Lizzie Berrier | Kylie Stear | CR [unidentified - seed cleaning 2026] | Not assigned |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| loc 1 (EO38) | 32 |  | 2 | 13 | 11 | 6 |  |  |  |  |  |  |
+| loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |
+| loc 5 (EO68-3) | 10 | 1 | 4 |  | 5 |  |  |  |  |  |  |  |
+| loc 10 (EO27-3) | 7 | 4 | 3 |  |  |  |  |  |  |  |  |  |
+| loc 11 (EO27-1) | 125 | 50 | 7 | 13 |  |  |  |  |  |  |  | 55 |
+| loc 13 (EO30-1) | 16 |  |  |  |  |  |  |  |  |  |  | 16 |
+| loc 16 (EO18-7) | 58 |  | 6 | 2 | 15 | 1 | 19 | 2 | 6 | 5 | 1 | 1 |
+| loc 17 (EO18-7) | 103 |  | 16 | 2 |  |  |  |  |  |  |  | 85 |
+| loc 18 (EO18-8) | 59 |  | 6 |  |  |  |  | 1 |  |  |  | 52 |
+| loc 19 (EO18-7) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |
+| loc 20 (EO25-A) | 34 |  | 2 |  | 9 |  | 5 |  | 11 | 7 |  |  |
+| loc 21 (EO25-B) | 8 | 5 | 1 |  |  |  |  |  |  |  |  | 2 |
+| loc 24 (EO24) | 5 | 5 |  |  |  |  |  |  |  |  |  |  |
+| loc 26 (EO70) | 39 | 17 | 8 |  |  |  |  | 14 |  |  |  |  |
+| loc 27 (EO8) | 15 |  |  |  |  | 15 |  |  |  |  |  |  |
+| loc 28 (EO8) | 122 | 77 |  | 11 | 1 | 4 |  |  |  |  |  | 29 |
+| loc 39 (EO67) | 6 |  |  |  |  |  |  |  |  |  |  | 6 |
+| loc 42 (EO30-2) | 34 | 16 | 8 |  |  |  |  |  |  |  |  | 10 |
+| loc 51 (EO30-3) | 16 |  | 16 |  |  |  |  |  |  |  |  |  |
+| loc 52 (EO30-4) | 7 | 2 |  |  |  |  |  |  |  |  |  | 5 |
+| loc 53 (EO_NEW2026) | 7 |  |  |  |  |  |  |  |  |  |  | 7 |
 
 **Notes**
 - *Est. seeds* comes from seed weight via the 1000-seed-weight equation (negative estimates for very light lots are counted as 0).
