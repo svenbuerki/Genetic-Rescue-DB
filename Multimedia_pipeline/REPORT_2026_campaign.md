@@ -430,6 +430,23 @@ fewer fruiting plants than sampled), 9 and 179 (2025, no envelope photos),
 (duplicated remark).
 
 
+### 2026-10-20 — populations and demes refreshed (48 → 44 populations)
+
+`LEPA_mate_limitation` re-ran its pipeline on today's corrections and the 92
+new accessions; the loader then refreshed `Populations`, `Demes` and
+`BottleneckLineages` and every event's population / deme. Backup
+`SQL_DB/LEPA_SQL.db.bak-units44-20261020-140914`. Verified event by event
+(723 events, none unassigned), foreign keys and integrity OK.
+
+- **48 → 44 populations.** Four single-event populations existed only because
+  of the mistyped coordinates; with events 466, 681, 252 and 264 corrected
+  they rejoin EO27, EO26, EO38 and EO68-3. Event 13 (estimated position)
+  joins EO76.
+- **Demes:** 99 in 2025 (was 100) and 189 in 2026 (was 193).
+- **No population split and no BL changed**, but population IDs are
+  renumbered (1 … N within BL). Old → new IDs and the new results are in
+  `LEPA_mate_limitation/Project_outline.md`.
+
 ### 2026-10-20 — issue #25 answers (Peggy) and the 2025 envelopes
 
 Peggy checked the paper envelopes and the field team for every item still
@@ -485,7 +502,7 @@ demes should be refreshed here afterwards.
 - **Event 301:** kept with its location (remark added).
 - **Fruiting area in the 2025 crown field:** events 16, 17, 19, 22, 23, 27, 29, 30, 92 now carry
   that value in `measurementValuePlantArea` (m²); crown left blank.
-- **Ambiguous sheet values** (events 4, 12, 14): Sven checks the photos.
+- **Ambiguous sheet values** (events 4, 12, 14), checked by Sven: event 4's crown was written as two values, A = 4 (annuals) and B = 15 (biennials); the stored crown is their average, 9.5, with both values in the remark. Event 12's slick spot size (1 m²) and event 14's crown (10) are confirmed as entered.
 - **Photo barcodes:** the 89 event page-1 photos registered today (2025 envelopes and the
   2026-10-20 seed-sheet batch) were decoded; every one matches its event.
 - **Data-entry checks** are now listed in `IMAGE_PIPELINE_GUIDE.md` (Stage A, "Data-entry checks").
