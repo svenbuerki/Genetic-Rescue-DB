@@ -849,3 +849,6 @@
 - Multimedia.multimediaStorage 'Google Drive' → 'Local: SQL_DB/Multimedia_main' for the 3,812 files present there (MM 16 not present, unchanged); stageB_load.py, field_forms_ocr.py, germplasm_seeds.py now write the new value.
 - Barcode check of today's 89 page-1 photos (MM 3628–3743 page 1, 3780–3813): 89 MATCH, 0 mismatch.
 - IMAGE_PIPELINE_GUIDE.md: new "Data-entry checks" subsection (Stage A).
+
+## 20261020-200125 — germplasm_seeds --assign-cleaners --apply
+- assigned a cleaner to 26 germplasm from 83 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261020-200125`.

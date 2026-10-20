@@ -159,10 +159,10 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
   - **loc 1:** 5 cells held for an envelope check.
   - **loc 26:** 3 cells held for an envelope check.
 - **22 locations not yet imaged** (745 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **437 of 705** have one so far: Ian Robertson 179, Sam Billingsley 79, Jaden Yun 41, Alex Scott 41, Peggy Martinez 26, Ashley Zahurak 24, Isaac Carretero 17, Lizzie Berrier 17, Kylie Stear 12; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **463 of 705** have one so far: Ian Robertson 179, Sam Billingsley 79, Jaden Yun 50, Alex Scott 41, Lizzie Berrier 34, Peggy Martinez 26, Ashley Zahurak 24, Isaac Carretero 17, Kylie Stear 12; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
   - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
-  - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. Both were confirmed by Sven.
-  - **The remaining 267** (69 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.
+  - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. On 2026-10-20, samples from the newly initialled sheets attributed 7 more envelopes to Lizzie (4) and Jaden (3). All were confirmed by Sven.
+  - **The remaining 242** (63 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.
 
 ### Where to clean next — priorities from the SRK Phase 5 design
 
@@ -253,7 +253,7 @@ The recurring 2026 theme — IDs reused across years and across field days — k
 - **#20** — seed processing protocol: write the **date and initials** on every envelope (most 2026 envelopes carry neither, so the photo date stands in as the acquisition date).
 - **#21** — occ 3412 (loc 28): seed weight recorded but **no germplasmID**.
 - **#22** — missing event envelopes (loc 11: events 504, 516, 523; loc 51: event 719): **all found by Peggy and loaded; closed 2026-10-05.**
-- **#24** — **cleaners to assign** for 267 germplasm (69 envelopes) without usable initials, by location, with handwriting groups. Ian's and Peggy's envelopes were resolved from handwriting samples.
+- **#24** — **cleaners to assign** for 242 germplasm (63 envelopes) without usable initials, by location, with handwriting groups. Ian's and Peggy's envelopes were resolved from handwriting samples.
 - **#23** — events whose **seeds are not yet cleaned**: loc 18 event 328 was cleaned on 2026-10-15 (Sam and Isaac) and loaded 2026-10-17 (germplasm 1712–1713); **closed**.
 - **#25** — event records to check after the 2026-10-17 data sweep (updated 2026-10-18 with count checks): 1 event without coordinates, 6 same-year pairs at one GPS point (2025), 8 spatial outliers, event 424's fruiting count, 4 events without rosette counts, and the photo-link check for other batches (see § 9).
 - *Resolved this season:* #7, #8 (EO38/EO118 forms located), #12 (genotyping status gaps), #14 (occ 2714 envelope reuse), **#18** (loc-50 event latitudes finalized against the manilla), **#19** (event 718 page-1 recovered → loaded as a data-only event).
