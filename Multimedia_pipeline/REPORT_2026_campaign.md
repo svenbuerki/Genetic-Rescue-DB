@@ -521,3 +521,17 @@ demes should be refreshed here afterwards.
 - **`Multimedia.multimediaStorage`** now reads `Local: SQL_DB/Multimedia_main` for the 3,812 photos
   stored there (it said "Google Drive"); the loaders write this value from now on. One 2025 plant
   photo of occurrence 220 (multimedia 16) is not in that folder and keeps the old value.
+
+### 2026-10-23 — full check of the 2025 field forms
+
+Peggy photographed the remaining 2025 field forms (396 photos: 185 event envelopes, both pages, and
+27 location forms; with the 2026-10-20 set, every 2025 event except 127's page 1, and every 2025
+location except 22–25). Every field was read and compared with the database; differences were read a
+second time. **All plant barcodes and germplasmIDs match.** Four clear entry errors were corrected
+from the sheets (backup `SQL_DB/LEPA_SQL.db.bak-2025forms-20261023-150930`, previous values in
+`eventRemarks`): event 46 fruiting 98 → 48; event 203 slick spot 10.5 → 20.5 m²; event 110 defined
+area No → Yes; event 35 rosettes 20 → 70. Coordinate differences (events 38, 53, 99, 116, 150, 180,
+217; location 37; location 3 blank on its sheet), event 68's location (sheet 16, DB 15), two
+ambiguous fruiting counts (114, 153) and the missing photos are listed for later examination in
+**[#26](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/26)** — the database was not changed
+for them. The 396 photos are in `Multimedia` (3814–4209, type `field form`).

@@ -852,3 +852,12 @@
 
 ## 20261020-200125 — germplasm_seeds --assign-cleaners --apply
 - assigned a cleaner to 26 germplasm from 83 envelopes (cleaner_assignment.csv, Sven). Backup `LEPA_SQL.db.bak-cleaners-20261020-200125`.
+
+## 20261020-140715 — events 4, 12, 14 (Sven's reading of the 2025 sheets, #25)
+- Event 4 crown: A = 4 (annuals), B = 15 (biennials) → stored average 9.5 (was 10), both values in remarks. Event 12 size 1 m2 and event 14 crown 10 confirmed (remarks). Backup `LEPA_SQL.db.bak-ev4-12-14-20261020-140715`.
+
+## 20261023-150930 — full 2025 field-form check (Peggy's photos)
+- 396 photos (Field_forms/2025 IMG_7646–8046) OCR'd and compared with the DB (scratchpad f2025b/compare2.py); flagged values re-read.
+- Fixed from sheets: event 46 fertile 98→48; 203 size 10.5→20.5; 110 definition No→Yes; 35 rosettes 20→70. Backup `LEPA_SQL.db.bak-2025forms-20261023-150930`.
+- Multimedia 3814–4209 (field form; 185 page 1, 184 page 2, 27 location forms; GPS removed). Relinked: 3934 → location 17, 4127 → location 34 (barcodes unreadable), 3972 → event 127 page 2. Backup `LEPA_SQL.db.bak-mm2025all-*`.
+- Coordinates and other open items → GitHub issue #26 (no DB change).
