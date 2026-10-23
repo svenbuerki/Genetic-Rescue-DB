@@ -430,6 +430,18 @@ fewer fruiting plants than sampled), 9 and 179 (2025, no envelope photos),
 (duplicated remark).
 
 
+### 2026-10-22 — new 2026 site (loc 53) assigned to EO112
+
+Location 53, found in 2026 on a BLM tip and databased under the provisional
+code `EO_NEW2026`, is assigned to **EO112** for now (Sven): it is the nearest
+EO (which held no Lepa in 2013 or 2026), new to our sampling. Changed
+`EOs.EOCode` of EOID 21 and `Locations.locationCode` of location 53 from
+`EO_NEW2026` to `EO112`; the location remark keeps the previous values and
+notes that the assignment is pending a check against the EO112 boundary.
+Backup `SQL_DB/LEPA_SQL.db.bak-eo112-20261022-082336`; integrity and foreign
+keys OK. The eight photo titles in `Multimedia` that contain `EO_NEW2026` are
+left unchanged. `LEPA_mate_limitation` was re-run and `Populations` refreshed.
+
 ### 2026-10-20 — populations and demes refreshed (48 → 44 populations)
 
 `LEPA_mate_limitation` re-ran its pipeline on today's corrections and the 92
