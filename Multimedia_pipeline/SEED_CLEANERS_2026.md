@@ -1,6 +1,6 @@
 # 2026 seed cleaning — leaderboard
 
-*Generated 2026-10-20 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
+*Generated 2026-10-23 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
 
 **705 germplasm** cleaned and loaded for 2026; **463** have a known cleaner, **242** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
 
@@ -8,7 +8,7 @@
 |---:|---|---:|---:|---:|---:|---:|---:|---|
 | 1 | Ian Robertson | 179 | 39% | 35.18 | 82,585 | 11 | 70 | — |
 | 2 | Sam Billingsley | 79 | 17% | 9.40 | 22,039 | 12 | 32 | 2026-08-12 → 2026-10-20 |
-| 3 | Jaden Yun | 50 | 11% | 10.54 | 24,735 | 6 | 21 | 2026-10-12 → 2026-10-12 |
+| 3 | Jayden Yun | 50 | 11% | 10.54 | 24,735 | 6 | 21 | 2026-10-12 → 2026-10-12 |
 | 4 | Alex Scott | 41 | 9% | 15.61 | 36,663 | 5 | 22 | 2026-10-02 → 2026-10-19 |
 | 5 | Lizzie Berrier | 34 | 7% | 10.73 | 25,201 | 3 | 11 | 2026-10-02 → 2026-10-16 |
 | 6 | Peggy Martinez | 26 | 6% | 6.93 | 16,277 | 4 | 13 | 2026-10-16 → 2026-10-16 |
@@ -20,7 +20,7 @@
 
 ## By location
 
-| Location | Germplasm | Ian Robertson | Sam Billingsley | Jaden Yun | Alex Scott | Lizzie Berrier | Peggy Martinez | Ashley Zahurak | Isaac Carretero | Kylie Stear | CR [unidentified - seed cleaning 2026] | Not assigned |
+| Location | Germplasm | Ian Robertson | Sam Billingsley | Jayden Yun | Alex Scott | Lizzie Berrier | Peggy Martinez | Ashley Zahurak | Isaac Carretero | Kylie Stear | CR [unidentified - seed cleaning 2026] | Not assigned |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | loc 1 (EO38) | 32 |  | 2 | 13 | 11 |  | 6 |  |  |  |  |  |
 | loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |
@@ -42,7 +42,7 @@
 | loc 42 (EO30-2) | 34 | 16 | 8 |  |  |  |  |  |  |  |  | 10 |
 | loc 51 (EO30-3) | 16 |  | 16 |  |  |  |  |  |  |  |  |  |
 | loc 52 (EO30-4) | 7 | 2 |  |  |  |  |  |  |  |  |  | 5 |
-| loc 53 (EO_NEW2026) | 7 |  |  |  |  |  |  |  |  |  |  | 7 |
+| loc 53 (EO112) | 7 |  |  |  |  |  |  |  |  |  |  | 7 |
 
 **Notes**
 - *Est. seeds* comes from seed weight via the 1000-seed-weight equation (negative estimates for very light lots are counted as 0).

@@ -54,7 +54,7 @@ lots.
 **Who cleaned:** a germplasm (all seeds of one mother plant) has **exactly one cleaner**
 (`Germplasm.personID`); an envelope can have several.
 - **From initials:** the initials on the envelope map to people via `staging_2026/initials_persons.csv`
-  (SB Sam Billingsley, PM Peggy Martinez, IR Ian Robertson, JY Jaden Yun, AS Alex Scott, TG Teo Geisler,
+  (SB Sam Billingsley, PM Peggy Martinez, IR Ian Robertson, JY Jayden Yun, AS Alex Scott, TG Teo Geisler,
   IC Isaac Carretero, AZ Ashley Zahurak; Lizzie pending).
 - **Single initials, one pen colour:** a single set of sheet-level initials covers every row only when all
   entries are in the same pen colour.

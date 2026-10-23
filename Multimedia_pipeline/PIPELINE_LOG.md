@@ -861,3 +861,6 @@
 - Fixed from sheets: event 46 fertile 98→48; 203 size 10.5→20.5; 110 definition No→Yes; 35 rosettes 20→70. Backup `LEPA_SQL.db.bak-2025forms-20261023-150930`.
 - Multimedia 3814–4209 (field form; 185 page 1, 184 page 2, 27 location forms; GPS removed). Relinked: 3934 → location 17, 4127 → location 34 (barcodes unreadable), 3972 → event 127 page 2. Backup `LEPA_SQL.db.bak-mm2025all-*`.
 - Coordinates and other open items → GitHub issue #26 (no DB change).
+
+## 20261023 — cleaner name spelling
+- Persons 6 corrected by Sven to **Jayden** Yun (was "Jaden"); leaderboard regenerated, campaign report, DATA_QUALITY and initials_persons.csv updated. Older log entries keep the spelling used at the time.

@@ -159,9 +159,9 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
   - **loc 1:** 5 cells held for an envelope check.
   - **loc 26:** 3 cells held for an envelope check.
 - **22 locations not yet imaged** (745 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **463 of 705** have one so far: Ian Robertson 179, Sam Billingsley 79, Jaden Yun 50, Alex Scott 41, Lizzie Berrier 34, Peggy Martinez 26, Ashley Zahurak 24, Isaac Carretero 17, Kylie Stear 12; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **463 of 705** have one so far: Ian Robertson 179, Sam Billingsley 79, Jayden Yun 50, Alex Scott 41, Lizzie Berrier 34, Peggy Martinez 26, Ashley Zahurak 24, Isaac Carretero 17, Kylie Stear 12; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
   - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
-  - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. On 2026-10-20, samples from the newly initialled sheets attributed 7 more envelopes to Lizzie (4) and Jaden (3). All were confirmed by Sven.
+  - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. On 2026-10-20, samples from the newly initialled sheets attributed 7 more envelopes to Lizzie (4) and Jayden (3). All were confirmed by Sven.
   - **The remaining 242** (63 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.
 
 ### Where to clean next — priorities from the SRK Phase 5 design
