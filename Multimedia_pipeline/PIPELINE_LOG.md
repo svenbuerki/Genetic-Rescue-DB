@@ -963,3 +963,25 @@
 ## 20261028-094406 — issue #26 answers (Peggy) + 13 more 2025 photos
 - Events 53 (latitude) and 99 (longitude) corrected from the forms; remarks on 38, 51, 116, 180, 192, 217, 150, 68, 114, 153; locationRemarks on 3 (coordinates from Teo's email 2025-10-14, DMS → DD) and 37. Backup `LEPA_SQL.db.bak-issue26-20261028-094406`.
 - IMG_8048–8060 (HEIC → JPEG, GPS removed) → Multimedia 4215–4227: event 127 page 1, location forms 22–25, events 106, 134–136 (re-photos). All values match the DB. Only event 9's page 1 is still unphotographed.
+
+## 20261028-215858 — germplasm_seeds --load germplasm_results_20261028a.json
+- staged 38 rows (OK 38, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 36, 'photo': 2}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261028-215931 — germplasm_seeds --load germplasm_results_20261028a.json
+- staged 38 rows (OK 36, FLAG 2, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 36, 'photo': 2}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261028-215931 — germplasm_seeds --commit --apply
+- inserted 36 Germplasm rows (seed sheets → occurrenceID FK); 2 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 2 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261028-215931`.
+
+## 20261028-215931 — germplasm_seeds --sheets-mm --apply
+- linked 18 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261028-215931`.
+
+## 20261028-220358 — germplasm_seeds --load germplasm_results_20261028a.json
+- staged 38 rows (OK 2, FLAG 0, NO_SEED 0, LOADED 36, SKIP 0); acquisitionDate sources {'sheet': 2}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261028-220358 — germplasm_seeds --commit --apply
+- inserted 2 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261028-220358`.
+
+## 20261028 — event 9 page 1, location 1 form; location 37 seed sheets
+- IMG_8083 (loc 1 form, clearer photo; latitude matches DB) and IMG_8084 (event 9 page 1; all fields match) → Multimedia 4228–4229. All 2025 forms now photographed and checked.
+- IMG_8065–8082 (loc 37, 2026): +38 Germplasm (1749–1786); 3800 and 3802 held then settled by Sven (0.1050, 0.0871); Multimedia 18 sheets. Location 37 complete. Reply posted on #26.
