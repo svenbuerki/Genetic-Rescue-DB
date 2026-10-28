@@ -266,7 +266,8 @@ def load(db, results, locations, allow_no_form=False, year="2026"):
             if g is None: flags.append("weight but no germplasmID")
             if wt is None: flags.append("germplasmID but no weight")
             elif wt == "BAD": flags.append(f"unparseable weight {w_raw!r}"); wt = None
-            elif not (WEIGHT_MIN <= wt <= WEIGHT_MAX): flags.append(f"weight {wt} g outside {WEIGHT_MIN}–{WEIGHT_MAX}")
+            elif not (WEIGHT_MIN <= wt <= WEIGHT_MAX) and not (ov.get("seedWeight") or "").strip():   # a weight confirmed in the overrides file is accepted as is
+                flags.append(f"weight {wt} g outside {WEIGHT_MIN}–{WEIGHT_MAX}")
             if not acq: flags.append("no acquisitionDate (no sheet date, no photo date)")
             row.update(germplasmID=g, seedWeight=wt)
             if g in germ_db:
