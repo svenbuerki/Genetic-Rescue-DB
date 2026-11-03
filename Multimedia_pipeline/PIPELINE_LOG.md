@@ -1007,3 +1007,15 @@
 ## 20261102 — location 9 seed sheets (Stage C)
 - IMG_8122–8145 (HEIC → JPEG copies in Field_forms/2026): loc 9 location form + 23 seed sheets → +78 Germplasm (1787–1864); 3165 '0:0675' read as 0.0675; 3189, 3169, 3171 held then settled by Sven (0.0887, 0.2404, 0.5864). First germplasm credited to Teo (TG). Event 485's Section 5 field note relabelled (it had been appended as a seed-processing note). Event 472 (occ 3143) envelope not in the batch. Multimedia 24 sheets.
 - Issue #27 opened (assigned Peggy): event 472 envelope (occ 3143) missing from the loc 9 batch.
+
+## 20261103-213808 — germplasm_seeds --load germplasm_results_20261103a.json
+- staged 1 rows (OK 1, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 1}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261103-213808 — germplasm_seeds --commit --apply
+- inserted 1 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261103-213808`.
+
+## 20261103-213808 — germplasm_seeds --sheets-mm --apply
+- linked 2 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261103-213808`.
+
+## 20261103 — event 472 (location 9), issue #27
+- IMG_8146 (loc 9 form) + IMG_8147 (event 472 seed sheet): occ 3143 → germplasm 1865, 1.0652 g, 11-02-2026, PM. Location 9 complete (79/79). Multimedia 2 sheets.

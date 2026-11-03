@@ -1,14 +1,14 @@
 # 2026 seed cleaning — leaderboard
 
-*Generated 2026-11-02 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
+*Generated 2026-11-03 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
 
-**851 germplasm** cleaned and loaded for 2026; **607** have a known cleaner, **244** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
+**852 germplasm** cleaned and loaded for 2026; **608** have a known cleaner, **244** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
 
 | Rank | Cleaner | Germplasm | Share of assigned | Seed (g) | Est. seeds | Locations | Envelopes (events) | Dates written on envelopes |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
 | 1 | Ian Robertson | 181 | 30% | 35.41 | 83,102 | 11 | 70 | — |
-| 2 | Sam Billingsley | 82 | 14% | 11.09 | 25,997 | 14 | 34 | 2026-08-12 → 2026-10-29 |
-| 3 | Peggy Martinez | 71 | 12% | 17.75 | 41,680 | 6 | 33 | 2026-10-16 → 2026-10-28 |
+| 2 | Sam Billingsley | 82 | 13% | 11.09 | 25,997 | 14 | 34 | 2026-08-12 → 2026-10-29 |
+| 3 | Peggy Martinez | 72 | 12% | 18.82 | 44,184 | 6 | 34 | 2026-10-16 → 2026-11-02 |
 | 4 | Alex Scott | 66 | 11% | 23.06 | 54,165 | 6 | 31 | 2026-10-02 → 2026-11-02 |
 | 5 | Jayden Yun | 61 | 10% | 13.41 | 31,472 | 7 | 24 | 2026-10-12 → 2026-10-26 |
 | 6 | Lizzie Berrier | 55 | 9% | 19.56 | 45,961 | 4 | 16 | 2026-10-02 → 2026-10-30 |
@@ -26,7 +26,7 @@
 | loc 1 (EO38) | 37 |  | 2 | 6 | 11 | 18 |  |  |  |  |  |  |  |
 | loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |  |
 | loc 5 (EO68-3) | 10 | 1 | 4 |  | 5 |  |  |  |  |  |  |  |  |
-| loc 9 (EO27) | 78 |  | 1 | 16 | 24 |  | 14 | 16 | 3 |  | 4 |  |  |
+| loc 9 (EO27) | 79 |  | 1 | 17 | 24 |  | 14 | 16 | 3 |  | 4 |  |  |
 | loc 10 (EO27-3) | 7 | 4 | 3 |  |  |  |  |  |  |  |  |  |  |
 | loc 11 (EO27-1) | 125 | 50 | 7 |  |  | 13 |  |  |  |  |  |  | 55 |
 | loc 13 (EO30-1) | 16 |  |  |  |  |  |  |  |  |  |  |  | 16 |
