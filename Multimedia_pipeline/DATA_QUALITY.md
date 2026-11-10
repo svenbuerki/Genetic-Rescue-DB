@@ -23,14 +23,14 @@ A full audit (2026-06-27) found no structural problems:
 ## Coverage
 
 - **Occurrences:** 3797. **Events:** 723. **Locations:** 52.
-- **Phenotyping:** 2312. **Multimedia:** 4273 (incl. field-form and germplasm-sheet images, and all 2025 field-form photos). **Germplasm:** 1637 (785 from 2025 + 852 from 2026).
+- **Phenotyping:** 2312. **Multimedia:** 4279 (incl. field-form and germplasm-sheet images, and all 2025 field-form photos). **Germplasm:** 1662 (785 from 2025 + 877 from 2026).
 
-## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (updated 2026-11-03)
+## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (updated 2026-11-10)
 
 The germplasmID and seed weight hand-written on each event envelope (sheet page 2) are loaded with
-`germplasm_seeds.py` (see the Stage C section of the guide). **852 accessions** (germplasmIDs 923–1865,
-203.1 g, ≈477,000 seeds by the 1000-seed-weight equation) across **23 locations**.
-- **21 complete:** 1, 3, 5, 9, 10, 11, 13, 16, 17, 18, 19, 21, 24, 26, 27, 37, 39, 42, 51, 52, 53.
+`germplasm_seeds.py` (see the Stage C section of the guide). **877 accessions** (germplasmIDs 923–1912,
+208.6 g, ≈490,000 seeds by the 1000-seed-weight equation) across **24 locations**.
+- **22 complete:** 1, 3, 4, 5, 9, 10, 11, 13, 16, 17, 18, 19, 21, 24, 26, 27, 37, 39, 42, 51, 52, 53.
 - **2 partial:** 20 (9 events not yet imaged) and 28 (July-14 events not yet imaged; occ 3412).
 
 The per-location tally, completion and size-ranked cleaning priorities are in
@@ -38,7 +38,7 @@ The per-location tally, completion and size-ranked cleaning priorities are in
 
 **Integrity:** 0 germplasmIDs used twice, 0 occurrences with more than one accession, and all seed estimates
 match the equation. Ambiguous or overwritten cells are held and then settled against the physical envelopes
-(23 settled so far, 8 waiting); every decision is recorded in `staging_2026/germplasm_overrides.csv`. When a
+(all settled; none waiting); every decision is recorded in `staging_2026/germplasm_overrides.csv`. When a
 barcode is written only on the first and last rows with an arrow between them, the barcodes in between are
 taken from the arrow and checked against the event's occurrences in the DB.
 

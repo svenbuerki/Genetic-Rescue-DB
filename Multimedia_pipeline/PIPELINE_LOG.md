@@ -1019,3 +1019,19 @@
 
 ## 20261103 — event 472 (location 9), issue #27
 - IMG_8146 (loc 9 form) + IMG_8147 (event 472 seed sheet): occ 3143 → germplasm 1865, 1.0652 g, 11-02-2026, PM. Location 9 complete (79/79). Multimedia 2 sheets.
+
+## 20261110-180817 — germplasm_seeds --load germplasm_results_20261110a.json
+- staged 25 rows (OK 20, FLAG 5, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'photo': 10, 'sheet': 15}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261110-194928 — germplasm_seeds --load germplasm_results_20261110a.json
+- staged 25 rows (OK 25, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'photo': 10, 'sheet': 15}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261110-194931 — germplasm_seeds --commit --apply
+- inserted 25 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 10 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261110-194931`.
+
+## 20261110-194931 — germplasm_seeds --sheets-mm --apply
+- linked 6 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261110-194931`.
+
+## 20261110 — location 4 seed sheets (Stage C)
+- PXL_20261110_175718042–175819190: loc 4 location form + 5 seed sheets (events 266–269, 277) → +25 Germplasm (1337–1338, 1589–1596, 1898–1912; 5.45 g). Weights of 2408, 2405, 2406, 2407, 2393 held, then settled by Sven from the envelope photos (0.0034, 0.0348, 0.0624, 0.1364, 0.1240). Event 266 (15) cleaned by PM; 10 without initials. Field notes kept out of seed notes. Location 4 complete (25/25). Multimedia 6.
+- Occurrence remarks of 2395–2403 corrected (per Sven): "not seed-collected" (issue #8) replaced — their seeds were in the event 266 envelope and are now loaded. Backup `LEPA_SQL.db.bak-remark266-20261110`.
