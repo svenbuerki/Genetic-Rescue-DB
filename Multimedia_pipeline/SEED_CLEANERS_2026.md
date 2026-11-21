@@ -7,7 +7,7 @@
 | Rank | Cleaner | Germplasm | Share of assigned | Seed (g) | Est. seeds | Locations | Envelopes (events) | Dates written on envelopes |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
 | 1 | Ian Robertson | 181 | 25% | 35.41 | 83,102 | 11 | 70 | — |
-| 2 | Peggy Martinez | 156 | 21% | 39.82 | 93,504 | 8 | 48 | 2026-10-16 → 2026-11-16 |
+| 2 | Peggy Martinez | 155 | 21% | 39.55 | 92,869 | 8 | 48 | 2026-10-16 → 2026-11-16 |
 | 3 | Sam Billingsley | 82 | 11% | 11.09 | 25,997 | 14 | 34 | 2026-08-12 → 2026-10-29 |
 | 4 | Lizzie Berrier | 76 | 10% | 23.15 | 54,380 | 5 | 20 | 2026-10-02 → 2026-11-18 |
 | 5 | Alex Scott | 68 | 9% | 23.18 | 54,461 | 7 | 32 | 2026-10-02 → 2026-11-13 |
@@ -16,24 +16,24 @@
 | 8 | Isaac Carretero | 24 | 3% | 6.20 | 14,563 | 5 | 9 | 2026-10-15 → 2026-11-02 |
 | 9 | Kylie Stear | 12 | 2% | 2.51 | 5,893 | 2 | 4 | 2026-09-25 → 2026-10-16 |
 | 10 | Teo Geisler | 4 | 1% | 1.28 | 3,001 | 1 | 2 | 2026-10-29 → 2026-11-02 |
-| 11 | CR [unidentified - seed cleaning 2026] | 1 | 0% | 0.56 | 1,306 | 1 | 1 | 2026-10-19 → 2026-10-19 |
-| 12 | Megan Marty | 1 | 0% | 0.17 | 393 | 1 | 1 | 2026-11-06 → 2026-11-06 |
+| 11 | Megan Marty | 2 | 0% | 0.44 | 1,029 | 2 | 2 | 2026-10-20 → 2026-11-06 |
+| 12 | CR [unidentified - seed cleaning 2026] | 1 | 0% | 0.56 | 1,306 | 1 | 1 | 2026-10-19 → 2026-10-19 |
 | — | *— not yet assigned —* | 254 | — | 57.90 | 135,946 | 12 | 68 | — |
 
 ## By location
 
-| Location | Germplasm | Ian Robertson | Peggy Martinez | Sam Billingsley | Lizzie Berrier | Alex Scott | Jayden Yun | Ashley Zahurak | Isaac Carretero | Kylie Stear | Teo Geisler | CR [unidentified - seed cleaning 2026] | Megan Marty | Not assigned |
+| Location | Germplasm | Ian Robertson | Peggy Martinez | Sam Billingsley | Lizzie Berrier | Alex Scott | Jayden Yun | Ashley Zahurak | Isaac Carretero | Kylie Stear | Teo Geisler | Megan Marty | CR [unidentified - seed cleaning 2026] | Not assigned |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | loc 1 (EO38) | 37 |  | 6 | 2 |  | 11 | 18 |  |  |  |  |  |  |  |
 | loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |  |  |
 | loc 4 (EO118) | 25 |  | 15 |  |  |  |  |  |  |  |  |  |  | 10 |
 | loc 5 (EO68-3) | 10 | 1 |  | 4 |  | 5 |  |  |  |  |  |  |  |  |
-| loc 6 (EO32) | 110 |  | 69 |  | 21 | 2 | 4 | 13 |  |  |  |  | 1 |  |
+| loc 6 (EO32) | 110 |  | 69 |  | 21 | 2 | 4 | 13 |  |  |  | 1 |  |  |
 | loc 9 (EO27) | 79 |  | 17 | 1 | 14 | 24 |  | 16 | 3 |  | 4 |  |  |  |
 | loc 10 (EO27-3) | 7 | 4 |  | 3 |  |  |  |  |  |  |  |  |  |  |
 | loc 11 (EO27-1) | 125 | 50 |  | 7 |  |  | 13 |  |  |  |  |  |  | 55 |
 | loc 13 (EO30-1) | 16 |  |  |  |  |  |  |  |  |  |  |  |  | 16 |
-| loc 16 (EO18-7) | 76 |  | 8 | 6 | 12 | 16 | 3 | 20 | 2 | 5 |  | 1 |  | 3 |
+| loc 16 (EO18-7) | 76 |  | 7 | 6 | 12 | 16 | 3 | 20 | 2 | 5 |  | 1 | 1 | 3 |
 | loc 17 (EO18-7) | 103 |  |  | 16 |  |  | 4 |  |  |  |  |  |  | 83 |
 | loc 18 (EO18-8) | 59 |  |  | 6 | 17 |  | 4 |  | 1 |  |  |  |  | 31 |
 | loc 19 (EO18-7) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |  |  |

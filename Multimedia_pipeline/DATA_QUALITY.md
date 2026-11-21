@@ -82,7 +82,7 @@ lots.
   **[#21](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/21)**.
 - **Cleaners to assign:** 244 germplasm on 64 envelopes →
   **[#24](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/24)**.
-- **Held cells:** none. All 17 were settled against the envelope photos by Sven on 2026-10-25 (2523's 4.4411 g is confirmed real). Occ 2525's envelope initials read "mm"; assigned to Peggy (PM).
+- **Held cells:** none. All 17 were settled against the envelope photos by Sven on 2026-10-25 (2523's 4.4411 g is confirmed real). Occ 2525's envelope initials read "mm": Megan Marty (MM), corrected from Peggy on 2026-11-21.
 - **Not yet imaged:** location 20's events 348, 350–352, 357, 358, 362–364 (60 plants), location 28's July 14 events 592–610 (40 plants) and 20 other 2026 locations (628
   plants). `germplasm_seeds.py --report` lists the remaining events per location.
 
