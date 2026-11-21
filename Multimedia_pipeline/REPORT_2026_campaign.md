@@ -157,7 +157,7 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
   - **loc 20:** events 348, 350–352, 357, 358, 362–364 not yet imaged (60 plants).
   - **loc 28:** July-14 events 592–610 (40 plants) not yet imaged, plus occ 3412, which has a weight but no germplasmID (#21).
 - **18 locations not yet imaged** (466 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **733 of 987** have one so far: Ian Robertson 181, Peggy Martinez 157, Sam Billingsley 82, Lizzie Berrier 76, Alex Scott 68, Jayden Yun 65, Ashley Zahurak 63, Isaac Carretero 24, Kylie Stear 12, Teo Geisler 4; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **733 of 987** have one so far: Ian Robertson 181, Peggy Martinez 156, Sam Billingsley 82, Lizzie Berrier 76, Alex Scott 68, Jayden Yun 65, Ashley Zahurak 63, Isaac Carretero 24, Kylie Stear 12, Teo Geisler 4, Megan Marty 1; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
   - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
   - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. On 2026-10-20, samples from the newly initialled sheets attributed 7 more envelopes to Lizzie (4) and Jayden (3). All were confirmed by Sven.
   - **The remaining 254** (68 envelopes) are tracked in #24, together with how the handwriting-sample method can resolve them.
@@ -568,6 +568,6 @@ Location 6 (EO32) envelopes, first part: 23 photos (the location form and 22 see
 **110 plants, germplasm 1870–1999 (except 1898–1912, used at location 4, and 1935–1939, not on these
 sheets), 25.16 g**. 27 plants are still to come. Seven weights with overwritten or extra digits were
 checked by Sven against the envelope photos; germplasm 1944 is recorded as written, 0.01369 g. Cleaners from
-the per-row initials: Peggy 70, Lizzie 21, Ashley 13, Jayden 4, Alex 2. One row initialled "mm" in green
-ink (germplasm 1886) was credited to Peggy on Sven's reading. Occurrence 2897 (germplasm 1934) is the EO32
+the per-row initials: Peggy 69, Lizzie 21, Ashley 13, Jayden 4, Alex 2, and Megan Marty 1 (germplasm 1886,
+initialled "mm" in green ink; identified by Sven, new person 14). Occurrence 2897 (germplasm 1934) is the EO32
 event-404 plant; its earlier reassignment to 2909 was reversed in the database, as recorded in its remark.

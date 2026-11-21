@@ -1050,3 +1050,4 @@
 
 ## 20261121 — location 6 seed sheets, first part (Stage C)
 - PXL_20261119_194918643–195434613: loc 6 location form + 22 seed sheets → +110 Germplasm (1870–1999 minus 1898–1912 and 1935–1939; 25.16 g). Weights of 2899, 2853, 2809, 2808, 2878, 2875, 2897 held, then settled by Sven from envelope photos (0.0840, 0.1817, 0.0387, 0.01369, 0.0791, 0.0508, 0.0384). 2835 initials 'mm' (green) → PM per Sven. Per-row initials: PM 70, EB 21, AZ 13, JY 4, AS 2. "very far gone" (Section 5) kept out of seed notes. Loc 6: 110/137; 27 plants not yet imaged. Multimedia 23.
+- Correction (Sven): 'mm' on germplasm 1886 (occ 2835) = Megan Marty, not PM. New Persons row 14 (Marty, Megan); initials MM added to initials_persons.csv; Germplasm 1886 personID 2 → 14. Backup `LEPA_SQL.db.bak-megan-20261121`.
