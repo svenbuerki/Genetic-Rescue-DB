@@ -23,15 +23,15 @@ A full audit (2026-06-27) found no structural problems:
 ## Coverage
 
 - **Occurrences:** 3797. **Events:** 723. **Locations:** 52.
-- **Phenotyping:** 2312. **Multimedia:** 4279 (incl. field-form and germplasm-sheet images, and all 2025 field-form photos). **Germplasm:** 1662 (785 from 2025 + 877 from 2026).
+- **Phenotyping:** 2312. **Multimedia:** 4302 (incl. field-form and germplasm-sheet images, and all 2025 field-form photos). **Germplasm:** 1772 (785 from 2025 + 987 from 2026).
 
-## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (updated 2026-11-10)
+## Seed accessions 2026 — Stage C, seed sheets → `Germplasm` (updated 2026-11-21)
 
 The germplasmID and seed weight hand-written on each event envelope (sheet page 2) are loaded with
-`germplasm_seeds.py` (see the Stage C section of the guide). **877 accessions** (germplasmIDs 923–1912,
-208.6 g, ≈490,000 seeds by the 1000-seed-weight equation) across **24 locations**.
+`germplasm_seeds.py` (see the Stage C section of the guide). **987 accessions** (germplasmIDs 923–1999,
+233.7 g, ≈549,000 seeds by the 1000-seed-weight equation) across **25 locations**.
 - **22 complete:** 1, 3, 4, 5, 9, 10, 11, 13, 16, 17, 18, 19, 21, 24, 26, 27, 37, 39, 42, 51, 52, 53.
-- **2 partial:** 20 (9 events not yet imaged) and 28 (July-14 events not yet imaged; occ 3412).
+- **3 partial:** 6 (27 plants not yet imaged), 20 (9 events not yet imaged) and 28 (July-14 events not yet imaged; occ 3412).
 
 The per-location tally, completion and size-ranked cleaning priorities are in
 [`REPORT_2026_campaign.md`](REPORT_2026_campaign.md) §1.

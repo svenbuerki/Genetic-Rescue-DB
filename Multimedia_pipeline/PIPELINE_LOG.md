@@ -1035,3 +1035,18 @@
 ## 20261110 — location 4 seed sheets (Stage C)
 - PXL_20261110_175718042–175819190: loc 4 location form + 5 seed sheets (events 266–269, 277) → +25 Germplasm (1337–1338, 1589–1596, 1898–1912; 5.45 g). Weights of 2408, 2405, 2406, 2407, 2393 held, then settled by Sven from the envelope photos (0.0034, 0.0348, 0.0624, 0.1364, 0.1240). Event 266 (15) cleaned by PM; 10 without initials. Field notes kept out of seed notes. Location 4 complete (25/25). Multimedia 6.
 - Occurrence remarks of 2395–2403 corrected (per Sven): "not seed-collected" (issue #8) replaced — their seeds were in the event 266 envelope and are now loaded. Backup `LEPA_SQL.db.bak-remark266-20261110`.
+
+## 20261120-214757 — germplasm_seeds --load germplasm_results_20261120a.json
+- staged 110 rows (OK 103, FLAG 7, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 110}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261121-193205 — germplasm_seeds --load germplasm_results_20261120a.json
+- staged 110 rows (OK 110, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 110}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261121-193210 — germplasm_seeds --commit --apply
+- inserted 110 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261121-193210`.
+
+## 20261121-193210 — germplasm_seeds --sheets-mm --apply
+- linked 23 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261121-193210`.
+
+## 20261121 — location 6 seed sheets, first part (Stage C)
+- PXL_20261119_194918643–195434613: loc 6 location form + 22 seed sheets → +110 Germplasm (1870–1999 minus 1898–1912 and 1935–1939; 25.16 g). Weights of 2899, 2853, 2809, 2808, 2878, 2875, 2897 held, then settled by Sven from envelope photos (0.0840, 0.1817, 0.0387, 0.01369, 0.0791, 0.0508, 0.0384). 2835 initials 'mm' (green) → PM per Sven. Per-row initials: PM 70, EB 21, AZ 13, JY 4, AS 2. "very far gone" (Section 5) kept out of seed notes. Loc 6: 110/137; 27 plants not yet imaged. Multimedia 23.
