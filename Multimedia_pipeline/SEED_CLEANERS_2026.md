@@ -1,21 +1,21 @@
 # 2026 seed cleaning — leaderboard
 
-*Generated 2026-11-21 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
+*Generated 2026-11-24 from `LEPA_SQL.db` by `seed_cleaners_report.py`. A **germplasm** is all the seeds of one mother plant (occurrence); each has exactly one cleaner, recorded from the initials on the event envelope (`Germplasm.personID`).*
 
-**987 germplasm** cleaned and loaded for 2026; **733** have a known cleaner, **254** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
+**1014 germplasm** cleaned and loaded for 2026; **760** have a known cleaner, **254** are not yet assigned (no initials on the envelope, or several initials written once for the whole envelope).
 
 | Rank | Cleaner | Germplasm | Share of assigned | Seed (g) | Est. seeds | Locations | Envelopes (events) | Dates written on envelopes |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
-| 1 | Ian Robertson | 181 | 25% | 35.41 | 83,102 | 11 | 70 | — |
-| 2 | Peggy Martinez | 155 | 21% | 39.55 | 92,869 | 8 | 48 | 2026-10-16 → 2026-11-16 |
+| 1 | Ian Robertson | 181 | 24% | 35.41 | 83,102 | 11 | 70 | — |
+| 2 | Peggy Martinez | 174 | 23% | 41.51 | 97,463 | 8 | 58 | 2026-10-16 → 2026-11-23 |
 | 3 | Sam Billingsley | 82 | 11% | 11.09 | 25,997 | 14 | 34 | 2026-08-12 → 2026-10-29 |
-| 4 | Lizzie Berrier | 76 | 10% | 23.15 | 54,380 | 5 | 20 | 2026-10-02 → 2026-11-18 |
+| 4 | Lizzie Berrier | 78 | 10% | 23.91 | 56,166 | 5 | 21 | 2026-10-02 → 2026-11-20 |
 | 5 | Alex Scott | 68 | 9% | 23.18 | 54,461 | 7 | 32 | 2026-10-02 → 2026-11-13 |
 | 6 | Jayden Yun | 65 | 9% | 13.83 | 32,477 | 8 | 26 | 2026-10-12 → 2026-11-09 |
-| 7 | Ashley Zahurak | 63 | 9% | 18.62 | 43,733 | 5 | 18 | 2026-10-02 → 2026-11-06 |
+| 7 | Ashley Zahurak | 63 | 8% | 18.62 | 43,733 | 5 | 18 | 2026-10-02 → 2026-11-06 |
 | 8 | Isaac Carretero | 24 | 3% | 6.20 | 14,563 | 5 | 9 | 2026-10-15 → 2026-11-02 |
-| 9 | Kylie Stear | 12 | 2% | 2.51 | 5,893 | 2 | 4 | 2026-09-25 → 2026-10-16 |
-| 10 | Teo Geisler | 4 | 1% | 1.28 | 3,001 | 1 | 2 | 2026-10-29 → 2026-11-02 |
+| 9 | Kylie Stear | 17 | 2% | 3.31 | 7,762 | 3 | 7 | 2026-09-25 → 2026-11-20 |
+| 10 | Teo Geisler | 5 | 1% | 1.30 | 3,054 | 2 | 3 | 2026-10-29 → 2026-11-19 |
 | 11 | Megan Marty | 2 | 0% | 0.44 | 1,029 | 2 | 2 | 2026-10-20 → 2026-11-06 |
 | 12 | CR [unidentified - seed cleaning 2026] | 1 | 0% | 0.56 | 1,306 | 1 | 1 | 2026-10-19 → 2026-10-19 |
 | — | *— not yet assigned —* | 254 | — | 57.90 | 135,946 | 12 | 68 | — |
@@ -28,7 +28,7 @@
 | loc 3 (EO52) | 1 | 1 |  |  |  |  |  |  |  |  |  |  |  |  |
 | loc 4 (EO118) | 25 |  | 15 |  |  |  |  |  |  |  |  |  |  | 10 |
 | loc 5 (EO68-3) | 10 | 1 |  | 4 |  | 5 |  |  |  |  |  |  |  |  |
-| loc 6 (EO32) | 110 |  | 69 |  | 21 | 2 | 4 | 13 |  |  |  | 1 |  |  |
+| loc 6 (EO32) | 137 |  | 88 |  | 23 | 2 | 4 | 13 |  | 5 | 1 | 1 |  |  |
 | loc 9 (EO27) | 79 |  | 17 | 1 | 14 | 24 |  | 16 | 3 |  | 4 |  |  |  |
 | loc 10 (EO27-3) | 7 | 4 |  | 3 |  |  |  |  |  |  |  |  |  |  |
 | loc 11 (EO27-1) | 125 | 50 |  | 7 |  |  | 13 |  |  |  |  |  |  | 55 |

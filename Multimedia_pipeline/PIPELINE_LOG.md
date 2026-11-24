@@ -1052,3 +1052,16 @@
 - PXL_20261119_194918643–195434613: loc 6 location form + 22 seed sheets → +110 Germplasm (1870–1999 minus 1898–1912 and 1935–1939; 25.16 g). Weights of 2899, 2853, 2809, 2808, 2878, 2875, 2897 held, then settled by Sven from envelope photos (0.0840, 0.1817, 0.0387, 0.01369, 0.0791, 0.0508, 0.0384). 2835 initials 'mm' (green) → PM per Sven. Per-row initials: PM 70, EB 21, AZ 13, JY 4, AS 2. "very far gone" (Section 5) kept out of seed notes. Loc 6: 110/137; 27 plants not yet imaged. Multimedia 23.
 - Correction (Sven): 'mm' on germplasm 1886 (occ 2835) = Megan Marty, not PM. New Persons row 14 (Marty, Megan); initials MM added to initials_persons.csv; Germplasm 1886 personID 2 → 14. Backup `LEPA_SQL.db.bak-megan-20261121`.
 - Same correction for germplasm 1740 (occ 2525, loc 16; 'mm' green, assigned PM on 2026-10-25): personID 2 → 14 (Megan Marty). Backup `LEPA_SQL.db.bak-megan2-20261121`.
+
+## 20261124-175948 — germplasm_seeds --load germplasm_results_20261124a.json
+- staged 27 rows (OK 27, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 27}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261124-175954 — germplasm_seeds --commit --apply
+- inserted 27 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261124-175954`.
+
+## 20261124-175954 — germplasm_seeds --sheets-mm --apply
+- linked 15 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261124-175954`.
+
+## 20261124 — location 6 seed sheets, rest (Stage C); location 6 complete
+- IMG_8190–8204 (Peggy; HEIC → JPEG copies in Field_forms/2026): loc 6 location form + 14 seed sheets → +27 Germplasm (2000–2005, 2009–2029; 3.54 g). No held cells. Per-row initials: PM 19, KS 5, EB 2, TG 1. Field notes "most too far gone (dropped seeds)" / "very far gone plants" kept out of seed notes. Loc 6 complete (137/137, 28.70 g). Multimedia 15.
+- Multimedia check (Sven's request) for batches 2026-11-10 (loc 4, 6 photos), 2026-11-21 (loc 6, 23) and 2026-11-24 (loc 6, 15): every photo has exactly one Multimedia row, renamed LEPA_<date>_<sha8>.jpg, file present in Multimedia_main with matching sha256, storage 'Local: SQL_DB/Multimedia_main'; seed sheets typed 'germplasm sheet' and linked to their event, location forms 'field form' linked to the location.
