@@ -1065,3 +1065,8 @@
 ## 20261124 — location 6 seed sheets, rest (Stage C); location 6 complete
 - IMG_8190–8204 (Peggy; HEIC → JPEG copies in Field_forms/2026): loc 6 location form + 14 seed sheets → +27 Germplasm (2000–2005, 2009–2029; 3.54 g). No held cells. Per-row initials: PM 19, KS 5, EB 2, TG 1. Field notes "most too far gone (dropped seeds)" / "very far gone plants" kept out of seed notes. Loc 6 complete (137/137, 28.70 g). Multimedia 15.
 - Multimedia check (Sven's request) for batches 2026-11-10 (loc 4, 6 photos), 2026-11-21 (loc 6, 23) and 2026-11-24 (loc 6, 15): every photo has exactly one Multimedia row, renamed LEPA_<date>_<sha8>.jpg, file present in Multimedia_main with matching sha256, storage 'Local: SQL_DB/Multimedia_main'; seed sheets typed 'germplasm sheet' and linked to their event, location forms 'field form' linked to the location.
+- Issue #28 opened (assigned Peggy): germplasm IDs 1935–1939 and 2006–2008 not on any location 6 envelope — record only, no DB change.
+
+## 20261124 — Persons.initials
+- New column `Persons.initials` (Terms 224), filled from the cleaner initials already in use: PM 2, IR 3, SB 4 (Sam), JY 6, AS 7, TG 8, IC 9, AZ 10, CR 11 (placeholder), EB 12, KS 13, MM 14; Sven = **SBu** (chosen 2026-11-24 to differ from Sam's SB). Backup `LEPA_SQL.db.bak-persons-initials-20261124`.
+- Issue #29 opened (assigned Peggy): who cleaned germplasm 1721 (initials "CR", event 314, occ 2563).

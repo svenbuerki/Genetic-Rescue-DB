@@ -156,6 +156,7 @@ Stores metadata on personnel involved in the genetic rescue process.
 | `institution`  | TEXT    | —        | —          |
 | `emailAddress` | TEXT    | —        | —          |
 | `phoneNumber`  | NUMERIC | —        | —          |
+| `initials`     | TEXT    | Local    | Initials written on field forms and seed envelopes; unique per person. Used to credit germplasm to its cleaner (`Germplasm.personID`). Added 2026-11-24 (Terms 224). |
 
 ##### `Projects`
 
