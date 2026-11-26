@@ -156,10 +156,10 @@ Seed processing runs after the season: each plant's seeds are cleaned and weighe
   - **loc 20:** events 351, 362 and 363 not yet imaged (11 plants: 2665–2667, 2710–2717).
   - **loc 28:** July-14 events 592–610 (40 plants) not yet imaged, plus occ 3412, which has a weight but no germplasmID (#21).
 - **18 locations not yet imaged** (466 plants). Whether their seeds have been cleaned is not yet recorded.
-- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **847 of 1,063** have one so far: Ian Robertson 222, Peggy Martinez 181, Sam Billingsley 82, Lizzie Berrier 81, Alex Scott 68, Jayden Yun 65, Ashley Zahurak 64, Isaac Carretero 40, Teo Geisler 19, Kylie Stear 17, Megan Marty 7; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
+- **Who cleaned:** each germplasm (one mother plant) has exactly one cleaner, recorded in `Germplasm.personID`. **879 of 1,063** have one so far: Ian Robertson 222, Peggy Martinez 181, Sam Billingsley 98, Lizzie Berrier 81, Alex Scott 76, Jayden Yun 73, Ashley Zahurak 64, Isaac Carretero 40, Teo Geisler 19, Kylie Stear 17, Megan Marty 7; initials CR (1) still to be identified. Full ranking with grams, estimated seeds and a per-location breakdown: **[seed-cleaner leaderboard](SEED_CLEANERS_2026.md)**.
   - **Where these come from:** mostly the initials written on the envelopes. A single set of initials covers every row only when all entries are in the same pen colour.
   - **Handwriting samples:** Ian's envelopes were identified against a confirmed sample of his handwriting, and location 27 was credited to Peggy the same way. On 2026-10-20, samples from the newly initialled sheets attributed 7 more envelopes to Lizzie (4) and Jayden (3). All were confirmed by Sven.
-  - **The remaining 216** are tracked in #24 (Ian's confirmed list of 2026-11-26 resolved 38), together with how the handwriting-sample method can resolve them.
+  - **The remaining 184** are listed by proposed cleaner, with images, in #31 for the team to confirm (Ian's confirmed list of 2026-11-26 resolved 38; see also #24), together with how the handwriting-sample method can resolve them.
 
 ### Where to clean next — priorities from the SRK Phase 5 design
 
@@ -596,3 +596,13 @@ On the same day, Ian sent the list of germplasm he confirms he cleaned (197 IDs,
 already credited to him, 38 were unassigned and are now credited to him, 7 (2055–2065) are not loaded yet, and
 none was credited to anyone else. Ian is now at 222; 216 germplasm remain unassigned. The list is kept in
 `staging_2026/ian_confirmed_germplasm_20261126.csv`.
+
+**Handwriting round 3 (2026-11-26).** With reference sheets for all 11 cleaners (2–3 envelopes each with
+per-row initials), the 59 envelopes still holding unassigned germplasm were compared by handwriting.
+- **21 germplasm, high confidence, applied:** Alex 8 (1231–1236, 1313–1314), Jayden 8 (1016–1019, 1593–1596),
+  Sam 5 (1093–1094, 1370–1372).
+- **10 more credited to Sam (Sven's decision):** rows initialled by two cleaners including SB, in Sam's hand
+  (1393–1397, 1458–1461, 1689, 1739).
+- **The other 184** are listed by proposed cleaner, with images, in
+  [#31](https://github.com/svenbuerki/Genetic-Rescue-DB/issues/31) for the team to confirm. This includes
+  1738 (row initialled "AZ-EB"), which is left open.

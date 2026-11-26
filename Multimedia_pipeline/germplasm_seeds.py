@@ -538,6 +538,9 @@ def cleaner_worksheet(db, outdir):
             d = sheets.setdefault(r["file"], dict(loc=r["locationID"], ev=r["eventID"], occ=[], germ=[], ini=r.get("initials") or ""))
             d["occ"].append(as_int(r["occurrenceID"])); d["germ"].append(g)
     files = sorted(sheets, key=lambda f: (as_int(sheets[f]["loc"]) or 0, as_int(sheets[f]["ev"]) or 0))
+    if ASSIGN.exists():                     # keep earlier rounds (their notes are the provenance of each assignment)
+        arch = ASSIGN.with_name(f"cleaner_assignment_{stamp()}.csv"); shutil.copy2(ASSIGN, arch)
+        print(f"  previous fill-in table archived -> {arch.name}")
     with open(ASSIGN, "w", newline="") as fh:
         w = csv.writer(fh); w.writerow(["sheet_no", "file", "locationID", "eventID", "occurrenceIDs", "germplasmIDs",
                                         "initials_on_envelope", "assign_initials", "note"])
