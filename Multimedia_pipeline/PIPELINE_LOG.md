@@ -1070,3 +1070,26 @@
 ## 20261124 — Persons.initials
 - New column `Persons.initials` (Terms 224), filled from the cleaner initials already in use: PM 2, IR 3, SB 4 (Sam), JY 6, AS 7, TG 8, IC 9, AZ 10, CR 11 (placeholder), EB 12, KS 13, MM 14; Sven = **SBu** (chosen 2026-11-24 to differ from Sam's SB). Backup `LEPA_SQL.db.bak-persons-initials-20261124`.
 - Issue #29 opened (assigned Peggy): who cleaned germplasm 1721 (initials "CR", event 314, occ 2563).
+
+## 20261126-220906 — germplasm_seeds --load germplasm_results_20261126a.json
+- staged 49 rows (OK 45, FLAG 4, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 49}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261126-221100 — germplasm_seeds --load germplasm_results_20261126a.json
+- staged 49 rows (OK 49, FLAG 0, NO_SEED 0, LOADED 0, SKIP 0); acquisitionDate sources {'sheet': 49}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261126-221100 — germplasm_seeds --commit --apply
+- inserted 49 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 0 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261126-221100`.
+
+## 20261126-221100 — germplasm_seeds --sheets-mm --apply
+- linked 7 seed-sheet / location-form images to Multimedia (Event tableID 11 / Location tableID 9), copied as LEPA_<date>_<sha8>.jpg. Backup `LEPA_SQL.db.bak-germplasmmm-20261126-221100`.
+
+## 20261126-221119 — germplasm_seeds --load germplasm_results_20261126a.json
+- staged 49 rows (OK 0, FLAG 0, NO_SEED 0, LOADED 49, SKIP 0); acquisitionDate sources {}; 0 events incomplete. Review staging_2026/germplasm_staging.csv.
+
+## 20261126-221119 — germplasm_seeds --commit --apply
+- inserted 0 Germplasm rows (seed sheets → occurrenceID FK); 0 held as FLAG; 1 seed-quality notes appended to Events.eventRemarks; 0 loaded rows backfilled (personID/acquisitionDate); new placeholder Persons none; acquisitionDate = photo-date proxy for 0 rows (issue #20). Backup `LEPA_SQL.db.bak-germplasm-20261126-221119`.
+
+## 20261126 — location 20 seed sheets (Stage C)
+- IMG_8205–8211 (Peggy; HEIC → JPEG copies): loc 20 location form + seed sheets of events 364, 357, 352, 358, 348, 350 → +49 Germplasm (1597–1623, 1668–1677, 2030–2038, 2042–2044; 18.35 g). Event 364 weights of 2732, 2734, 2738, 2743 held, then confirmed by Sven (0.2752, 1.3177, 0.4479, 0.2242). Per-row initials: IC 16, TG 14, PM 7, MM 5, EB 3, IR 3, AZ 1. Event 364 seed notes appended to eventRemarks. Multimedia 7 (check OK). Loc 20: 87/98; events 351, 362, 363 (11 plants) not yet imaged. REPORT §1 priority column re-synced.
+- Issue #30 opened (assigned Peggy): loc 20 events 351, 362, 363 (11 plants) not yet photographed; germplasm IDs 2039–2041 and 1624–1627 not found.
+- Ian's confirmed cleaning list (email to Sven 2026-11-26; 197 IDs, kept in staging_2026/ian_confirmed_germplasm_20261126.csv): 152 already IR, **38 unassigned → personID 3** (1023, 1025, 1036–1040, 1077–1080, 1110–1119, 1147–1153, 1161–1165, 1292–1296), 7 not yet loaded (2055–2056, 2059–2060, 2063–2065), 0 conflicts. 32 germplasm credited to IR are not on his list (962, 979–988 minus 984, 992–1001, 1053–1055, 1098–1100, 1297, 1308–1312) — left as is pending Sven. Backup `LEPA_SQL.db.bak-ian-list-20261126`.
